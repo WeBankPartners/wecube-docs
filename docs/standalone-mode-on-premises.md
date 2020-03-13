@@ -50,12 +50,6 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
 	curl -L --fail https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
 
-    # 启用IP转发来解决容器对外部网络的通信问题
-	echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf 
-	echo "net.bridge.bridge-nf-call-ip6tables = 1" >> /etc/sysctl.conf 
-	echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.conf 
-	sysctl -p 
-
     # 配置Docker Engine以监听远程API请求
 	cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
 	[Service]
@@ -66,6 +60,14 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
     # 启动Docker服务
 	systemctl enable docker.service
 	systemctl start docker.service
+
+    # 启用IP转发并配置桥接来解决Docker容器对外部网络的通信问题
+    cat <<EOF >/etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
+	net.ipv4.ip_forward = 1
+	net.bridge.bridge-nf-call-ip6tables = 1
+	net.bridge.bridge-nf-call-iptables = 1
+    EOF
+    sysctl -p /etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
 
 	####
 	```

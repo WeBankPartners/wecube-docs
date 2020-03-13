@@ -1,7 +1,6 @@
 site_name: 'WeCube文档中心'
-#repo_name: 'WeCube@GitHub'
-#repo_url: 'https://github.com/WeBankPartners/wecube-platform'
-repo_url: 'https://github.com/kanetz/wecube-docs'
+repo_name: 'wecube-platform@GitHub'
+repo_url: 'https://github.com/WeBankPartners/wecube-platform'
 edit_uri: ''
 
 nav:
