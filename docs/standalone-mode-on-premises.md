@@ -99,7 +99,7 @@ curl -fsSL https://raw.githubusercontent.com/kanetz/wecube-docs/master/get-wecub
 | install_target_host | *127.0.0.1* | WeCube安装的目标主机名称或IP地址 |
 | dest_dir | */data/wecube* | WeCube的安装目录 |
 | wecube_version | *v2.1.1* | WeCube安装的目标版本 |
-| mysql_password | *WeCube1qazXSW@* | MySQL数据库的sa账号密码 |
+| mysql_password | *WeCube1qazXSW@* | MySQL数据库root账号的密码 |
 
 请根据情况提供合适的输入值，如要使用默认值直接回车即可。提供了所有输入值之后，安装脚本将最后再次请您确认以上3个配置项的值，确认后将开始执行WeCube的安装过程。
 
