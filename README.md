@@ -18,3 +18,5 @@ mkdocs gh-deploy
 
 ####
 ```
+
+The site is powered by [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
