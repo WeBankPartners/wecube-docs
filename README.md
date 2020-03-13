@@ -1,7 +1,8 @@
 # wecube-docs
-documents of wecube
 
-In order to build the document site, you need to have python3 and pip installed, then do the following in the project directory:
+Documentation Site of WeCube
+
+In order to build the documentation site, you need to have python3 and pip installed, then do the following in the project directory:
 
 ``` bash
 # install mkdocs, themes, extensions, etc.
@@ -19,4 +20,4 @@ mkdocs gh-deploy
 ####
 ```
 
-The site is powered by [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+WeCube documentation site is powered by [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
