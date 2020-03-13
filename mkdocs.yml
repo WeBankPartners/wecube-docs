@@ -2,15 +2,15 @@ site_name: 'WeCube文档中心'
 #repo_name: 'WeCube@GitHub'
 #repo_url: 'https://github.com/WeBankPartners/wecube-platform'
 repo_url: 'https://github.com/kanetz/wecube-docs'
-#edit_uri: 'https://github.com/kanetz/wecube-docs/edit/master/docs/'
+edit_uri: ''
 
 nav:
   - '首页': 'index.md'
   - '初识WeCube': 'introduction.md'
   - '快速上手': 'tutorial.md'
   - '安装WeCube':
-    - '在公有云上以单机模式安装': 'standalone-mode-on-public-cloud.md'
     - '在私有资源上以单机模式安装': 'standalone-mode-on-premises.md'
+    - '在公有云上以单机模式安装': 'standalone-mode-on-public-cloud.md'
     - '在公有云上以集群模式安装': 'wip.md'
     - '在Kubernetes集群上安装': 'wip.md'
   - '用户手册':
