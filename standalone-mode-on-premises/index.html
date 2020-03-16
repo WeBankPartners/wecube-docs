@@ -18,6 +18,7 @@ curl -L --fail https://github.com/docker/compose/releases/download/1.25.4/run.sh
 chmod +x /usr/local/bin/docker-compose
 
 <span class=c1># 配置Docker Engine以监听远程API请求</span>
+mkdir -p /etc/systemd/system/docker.service.d
 cat <span class=s>&lt;&lt;EOF &gt;/etc/systemd/system/docker.service.d/docker-wecube-override.conf</span>
 <span class=s>[Service]</span>
 <span class=s>ExecStart=</span>
