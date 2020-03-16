@@ -38,7 +38,7 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 
 INSTALLER_DIR=$dest_dir/installer
 mkdir -p $INSTALLER_DIR
-INSTALLER_URL=https://github.com/kanetz/delivery-by-terraform-1/releases/download/wecube-installer-20200312/wecube-installer.tar.gz
+INSTALLER_URL=https://github.com/WeBankPartners/delivery-by-terraform/releases/download/v1.0/wecube-installer.tar.gz
 echo "Retrieving wecube-installer from $INSTALLER_URL"
 curl -fsSL $INSTALLER_URL -o $INSTALLER_DIR/wecube-installer.tar.gz
 tar xzvf $INSTALLER_DIR/wecube-installer.tar.gz -C $INSTALLER_DIR
