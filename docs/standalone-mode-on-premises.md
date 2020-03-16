@@ -32,45 +32,46 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
 
     ``` bash
     # 移除已安装的旧版本Docker
-	yum remove docker \
-	           docker-client \
-	           docker-client-latest \
-	           docker-common \
-	           docker-latest \
-	           docker-latest-logrotate \
-	           docker-logrotate \
-	           docker-engine
+    yum remove docker \
+               docker-client \
+               docker-client-latest \
+               docker-common \
+               docker-latest \
+               docker-latest-logrotate \
+               docker-logrotate \
+               docker-engine
 
-	# 安装Docker
-	yum install -y yum-utils device-mapper-persistent-data lvm2
-	yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-	yum install -y docker-ce docker-ce-cli containerd.io
-	
+    # 安装Docker
+    yum install -y yum-utils device-mapper-persistent-data lvm2
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum install -y docker-ce docker-ce-cli containerd.io
+    
     # 安装Docker Compose
-	curl -L --fail https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
-	chmod +x /usr/local/bin/docker-compose
+    curl -L --fail https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
 
     # 配置Docker Engine以监听远程API请求
-	cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
-	[Service]
-	ExecStart=
-	ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
-	EOF
+    mkdir -p /etc/systemd/system/docker.service.d
+    cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
+    [Service]
+    ExecStart=
+    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
+    EOF
 
     # 启动Docker服务
-	systemctl enable docker.service
-	systemctl start docker.service
+    systemctl enable docker.service
+    systemctl start docker.service
 
     # 启用IP转发并配置桥接来解决Docker容器对外部网络的通信问题
     cat <<EOF >/etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
-	net.ipv4.ip_forward = 1
-	net.bridge.bridge-nf-call-ip6tables = 1
-	net.bridge.bridge-nf-call-iptables = 1
+    net.ipv4.ip_forward = 1
+    net.bridge.bridge-nf-call-ip6tables = 1
+    net.bridge.bridge-nf-call-iptables = 1
     EOF
     sysctl -p /etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
 
-	####
-	```
+    ####
+    ```
 
 
 安装并配置完成后，您可以使用以下命令行指令来确认Docker的运行情况：
