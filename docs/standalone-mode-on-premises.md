@@ -55,7 +55,7 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
     cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
     [Service]
     ExecStart=
-    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
+    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375 --registry-mirror=https://mirror.ccs.tencentyun.com
     EOF
 
     # 启动Docker服务
