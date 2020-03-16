@@ -22,7 +22,7 @@ mkdir -p /etc/systemd/system/docker.service.d
 cat <span class=s>&lt;&lt;EOF &gt;/etc/systemd/system/docker.service.d/docker-wecube-override.conf</span>
 <span class=s>[Service]</span>
 <span class=s>ExecStart=</span>
-<span class=s>ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375</span>
+<span class=s>ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375 --registry-mirror=https://mirror.ccs.tencentyun.com</span>
 <span class=s>EOF</span>
 
 <span class=c1># 启动Docker服务</span>
