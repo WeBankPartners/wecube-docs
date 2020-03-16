@@ -4,7 +4,7 @@ Documentation Site of WeCube
 
 ## How to build
 
-In order to build the documentation site, you need to have python3 and pip installed, then do the following in the project directory:
+In order to build the documentation site, you need to have `python3` and `pip` installed, then do the following in the project directory:
 
 ``` bash
 # install mkdocs, themes, extensions, etc.
