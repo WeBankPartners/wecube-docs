@@ -89,7 +89,7 @@ curl http://127.0.0.1:2375/version
 
 请执行如下命令行指令：
 ``` bash
-curl -fsSL https://raw.githubusercontent.com/kanetz/wecube-docs/master/get-wecube.sh -o get-wecube.sh && sh get-wecube.sh
+curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/get-wecube.sh -o get-wecube.sh && sh get-wecube.sh
 
 ```
 
