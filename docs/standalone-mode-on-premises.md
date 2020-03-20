@@ -74,6 +74,15 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
     ```
 
 
+??? note "如果您的主机在访问公共网络时必须启用网络代理，请记得为dockerd设置正确的启动环境变量。"
+
+    如果您采用上面提供的命令行指令安装Docker，那么您需要在文件 `/etc/systemd/system/docker.service.d/docker-wecube-override.conf` 中添加类似如下的配置内容，具体的配置请与您的网络管理员联系。
+
+    ``` bash
+    Environment="http_proxy=http://<PROXY_IP>:<PROXY_PORT>"
+    Environment="no_proxy=localhost, 127.0.0.1, ::1"
+    ```
+
 安装并配置完成后，您可以使用以下命令行指令来确认Docker的运行情况：
 
 ``` bash
@@ -97,18 +106,16 @@ curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/g
 
 | 配置项名称 | 默认值 | 用途说明 |
 | - | - | - |
-| install_target_host | *127.0.0.1* | WeCube安装的目标主机名称或IP地址 |
+| install_target_host | *127.0.0.1* | WeCube安装的目标主机名称或IP地址<br/>（**请勿使用此默认值**，详见下方说明。） |
 | dest_dir | */data/wecube* | WeCube的安装目录 |
 | wecube_version | *v2.1.1* | WeCube安装的目标版本 |
 | mysql_password | *WeCube1qazXSW@* | MySQL数据库root账号的密码 |
-
-请根据情况提供合适的输入值，如要使用默认值直接回车即可。提供了所有输入值之后，安装脚本将最后再次请您确认以上3个配置项的值，确认后将开始执行WeCube的安装过程。
 
 !!! warning "请注意"
 
     由于当前版本的WeCube设计，**请勿使用**默认的本地回环地址127.0.0.1作为安装目标主机的IP地址。大部分情况下，您应当使用为主机分配的内网IP地址作为部署配置项`install_target_host`的输入值。
 
-安装脚本执行完毕后，将输出如下内容：
+请根据情况提供合适的输入值，如要使用默认值直接回车即可。提供了所有输入值之后，安装脚本将最后再次请您确认以上3个配置项的值，确认后将开始执行WeCube的安装过程。安装脚本执行完毕后，将输出如下内容：
 
 !!! note ""
 
