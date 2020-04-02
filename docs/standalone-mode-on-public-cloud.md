@@ -1,6 +1,6 @@
 # 在公有云上以单机模式安装WeCube
 
-使用Terraform一键交付公有云软件系统
+在这里，我们将为您说明如何使用 [Terraform](https://www.terraform.io/) 在公有云上购买和创建资源、配置网络并在其之上安装以单机模式运行的WeCube。
 
 ## 下载 Terraform
 
