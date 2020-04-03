@@ -8,22 +8,22 @@ In the process of finding the solutions for these pain points, we have come up w
 
 ## Typical Scenarios
 
-- To build a data center on public cloud from scratch
+- **To build a data center on public cloud from scratch**
 
     With Wecube, you can design and plan your brand new data center on public cloud, including its network resources, computing resources and storage resources. Theses resources required as infrastructure of you data center will be then created and configured automatically by WeCube and together with its plugins, just according to you design and plan.
 
     All required is to provide your cloud account information, then you left WeCube deal with the resource purchase,  creation and configuration. It will also enable monitoring on those resources with preset alarming rules and start immediately monitor their status.
 
-- To manage lifecycle of IT resources in a existing data center
+- **To manage lifecycle of IT resources in a existing data center**
 
     You can model your entire IT system (infrastructure, business applications) and feed the configuration managemnt data model into WeCube. With the core CMDB feature, WeCube can help you with data enquiry and data management; you can also create more sophisticated data queries and even new query APIs for your daily operation tasks as well as for integration with other systems. 
 
-- To enforce architecture compliance 
+- **To enforce architecture compliance**
 
     You can also maintain your architectural design of your applications in WeCube, so that these design information will be used as a basis for IT resource creation, application deployemnt and other operation tasks. In addition, by introducing automated processes and probably also a mix with manual approvals, we expect to see an improvement on the management of architecture compliance in the organization.
 
 
-- To implement the closed loop of "design-build-deploy-monitor-operate" for application systems 
+- **To implement the closed loop of "design-build-deploy-monitor-operate" for application systems**
 
     In the perspective of applications, you can have all information recorded in WeCube about the systems, sub-systems (or any other form of system components), services and the relations between them. Then, by uploading to WeCube the artifacts of each deployment unit in your application system, you can count on WeCube for the remaining lifecycle phases of your application services.
 
@@ -31,21 +31,21 @@ In the process of finding the solutions for these pain points, we have come up w
 
 ## Design Philosophies
 
-- Open Platform
+- **Open Platform**
 
     WeCube is composed of a fully open-sourced platform, plenty of plugins co-created in the open-source community and best practices for different use cases cultivated in the user eco-system. We stick to the **OPEN** philosophy when developing this product, by massively adopting open-source components and open standards. Therefore, we wish to have a eco-system owned, shared and built together with the entire open-source community.
 
-- Extendable by Plugins
+- **Extendable by Plugins**
 
     WeCube platform provides features as data modeling, business process management, UI management, role based access control, system parameters, etc. Except for these, the other features required for concrete scenarios are all provided by plugins. 
 
     We have provided some plugins out-of-box for your usage based on our own experiences. In the meanwhile, you are also welcome to develop new plugins for new requirements and customizations. Just following the plugin development specification, you can extend the features and services provided on WeCube very easily.
 
-- "Interconnected with Business Process Engine"
+- **Interconnected with Business Process Engine**
 
     In complicated use cases and automation, we rely on the businsess process engine provided in WeCube to interconnect all relevant plugin services together, so as to accomplish operation tasks. The powerful flexibility of the business process engine enable you to create SOPs specific to your own case, you can also integrate a manual approval process with an automated one.
 
-- "Design Driving Implementation"
+- **Design Driving Implementation**
 
     We fully understand the painpoints in IT opeartion and management, as a result, we stick to the "Design Driving Imeplmentation" philosophy. Specifically, we expect to gather architectural designs on infrastructure and on application systems from early phase and to use them as a basis for all opeartion tasks such as resource creation, change and destruction. With this emphasis on the information consistency between when we design and when we implement, we believe the architecture complicne can be ensured.
 
