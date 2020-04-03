@@ -9,6 +9,7 @@ site_dir: 'site'
 nav:
   - '首页': 'index.md'
   - '初识WeCube': 'introduction.md'
+  - 'What is WeCube?': 'introduction-en.md'
   - '上手指引': 
     - '场景介绍': 'tutorial-scenarios.md'
     - '安装并运行WeCube': 'tutorial-installation.md'
