@@ -8,10 +8,10 @@
 
     - [WeCMDB配置管理插件](plugin-wecmdb.md)，用于管理数据中心和业务应用系统的设计和配置项信息，插件内部包含了一个可运行的WeCMDB版本；
     - [腾讯云资源管理插件](plugin-qcloud.md)，用于调用腾讯云API完成云资源的创建和删除等操作；
-    - [SaltStack插件](plugin-satlstack.md)，用于完成资源准备和应用部署等场景中涉及的自动化操作，插件内部包含了一个可运行的Saltstack版本；
+    - [SaltStack插件](plugin-saltstack.md)，用于完成资源准备和应用部署等场景中涉及的自动化操作，插件内部包含了一个可运行的Saltstack版本；
     - [物料管理插件](plugin-artifacts.md)，用于管理业务应用系统的部署物料包；
-    - [监控管理插件](plugin-openmonitor.md)，用于实现对IT资源和业务应用的监控采集、规则配置和报警通知，插件内部包含了一个可运行的Prometheus版本；
-    - [服务管理插件](plugin-servicemgmt.md)，用于IT服务配置、服务请求和任务处理的工作台。
+    - [监控管理插件](plugin-open-monitor.md)，用于实现对IT资源和业务应用的监控采集、规则配置和报警通知，插件内部包含了一个可运行的Prometheus版本；
+    - [服务管理插件](plugin-service-management.md)，用于IT服务配置、服务请求和任务处理的工作台。
 
 1. 我们依据金融行业数据中心的建设经验，在WeCube平台中预置了一套经过简化的数据中心设计方案，以便您以此为蓝本在云上搭建一个用于演示的最小化数据中心，创建数据中心中的计算、存储和网络资源并完成对这些资源的监控，以及之后根据需要释放这些已经创建的资源。
 
