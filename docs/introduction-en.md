@@ -55,7 +55,7 @@ In the process of finding the solutions for these pain points, we have come up w
 
 !!! note "**Plugin Package**、**Plugin Service** and **Service Method**"
 
-    WeCube plugins are encapsulated and delivered in **plugin packages**, a plugin package is usually composed of a bundle of related **plugin services**. The terms **plugin** and "plugin package" are basically interchangeable. For example, we have provided the following plugins (plugin packages) with the platform: `WeCMDB`, `Saltstack`, `Qcloud`, etc. 
+    WeCube plugins are encapsulated and delivered in **plugin packages**, a plugin package is usually composed of a bundle of related **plugin services**. The terms **plugin** and **plugin package** are basically interchangeable. For example, we have provided the following plugins (plugin packages) with the platform: `WeCMDB`, `Saltstack`, `Qcloud`, etc.
 
     Each **plugin service** is typically responsible for managing a specific type of IT resource, a "plugin service" usually provides multiple **service methods** to implement different operations on the IT resource. For example, in the plugin (package) `Qcloud`, we have provided a plugin service `vpc` who can manage the virtual private cloud instances and a plugin service `vm` who is responsible for managing cloud server instances.
     
