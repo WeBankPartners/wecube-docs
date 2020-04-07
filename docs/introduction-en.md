@@ -61,7 +61,7 @@ In the process of finding the solutions for these pain points, we have come up w
     
     Each **service method** can accomplish one specific type of operation on a resource, multiple **service methods** together complete the feature extension on that IT resource provided by the **plugin service**. For example, the above-mentioned plugin service `vpc` provides the `create` and the `terminate` action methods to actually create an destroy virutal private cloud instances.
 
-![introduction_plugin.png](images/introduction/intro-plugin.png)
+![intro-plugin.png](images/introduction/intro-plugin.png)
 
 You can upload a plugin package, then configure, register and enable the included plugin services on WeCube. Each plugin service can be treated separately, so you can choose to enable only those required in your case. 
 
@@ -69,21 +69,29 @@ In addition, for different use cases, you can have multiple configuration sets f
 
 ### CMDB
 
-WeCube uses `WeCMDB` plugin as the default CMDB to manage all its configuration management data, of course, you can choose to replace it with another plugin.
+WeCube uses `WeCMDB` plugin as the default CMDB to manage all its configuration management data, of course, you can choose to replace it with another CMDB plugin.
 
-You can fully customize data model in WeCMDB, including data model layers, data types, data attributs and the associations between data types.
+![intro-cmdb.png](images/introduction/intro-cmdb.png)
+
+You can fully customize your data model in WeCMDB, including data model layers, data types, data attributes and the associations between data types.
 
 We have improved data management in WeCMDB with automatic data filling and option value filtering. In your data model, you can set these rules on applicable data attributes, so when you input and maintain those CI data, WeCMDB will fill the attribute value by its own or prompt you valid option values for that attribute. We believe these feature can help improve the data accuracy and efficiency.
 
 About visualization, we embed 4 common views in WeCMDB (Data Center Design, Resource Plan, Application Architecture and Application Deployment) and hope the can help your architects and operation engineers to quickly retrieve the information they need. Furthermore, you can also create new report queries for more sophisticated use cases.  
 
-In WeCMDB, we have built a quite delicate data protection mechanism and wish it can ensure the validity and correctness of your data. A role-based access control is in place so you can have fine-grain control on which role can access which resources. On the other hand, when data is to be changed no matter if it's triggered by automated process or manually, WeCMDB will check the data state agianst a built-in state machine and only execute the change when the state transition rule is permitted.
+![intro-cmdb-views.png](images/introduction/intro-cmdb-views.png)
+
+In WeCMDB, we have built a quite delicate data protection mechanism and wish it can ensure the validity and correctness of your data. A role-based access control is in place so you can have fine-grained control on which role can access which resources. On the other hand, when data is to be changed no matter if it's triggered by automated process or manually, WeCMDB will check the data state agianst a built-in state machine and only execute the change when the state transition rule is permitted.
 
 ### Business Process Engine
 
 Based on the BPMN 2.0 specification, WeCube provides a business process engine and a process editor. You can design you own process which we name a "**Task Orchestration**"" directly on WeCube and configure it to use existing plugin services to execute operation tasks in the process. In the "best practice" pakcage, we have provided some out-of-box orchestrations you can try directly, including one for initializing all network resources in data center and another for application deployments.
 
+![intro-bpm-design.png](images/introduction/intro-bpm-design.png)
+
 By materializing your SOPs into WeCube as task orchestrations, your operation engineers can easily choose the desired orchestration to execute without worrying about the standardized steps, they can also choose the execution targets and then focus on the execution progress as well as the result and execution history. When deciding the execution targets, you can always choose to include only part of the target according to your own needs (for example when you want to do canary release).
+
+![intro-bpm-execution.png](images/introduction/intro-bpm-execution.png)
 
 WeCube provides access control on process design and execution, separately, together with the access control in WeCMDB on the data, you can easily control for different roles in your organization which operations and data they can touch.
 
@@ -97,12 +105,18 @@ You can define how you want to query for data freely on the data model and retri
 
 Once retrieving the data set and refining the target scope, you can choose any one of the existing service method of from plugin services registered on the WeCube platform. After you provide the parameters required for the service method, WeCube will then execute the service method automatically as a batch job on the specified target scope and you can check the aggregated execution result once finished.
 
+![intro-batch-execution.png](images/introduction/intro-batch-execution.png)
+
 ### Monitoring
 
 We provide the plugin `Open-Monitor` for setting up monitoring on IT resources and application services on WeCube. It supports different resource types, process and log files as target object, you can also customize alarm rules for different objects or object groups.
 
 In the "best practices" package, we integrate the `Open-Monitor` plugin in the task orchestrations for resoure creation and application deployment, so you can notice that the created resources and deployed apllication will be displayed in the monitoring dashboard without extra intervention. In addition, we also provide a "application view" of the monitoring dashboard that focus from an application system on all the IT resources it occupies and application services it owns.
 
+![intro-monitor.png](images/introduction/intro-monitor.png)
+
 ### Artifact Managment
 
 WeCube provide a plugin `Artifacts` to support aritfact management for you applications. You can upload your application packages and associate each of them with a deployment unit in your application system design recorded in WeCube. After this, WeCube will find and use the correct artifact to deploy or upgrade the deployment unit in your application system. 
+
+![intro-artifacts.png](images/introduction/intro-artifacts.png)

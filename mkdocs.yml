@@ -58,3 +58,5 @@ plugins:
   - search
   - minify:
       minify_html: true
+  # - pdf-export:
+  #     verbose: true
