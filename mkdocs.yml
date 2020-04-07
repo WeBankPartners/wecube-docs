@@ -55,7 +55,8 @@ markdown_extensions:
   - pymdownx.superfences
 
 plugins:
-  - search
+  - search:
+      lang: ['jp']
   - minify:
       minify_html: true
   # - pdf-export:
