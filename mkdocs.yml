@@ -43,7 +43,7 @@ nav:
     - '应用发布规范': 'application-deployment-specification.md'
   - '常见问题': 'faq.md'
 
-theme:  
+theme:
   name: 'material'
   features:
     - instant
@@ -61,7 +61,8 @@ markdown_extensions:
 
 plugins:
   - search:
-      lang: ['jp']
+      lang:
+        - ja
   - minify:
       minify_html: true
   # - pdf-export:
