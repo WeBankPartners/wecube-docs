@@ -45,8 +45,13 @@ nav:
 
 theme:  
   name: 'material'
+  features:
+    - instant
   language: 'zh'
   favicon: 'images/favicon.ico'
+  icon:
+    logo: 
+    repo: fontawesome/brands/github
 
 markdown_extensions:
   - admonition
