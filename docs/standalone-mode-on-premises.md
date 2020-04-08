@@ -73,7 +73,7 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
     ####
     ```
 
-??? note "如果您的主机在访问公共网络时必须启用网络代理，请记得为dockerd设置正确的启动环境变量。"
+??? note "如果您的主机在访问公共网络时必须启用网络代理，请记得为Docker Engine服务设置正确的启动环境变量。"
 
     如果您采用上面提供的命令行指令安装Docker，那么您需要在文件 `/etc/systemd/system/docker.service.d/docker-wecube-override.conf` 中添加类似如下的配置内容，具体的配置请与您的网络管理员联系。
 

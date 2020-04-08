@@ -13,11 +13,12 @@ nav:
   - '上手指引': 
     - '场景介绍': 'tutorial-scenarios.md'
     - '安装并运行WeCube': 'tutorial-installation.md'
-    - '设计并规划您的数据中心': 'tutorial-design-and-plan-idc.md'
-    - '创建云上的IT资源': 'tutorial-create-resources.md'
-    - '设计您的业务应用系统': 'tutorial-design-business-applications.md'
-    - '部署和升级您的业务应用系统': 'tutorial-deploy-business-applications.md'
-    - '监测您的数据中心': 'tutorial-monitor.md'
+    - '了解可用的插件': 'tutorial-plugins.md'
+    - '设计并规划数据中心': 'tutorial-design-and-plan-idc.md'
+    - '创建云上资源': 'tutorial-create-resources.md'
+    - '设计业务应用系统': 'tutorial-design-business-applications.md'
+    - '部署和升级业务应用系统': 'tutorial-deploy-business-applications.md'
+    - '监测数据中心': 'tutorial-monitor.md'
     - '小结': 'tutorial-summary.md'
   - '安装WeCube':
     - '在私有资源上以单机模式安装': 'standalone-mode-on-premises.md'
@@ -40,6 +41,7 @@ nav:
     - 'Notification': 'plugin-notification.md'
     - '开发新的插件': 'plugin-development.md'
   - '参考文档':
+    - '数据模型表达式解析': 'data-model-expression.md'
     - '应用发布规范': 'application-deployment-specification.md'
   - '常见问题': 'faq.md'
 
