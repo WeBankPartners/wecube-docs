@@ -1,4 +1,4 @@
-# WeCube: A Manamgement Framework for Distributed Architecture
+# WeCube: A Management Framework for Distributed Architecture
 
 WeCube is an open source, one-stop tool for architecture management and IT operation, which aims to simplify the IT management of distributed architecture. Its features can be easily extended by plugins.
 
@@ -10,24 +10,24 @@ In the process of finding the solutions for these pain points, we have come up w
 
 - **To build a data center on public cloud from scratch**
 
-    With Wecube, you can design and plan your brand new data center on public cloud, including its network resources, computing resources and storage resources. Theses resources required as infrastructure of you data center will be then created and configured automatically by WeCube and together with its plugins, just according to you design and plan.
+    With WeCube, you can design and plan your brand new data center on public cloud, including its network resources, computing resources and storage resources. Theses resources required as infrastructure of you data center will be then created and configured automatically by WeCube and together with its plugins, just according to you design and plan.
 
     All required is to provide your cloud account information, then you left WeCube deal with the resource purchase,  creation and configuration. It will also enable monitoring on those resources with preset alarming rules and start immediately monitor their status.
 
-- **To manage lifecycle of IT resources in a existing data center**
+- **To manage life cycle of IT resources in a existing data center**
 
-    You can model your entire IT system (infrastructure, business applications) and feed the configuration managemnt data model into WeCube. With the core CMDB feature, WeCube can help you with data enquiry and data management; you can also create more sophisticated data queries and even new query APIs for your daily operation tasks as well as for integration with other systems. 
+    You can model your entire IT system (infrastructure, business applications) and feed the configuration management data model into WeCube. With the core CMDB feature, WeCube can help you with data inquiry and data management; you can also create more sophisticated data queries and even new query APIs for your daily operation tasks as well as for integration with other systems. 
 
 - **To enforce architecture compliance**
 
-    You can also maintain your architectural design of your applications in WeCube, so that these design information will be used as a basis for IT resource creation, application deployemnt and other operation tasks. In addition, by introducing automated processes and probably also a mix with manual approvals, we expect to see an improvement on the management of architecture compliance in the organization.
+    You can also maintain your architectural design of your applications in WeCube, so that these design information will be used as a basis for IT resource creation, application deployment and other operation tasks. In addition, by introducing automated processes and probably also a mix with manual approvals, we expect to see an improvement on the management of architecture compliance in the organization.
 
 
 - **To implement the closed loop of "design-build-deploy-monitor-operate" for application systems**
 
-    In the perspective of applications, you can have all information recorded in WeCube about the systems, sub-systems (or any other form of system components), services and the relations between them. Then, by uploading to WeCube the artifacts of each deployment unit in your application system, you can count on WeCube for the remaining lifecycle phases of your application services.
+    In the perspective of applications, you can have all information recorded in WeCube about the systems, sub-systems (or any other form of system components), services and the relations between them. Then, by uploading to WeCube the artifacts of each deployment unit in your application system, you can count on WeCube for the remaining life cycle phases of your application services.
 
-    All requried is the application architectural design and the artifacts produced by your build/CI system, WeCube can help you with the automated operation tasks including resource provision, application deployment, monitoring configuration.
+    All required is the application architectural design and the artifacts produced by your build/CI system, WeCube can help you with the automated operation tasks including resource provision, application deployment, monitoring configuration.
 
 ## Design Philosophies
 
@@ -43,11 +43,11 @@ In the process of finding the solutions for these pain points, we have come up w
 
 - **Interconnected with Business Process Engine**
 
-    In complicated use cases and automation, we rely on the businsess process engine provided in WeCube to interconnect all relevant plugin services together, so as to accomplish operation tasks. The powerful flexibility of the business process engine enable you to create SOPs specific to your own case, you can also integrate a manual approval process with an automated one.
+    In complicated use cases and automation, we rely on the business process engine provided in WeCube to interconnect all relevant plugin services together, so as to accomplish operation tasks. The powerful flexibility of the business process engine enable you to create SOPs specific to your own case, you can also integrate a manual approval process with an automated one.
 
 - **Design Driving Implementation**
 
-    We fully understand the painpoints in IT opeartion and management, as a result, we stick to the "Design Driving Imeplmentation" philosophy. Specifically, we expect to gather architectural designs on infrastructure and on application systems from early phase and to use them as a basis for all opeartion tasks such as resource creation, change and destruction. With this emphasis on the information consistency between when we design and when we implement, we believe the architecture complicne can be ensured.
+    We fully understand the pain points in IT operation and management, as a result, we stick to the "Design Driving Implementation" philosophy. Specifically, we expect to gather architectural designs on infrastructure and on application systems from early phase and to use them as a basis for all operation tasks such as resource creation, change and destruction. With this emphasis on the information consistency between when we design and when we implement, we believe the architecture compliance can be ensured.
 
 ## Key Features
 
@@ -59,13 +59,13 @@ In the process of finding the solutions for these pain points, we have come up w
 
     Each **plugin service** is typically responsible for managing a specific type of IT resource, a "plugin service" usually provides multiple **service methods** to implement different operations on the IT resource. For example, in the plugin (package) `Qcloud`, we have provided a plugin service `vpc` who can manage the virtual private cloud instances and a plugin service `vm` who is responsible for managing cloud server instances.
     
-    Each **service method** can accomplish one specific type of operation on a resource, multiple **service methods** together complete the feature extension on that IT resource provided by the **plugin service**. For example, the above-mentioned plugin service `vpc` provides the `create` and the `terminate` action methods to actually create an destroy virutal private cloud instances.
+    Each **service method** can accomplish one specific type of operation on a resource, multiple **service methods** together complete the feature extension on that IT resource provided by the **plugin service**. For example, the above-mentioned plugin service `vpc` provides the `create` and the `terminate` action methods to actually create an destroy virtual private cloud instances.
 
 ![intro-plugin.png](images/introduction/intro-plugin.png)
 
 You can upload a plugin package, then configure, register and enable the included plugin services on WeCube. Each plugin service can be treated separately, so you can choose to enable only those required in your case. 
 
-In addition, for different use cases, you can have multiple configuration sets for one single plugin service, the plugin service can be actually registered more than once with these different configuration sets, so that you can have different settings (eg. security settings for differnt level, settings in different environment, etc.) in different scenarios.
+In addition, for different use cases, you can have multiple configuration sets for one single plugin service, the plugin service can be actually registered more than once with these different configuration sets, so that you can have different settings (eg. security settings for different levels, settings in different environment, etc.) in different scenarios.
 
 ### CMDB
 
@@ -81,11 +81,11 @@ About visualization, we embed 4 common views in WeCMDB (Data Center Design, Reso
 
 ![intro-cmdb-views.png](images/introduction/intro-cmdb-views.png)
 
-In WeCMDB, we have built a quite delicate data protection mechanism and wish it can ensure the validity and correctness of your data. A role-based access control is in place so you can have fine-grained control on which role can access which resources. On the other hand, when data is to be changed no matter if it's triggered by automated process or manually, WeCMDB will check the data state agianst a built-in state machine and only execute the change when the state transition rule is permitted.
+In WeCMDB, we have built a quite delicate data protection mechanism and wish it can ensure the validity and correctness of your data. A role-based access control is in place so you can have fine-grained control on which role can access which resources. On the other hand, when data is to be changed no matter if it's triggered by automated process or manually, WeCMDB will check the data state against a built-in state machine and only execute the change when the state transition rule is permitted.
 
 ### Business Process Engine
 
-Based on the BPMN 2.0 specification, WeCube provides a business process engine and a process editor. You can design you own process which we name a "**Task Orchestration**"" directly on WeCube and configure it to use existing plugin services to execute operation tasks in the process. In the "best practice" pakcage, we have provided some out-of-box orchestrations you can try directly, including one for initializing all network resources in data center and another for application deployments.
+Based on the BPMN 2.0 specification, WeCube provides a business process engine and a process editor. You can design you own process which we name a "**Task Orchestration**"" directly on WeCube and configure it to use existing plugin services to execute operation tasks in the process. In the "best practice" package, we have provided some out-of-box orchestrations you can try directly, including one for initializing all network resources in data center and another for application deployments.
 
 ![intro-bpm-design.png](images/introduction/intro-bpm-design.png)
 
@@ -95,7 +95,7 @@ By materializing your SOPs into WeCube as task orchestrations, your operation en
 
 WeCube provides access control on process design and execution, separately, together with the access control in WeCMDB on the data, you can easily control for different roles in your organization which operations and data they can touch.
 
-By the way, you can try the task orchestrations included in the "best practices" package and see how WeCube can accomplish fully automated operation tasks from resource creation to appication deployment.
+By the way, you can try the task orchestrations included in the "best practices" package and see how WeCube can accomplish fully automated operation tasks from resource creation to application deployment.
 
 ### Batch Execution
 
@@ -111,12 +111,12 @@ Once retrieving the data set and refining the target scope, you can choose any o
 
 We provide the plugin `Open-Monitor` for setting up monitoring on IT resources and application services on WeCube. It supports different resource types, process and log files as target object, you can also customize alarm rules for different objects or object groups.
 
-In the "best practices" package, we integrate the `Open-Monitor` plugin in the task orchestrations for resoure creation and application deployment, so you can notice that the created resources and deployed apllication will be displayed in the monitoring dashboard without extra intervention. In addition, we also provide a "application view" of the monitoring dashboard that focus from an application system on all the IT resources it occupies and application services it owns.
+In the "best practices" package, we integrate the `Open-Monitor` plugin in the task orchestrations for resource creation and application deployment, so you can notice that the created resources and deployed application will be displayed in the monitoring dashboard without extra intervention. In addition, we also provide a "application view" of the monitoring dashboard that focus from an application system on all the IT resources it occupies and application services it owns.
 
 ![intro-monitor.png](images/introduction/intro-monitor.png)
 
-### Artifact Managment
+### Artifact Management
 
-WeCube provide a plugin `Artifacts` to support aritfact management for you applications. You can upload your application packages and associate each of them with a deployment unit in your application system design recorded in WeCube. After this, WeCube will find and use the correct artifact to deploy or upgrade the deployment unit in your application system. 
+WeCube provide a plugin `Artifacts` to support artifact management for you applications. You can upload your application packages and associate each of them with a deployment unit in your application system design recorded in WeCube. After this, WeCube will find and use the correct artifact to deploy or upgrade the deployment unit in your application system. 
 
 ![intro-artifacts.png](images/introduction/intro-artifacts.png)
