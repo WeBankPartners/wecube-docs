@@ -99,7 +99,7 @@ By the way, you can try the task orchestrations included in the "best practices"
 
 ### Batch Execution
 
-In order to accomplish daliy ad-hoc operation tasks, we provide this "batch execution" feature in WeCube.
+In order to accomplish daily ad-hoc operation tasks, we provide this "batch execution" feature in WeCube.
 
 You can define how you want to query for data freely on the data model and retrieve the result data set for the candidate target. If needed, you can also save you query for further use or to share with others.
 
