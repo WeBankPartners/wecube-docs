@@ -1,26 +1,46 @@
 #!/bin/sh
+
+#### Configuration Section ####
+INSTALLER_URL="https://github.com/kanetz/delivery-by-terraform/archive/master.zip"
+PLUGIN_INSTALLER_URL="https://github.com/kanetz/wecube-auto/archive/master.zip"
+PLUGINS_BUCKET_URL="https://wecube-plugins-1259008868.cos.ap-guangzhou.myqcloud.com"
+
+#wecube_version_default="v2.1.1"
+wecube_version_default="20200413192927-d6227ce"
+PLUGIN_PKGS=(
+    "wecube-plugins-wecmdb-v1.4.2.18.zip"
+    "wecube-plugins-qcloud-v1.8.3.2.zip"
+    "wecube-plugins-saltstack-v1.8.4.zip"
+    "wecube-plugins-notifications-v0.1.0.zip"
+    "wecube-monitor-v1.3.3.6.zip"
+    "wecube-plugins-artifacts-v0.2.0.zip"
+    "wecube-plugins-service-mgmt-v0.4.1.zip"
+)
+
+#install_target_host_default="127.0.0.1"
+install_target_host_default="172.16.0.12"
+dest_dir_default="/data/wecube"
+mysql_password_default="WeCube1qazXSW@"
+#### End of Configuration Section ####
+
 set -e
 
-echo "Checking Docker..."
+echo -e "Checking Docker...\n"
 docker version || (echo "Docker Engine is not installed!" && exit 1)
 docker-compose version || (echo "Docker Compose is not installed!" && exit 1)
 curl http://127.0.0.1:2375/version || (echo "Docker Engine is not listening on TCP port 2375!" && exit 1)
 echo -e "\nCongratulations, Docker is properly installed.\n" 
 
 
-install_target_host_default="127.0.0.1"
 read -p "Please specify host IP address (install_target_host=$install_target_host_default): " install_target_host
 install_target_host=${install_target_host:-$install_target_host_default}
 
-dest_dir_default="/data/wecube"
 read -p "Please specify destination dir (dest_dir=$dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
 
-wecube_version_default="v2.1.1"
 read -p "Please enter WeCube version (wecube_version=$wecube_version_default): " wecube_version
 wecube_version=${wecube_version:-$wecube_version_default}
 
-mysql_password_default="WeCube1qazXSW@"
 read -s -p "Please enter mysql root password (mysql_password=$mysql_password_default): " mysql_password_1 && echo ""
 [ -n "$mysql_password_1" ] && read -s -p "Please re-enter the password to confirm: " mysql_password_2 && echo ""
 [ -n "$mysql_password_1" ] && [ "$mysql_password_1" != "$mysql_password_2" ] && echo 'Inputs do not match!' && exit 1
@@ -36,15 +56,46 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
 
-INSTALLER_DIR=$dest_dir/installer
-mkdir -p $INSTALLER_DIR
-INSTALLER_URL=https://github.com/WeBankPartners/delivery-by-terraform/releases/download/v1.0/wecube-installer.tar.gz
-echo "Retrieving wecube-installer from $INSTALLER_URL"
-curl -fsSL $INSTALLER_URL -o $INSTALLER_DIR/wecube-installer.tar.gz
-tar xzvf $INSTALLER_DIR/wecube-installer.tar.gz -C $INSTALLER_DIR
+BASE_DIR="$dest_dir/installer"
+mkdir -p "$BASE_DIR"
+INSTALLER_PKG="$BASE_DIR/wecube-installer.zip"
+echo -e "\nFetching wecube-installer from $INSTALLER_URL"
+curl -#L $INSTALLER_URL -o $INSTALLER_PKG
+unzip -o -q $INSTALLER_PKG -d $BASE_DIR
+cp -R "$BASE_DIR/delivery-by-terraform-master/delivery-wecube-for-stand-alone/application/wecube" $BASE_DIR
+INSTALLER_DIR="$BASE_DIR/wecube"
+
+pushd $INSTALLER_DIR >/dev/null
 
 echo -e "\nRunning wecube-installer scripts...\n"
-pushd $INSTALLER_DIR/wecube >/dev/null
 ./setup-wecube-containers.sh $install_target_host $mysql_password $wecube_version_default $dest_dir
+echo -e "\nWeCube installation completed. Please visit WeCube at http://${install_target_host}:19090\n"
+
+#read -p "Continue with plugin configuration? [y/Y] " -n 1 -r && echo ""
+#[[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation completed with no plugin configured." && exit 1
+
+echo -e "\nNow starting to configure plugins...\n"
+PLUGIN_INSTALLER_PKG="$INSTALLER_DIR/wecube-plugin-installer.zip"
+PLUGIN_INSTALLER_DIR="$INSTALLER_DIR/wecube-plugin-installer"
+mkdir -p "$PLUGIN_INSTALLER_DIR"
+echo "Fetching wecube-plugin-installer from $PLUGIN_INSTALLER_URL"
+curl -#L $PLUGIN_INSTALLER_URL -o $PLUGIN_INSTALLER_PKG
+unzip -o -q $PLUGIN_INSTALLER_PKG -d $PLUGIN_INSTALLER_DIR
+
+echo -e "\nFetching plugin packages...."
+PLUGIN_PKG_DIR="$PLUGIN_INSTALLER_DIR/plugins"
+mkdir -p "$PLUGIN_PKG_DIR"
+PLUGIN_LIST_CSV="$PLUGIN_PKG_DIR/plugin-list.csv"
+echo "plugin_package_path" > $PLUGIN_LIST_CSV
+for PLUGIN_PKG in "${PLUGIN_PKGS[@]}"; do
+    PLUGIN_URL="$PLUGINS_BUCKET_URL/$PLUGIN_PKG"
+    PLUGIN_PKG_FILE="$PLUGIN_PKG_DIR/$PLUGIN_PKG"
+    echo -e "\nFetching from $PLUGIN_URL"
+    curl -#L $PLUGIN_URL -o $PLUGIN_PKG_FILE
+    echo $PLUGIN_PKG_FILE >> $PLUGIN_LIST_CSV
+done
+
+./configure-plugins.sh "$install_target_host" "$PLUGIN_INSTALLER_DIR/wecube-auto-master" "$PLUGIN_PKG_DIR" "$mysql_password"
+
 popd
 echo -e "\nWeCube installation completed. Please visit WeCube at http://${install_target_host}:19090\n"

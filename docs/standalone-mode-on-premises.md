@@ -51,11 +51,12 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
     chmod +x /usr/local/bin/docker-compose
 
     # 配置Docker Engine以监听远程API请求
+    # 我们在这里启用了腾讯云的Docker Hub镜像为中国大陆境内的访问进行加速，请根据您自己的实际情况进行调整
     mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
     [Service]
     ExecStart=
-    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
+    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375 --registry-mirror=https://mirror.ccs.tencentyun.com
     EOF
 
     # 启动Docker服务
@@ -78,6 +79,7 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
     如果您采用上面提供的命令行指令安装Docker，那么您需要在文件 `/etc/systemd/system/docker.service.d/docker-wecube-override.conf` 中添加类似如下的配置内容，具体的配置请与您的网络管理员联系。
 
     ``` bash
+    # 请联系您的网络管理员来确认这些环境变量的配置
     Environment="http_proxy=http://<PROXY_IP>:<PROXY_PORT>"
     Environment="no_proxy=localhost, 127.0.0.1, ::1"
     ```
