@@ -2,125 +2,155 @@
 
 在这里，我们将为您说明如何使用 [Terraform](https://www.terraform.io/) 在公有云上购买和创建资源、配置网络并在其之上安装以单机模式运行的WeCube。
 
-## 下载 Terraform
+## 安装Terraform
 
-官方下载地址:
-[https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html)
+您需要下载 [最新稳定版本的Terraform](https://www.terraform.io/downloads.html)，将下载包中的terraform可执行文件解压并存放到环境变量`PATH`所包含的路径中。当然，您也可以把terraform可执行文件的存放目录直接添加到环境变量`PATH`之中。
 
-!!! note "请根据操作系统类型下载"
+!!! note "我们在此提供Terraform官方网站上0.12.24版本的下载链接，您可以根据情况选择下载。"
+    
+	[适用于macOS AMD64处理器的版本](https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_darwin_amd64.zip)
 
-	[Windows 64位处理器版本](https://releases.hashicorp.com/terraform/0.12.19/terraform_0.12.19_windows_amd64.zip)  
+	[适用于Linux AMD64处理器的版本](https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip)
 
-	[Linux 64位处理器版本](https://releases.hashicorp.com/terraform/0.12.19/terraform_0.12.19_linux_amd64.zip)
+	[适用于Windows AMD64处理器的版本](https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_windows_amd64.zip)
 
-
-## 配置 Terraform (以Windows为例)
-
-### 下载后解压至任一目录（如d:\terraform)
-![terraform location](images/installation/terraform_location.png) 
-
-### 配置Path，可在任何目录执行terraform
-![terraform env path](images/installation/terraform_env_path.png)
-
-## 下载安装工具代码
+安装完毕后，请使用以下命令行指令进行验证：
 
 ``` bash
-cd d:\dev
-git clone https://github.com/WeBankPartners/delivery-by-terraform.git
+terraform version
 ```
 
-## 运行Terraform部署WeCube
-为方便用户体验，我们提供了单机版和生产版两种部署方案。
+## 安装WeCube
 
-### 单机版
-单机版目前提供了阿里云和腾讯云两个云服务商的版本。
-顾名思义，单机版只需要一台云服务器即可部署WeCube。
+### 准备好您的公有云用户账号并确认安装的目标地域
 
-部署之前，可以修改下面terraform变量值，否则会使用默认值；
+在安装WeCube的过程中，Terraform会在公有云上创建并购买必要的网络、计算和存储资源，因此需要您确认以下事项：
 
-变量名 | 默认值 |  描述  
--|-|-
-instance_root_password | WeCube1qazXSW@ | 云主机的root密码 |
-mysql_root_password | WeCube1qazXSW@ | mysql数据库的root密码 |
-wecube_version | v2.1.1 | wecube的版本 |
+- 您需要有一个可用的公有云用户账号，账号信息通常是以用于进行API调用的访问密钥的形式提供给Terraform使用的。
+- 您需要决定在公有云的哪个地域（Region）来创建资源并安装WeCube。
 
-也可以通过修改环境变量的方式来设置terraform变量
-WeCube主机的密码至环境变量（不改默认为`WeCube1qazXSW@`）：
-![terraform app password](images/installation/instance_root_password.png) 
+您可以在环境变量中配置这些信息，Terraform将会在安装过程中自动读取您的配置。如果您没有在环境变量中进行配置，那么Terraform将在安装过程中向您询问这些信息。
 
-配置mysql的root密码（不改默认为`WeCube1qazXSW@`）：
-![terraform app password](images/installation/mysql_root_password.png) 
+!!! note "请根据您选择的公有云平台进行相应配置："
 
-配置wecube的version，即镜像tag（不改默认为`v2.1.1`）：
-![terraform app password](images/installation/wecube_version.png) 
+    === "腾讯云"
+        | 环境变量名称 | 描述 |
+        | - | - |
+        | TENCENTCLOUD_SECRET_ID | 腾讯云API密钥的SecretId \* |
+        | TENCENTCLOUD_SECRET_KEY | 腾讯云API密钥的SecretKey \* |
+        | TENCENTCLOUD_REGION | 安装目标地域，默认为`ap-guangzhou`    |
 
-#### 部署到阿里云
+        \* *通常，您可以在腾讯云控制台中的 [这个页面](https://console.cloud.tencent.com/cam/capi) 找到您的API密钥信息。*
 
-##### 配置Access Key/Secret Key至本地环境变量（默认使用region为cn-hangzhou） 
-![terraform ali cloud key](images/installation/terraform_ali_cloud_key.png)
->注意: Access Key/Secret Key是敏感信息，建议配置到本地环境变量，不要配置在Terraform的模板文件\*.tf里
+    === "阿里云"
+        | 环境变量名称 | 描述 |
+        | - | - |
+        | ALICLOUD_ACCESS_KEY | 阿里云AcccessKeyId \* |
+        | ALICLOUD_SECRET_KEY | 阿里云AccessKeySecret \* |
+        | ALICLOUD_REGION | 安装目标地域，例如`cn-hangzhou`, `cn-beijing` |
 
->注意: 若配置的region不为"cn-hangzhou"，则需要相应的修改delivery-by-terraform\delivery-wecube-for-stand-alone\to_ali_cloud\aliyun_wecube.standalone.tf中出现的所有"availability_zone"的值。例如region配置为"cn-shenzhen",availability_zone则需要修改为"cn-shenzhen-a"或者深圳地域下的其他可用区。
+        \* *通常，您可以在阿里云控制台中的 [这个页面](https://usercenter.console.aliyun.com/#/manage/ak) 找到您的AccessKey信息。*
 
-##### 初始化Terraform
-``` bash
-cd d:\dev\delivery-by-terraform\delivery-wecube-for-stand-alone\to_ali_cloud
-terraform init    -- 安装阿里云的插件, 需要点时间，因国内网速较慢
+!!! warning "如有可能，请不要使用任何可以操作您真实环境（生产、开发、测试等）的API访问密钥，以免产生安全风险。"
+
+### 下载WeCube安装脚本
+
+请下载此处提供的 [WeCube安装脚本包](https://github.com/kanetz/delivery-by-terraform/archive/master.zip) ，然后将其中唯一的目录`delivery-by-terraform-master`解压并存放到您选择的某个位置。
+
+### 执行WeCube安装脚本
+
+!!! info "提示"
+
+    请注意，WeCube的安装过程需要在公有云上创建按量付费使用的云资源。因此，根据云平台的要求，您的账号中可能需要有一定的余额才能正常进行安装过程。
+
+
+!!! note "请根据您选择的公有云平台执行相应的安装步骤："
+
+    === "腾讯云"
+        请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_tencent_cloud`。
+
+        在上述目录中，请执行以下命令行指令来下载和安装Terraform与腾讯云进行交互时所需要的组件。
+
+        ``` bash
+        terraform init
+        ```
+
+        请继续执行以下命令行指令来使用默认的安装配置项开始WeCube的安装。您也可以对安装配置项进行自定义，详见下方说明。
+
+        ``` bash
+        terraform apply
+        ```
+
+    === "阿里云"
+        [TODO: 安装过程需要验证]
+
+        请在命令行中访问WeCube安装脚本包的解压后目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_ali_cloud`。
+
+        在上述目录中，请执行以下命令行指令来下载和安装Terraform与阿里云进行交互时所需要的组件。
+
+        ``` bash
+        terraform init
+        ```
+
+        请继续执行以下命令行指令来使用默认的安装配置项开始WeCube的安装。您也可以对安装配置项进行自定义，详见下方说明。
+
+        ``` bash
+        terraform apply
+        ```
+
+WeCube的安装配置项如下表所示，您可以通过编辑安装执行目录下的文件`terraform.tfvars`来更改配置值。
+
+| 配置项名称 | 默认值 | 用途说明 |
+| - | - | - |
+| instance_root_password | WeCube1qazXSW@ | 云主机的root密码 |
+| mysql_root_password | WeCube1qazXSW@ | MySQL数据库的root密码 |
+| wecube_version | *\*随WeCube版本改变\** | WeCube的版本 |
+| wecube_home | /data/wecube | WeCube安装目录 |
+
+安装过程启动后，Terraform会输出将要创建的资源信息并等待您的确认，请在命令行输入`yes`以允许Terraform开始创建云资源并安装WeCube，如下所示：
+
+```
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value:
 ```
 
-##### 执行部署(一键部署)
-``` bash
-cd d:\dev\delivery-by-terraform\delivery-wecube-for-stand-alone\to_ali_cloud
-terraform apply   -- 执行部署
-.....
-Enter a value: yes  -- 确认执行
-.....
+安装过程完成后，Terraform将输出如下内容：
+
 ```
-![terraform apply ](images/installation/terraform_ali_cloud_apply.png)
->如果你看到这个，说明已部署成功，拷贝输出的URL至浏览器即可访问Wecube
-![wecube ](images/installation/wecube.png)
+Outputs:
 
-##### 销毁部署 (一键销毁)
-``` bash
-cd d:\dev\delivery-by-terraform\delivery-wecube-for-stand-alone\to_ali_cloud
-terraform destroy   -- 销毁部署
-.....
-Enter a value: yes  -- 确认执行
-.....
-```
-![terraform deploy   ](images/installation/terraform_ali_cloud_destroy.png)
-
-#### 部署到腾讯云
-
-##### 配置Access Key/Secret Key至本地环境变量 
-![terraform tencent cloud key](images/installation/terraform_tencent_cloud_key.png)
->注意: Access Key/Secret Key是敏感信息，建议配置到本地环境变量，不要配置在Terraform的模板文件\*.tf里  
->注意: 若配置的region不为"ap-guangzhou"，则需要相应的修改delivery-by-terraform\delivery-wecube-for-stand-alone\to_tencent_cloud\tencent_wecube.tf中出现的所有"availability_zone"的值。例如region配置为"ap-chengdu",availability_zone则需要修改为"ap-chengdu-1"或成都地域下的其他可用区。
-
-##### 初始化Terraform
-``` bash
-cd d:\dev\delivery-by-terraform\delivery-wecube-for-stand-alone\to_tencent_cloud
-terraform init    -- 安装腾讯云的插件, 需要点时间，因国内网速较慢
+wecube_website = http://<公网IP地址>:19090
 ```
 
-##### 执行部署(一键部署)
-``` bash
-cd d:\dev\delivery-by-terraform\delivery-wecube-for-stand-alone\to_ali_cloud
-terraform apply   -- 执行部署
-.....
-Enter a value: yes  -- 确认执行
-.....
-```
-![terraform apply ](images/installation/terraform_ali_cloud_apply.png)
->如果你看到这个，说明已部署成功，拷贝输出的URL至浏览器即可访问Wecube
-![wecube ](images/installation/wecube.png)
+请依据提示，使用默认的用户名 `umadmin` 和密码 `umadmin` 来访问安装好的WeCube。
 
-##### 销毁部署 (一键销毁)
-``` bash
-cd d:\dev\delivery-by-terraform\delivery-wecube-for-stand-alone\to_ali_cloud
-terraform destroy   -- 销毁部署
-.....
-Enter a value: yes  -- 确认执行
-.....
-```
-![terraform deploy   ](images/installation/terraform_ali_cloud_destroy.png)
+!!! info "Terraform的状态文件"
+
+    请注意，安装执行完成后，Terraform会在安装执行目录中生成文件`terraform.tfstate`，其中记录了它在云平台上创建的资源状态。建议您保留此文件，以便稍后在需要的时候使用它来销毁这些创建的云资源。
+
+### 销毁安装时创建的云资源
+
+如果您不再需要在公有云上安装好的WeCube，您可以按照以下步骤使用Terraform来销毁之前创建的云资源。
+
+!!! note "请根据您选择的公有云平台执行相应的安装步骤："
+
+    === "腾讯云"
+        请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_tencent_cloud`。
+
+        在上述目录中，执行以下命令行指令来销毁在腾讯云上创建的云资源：
+
+        ``` bash
+        terraform destroy
+        ```
+
+    === "阿里云"
+        请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_ali_cloud`。
+
+        在上述目录中，执行以下命令行指令来销毁在阿里云上创建的云资源：
+
+        ``` bash
+        terraform destroy
+        ```

@@ -118,8 +118,8 @@ curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/g
 
 请根据情况提供合适的输入值，如要使用默认值直接回车即可。提供了所有输入值之后，安装脚本将最后再次请您确认以上3个配置项的值，确认后将开始执行WeCube的安装过程。安装脚本执行完毕后，将输出如下内容：
 
-!!! note ""
-
-    WeCube installation completed. Please visit WeCube at http://<your host or ip address\>:19090
+```
+WeCube installation completed. Please visit WeCube at http://<您输入的主机名称或IP地址>:19090
+```
 
 请依据提示，使用默认的用户名 `umadmin` 和密码 `umadmin` 来访问安装好的WeCube。
