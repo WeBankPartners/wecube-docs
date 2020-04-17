@@ -43,18 +43,23 @@ nav:
     - '应用发布规范': 'application-deployment-specification.md'
   - '常见问题': 'faq.md'
 
+extra_css:
+  - 'stylesheets/font-awesome.min.css'
+
 theme:
   name: 'material'
   features:
     - instant
   language: 'zh'
-  favicon: 'images/favicon.ico'
+  favicon: 'favicon.ico'
   icon:
     logo: 
     repo: fontawesome/brands/github
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - fontawesome_markdown
   - meta
   - pymdownx.details
   - pymdownx.superfences

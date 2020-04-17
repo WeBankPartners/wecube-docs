@@ -7,6 +7,7 @@ cffi==1.14.0
 Click==7.0
 cssselect2==0.3.0
 defusedxml==0.6.0
+fontawesome-markdown==0.2.6
 future==0.18.2
 gitdb==4.0.2
 GitPython==3.1.0
