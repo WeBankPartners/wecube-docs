@@ -22,7 +22,8 @@ Markdown==3.2.1
 MarkupSafe==1.1.1
 mkdocs==1.1
 mkdocs-git-revision-date-localized-plugin==0.5.0
-mkdocs-material==5.0.1
+mkdocs-material==5.1.1
+mkdocs-material-extensions==1.0b2
 mkdocs-minify-plugin==0.2.3
 mkdocs-pdf-export-plugin==0.5.5
 nltk==3.4.5
