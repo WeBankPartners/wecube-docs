@@ -3,22 +3,20 @@
 #### Configuration Section ####
 INSTALLER_URL="https://github.com/kanetz/delivery-by-terraform/archive/master.zip"
 PLUGIN_INSTALLER_URL="https://github.com/kanetz/wecube-auto/archive/master.zip"
-PLUGINS_BUCKET_URL="https://wecube-plugins-1259008868.cos.ap-guangzhou.myqcloud.com"
+PLUGINS_BUCKET_URL="https://wecube-1259801214.cos.ap-guangzhou.myqcloud.com/v2.3.1/"
 
-#wecube_version_default="v2.1.1"
-wecube_version_default="20200413192927-d6227ce"
+wecube_version_default="v2.3.1"
 PLUGIN_PKGS=(
-    "wecube-plugins-wecmdb-v1.4.2.18.zip"
-    "wecube-plugins-qcloud-v1.8.3.2.zip"
-    "wecube-plugins-saltstack-v1.8.4.zip"
+    "wecube-plugins-wecmdb-v1.4.4.zip"
+    "wecube-plugins-qcloud-v1.8.5.zip"
+    "wecube-plugins-saltstack-v1.8.5.zip"
     "wecube-plugins-notifications-v0.1.0.zip"
-    "wecube-monitor-v1.3.3.6.zip"
-    "wecube-plugins-artifacts-v0.2.0.zip"
+    "wecube-plugins-monitor-v1.3.5.zip"
+    "wecube-plugins-artifacts-v0.2.5.zip"
     "wecube-plugins-service-mgmt-v0.4.1.zip"
 )
 
-#install_target_host_default="127.0.0.1"
-install_target_host_default="172.16.0.12"
+install_target_host_default="127.0.0.1"
 dest_dir_default="/data/wecube"
 mysql_password_default="WeCube1qazXSW@"
 #### End of Configuration Section ####
