@@ -59,7 +59,7 @@ In the process of finding the solutions for these pain points, we have come up w
 
     Each **plugin service** is typically responsible for managing a specific type of IT resource, a "plugin service" usually provides multiple **service methods** to implement different operations on the IT resource. For example, in the plugin (package) `Qcloud`, we have provided a plugin service `vpc` who can manage the virtual private cloud instances and a plugin service `vm` who is responsible for managing cloud server instances.
     
-    Each **service method** can accomplish one specific type of operation on a resource, multiple **service methods** together complete the feature extension on that IT resource provided by the **plugin service**. For example, the above-mentioned plugin service `vpc` provides the `create` and the `terminate` service methods to actually create an destroy virtual private cloud instances.
+    Each **service method** can accomplish one specific type of operation on a resource, multiple **service methods** together complete the feature extension on that IT resource provided by the **plugin service**. For example, the above-mentioned plugin service `vpc` provides the `create` and the `terminate` service methods to actually create/destroy virtual private cloud instances.
 
 ![intro-plugin.png](images/introduction/intro-plugin.png)
 
