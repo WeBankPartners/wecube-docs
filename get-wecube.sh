@@ -3,8 +3,8 @@
 #### Configuration Section ####
 GITHUB_RELEASE_URL="https://api.github.com/repos/WeBankPartners/wecube-platform/releases"
 
-INSTALLER_URL="https://github.com/kanetz/delivery-by-terraform/archive/master.zip"
-PLUGIN_INSTALLER_URL="https://github.com/kanetz/wecube-auto/archive/master.zip"
+INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
+PLUGIN_INSTALLER_URL="https://github.com/WeBankPartners/wecube-auto/archive/master.zip"
 PLUGINS_BUCKET_URL="https://wecube-1259801214.cos.ap-guangzhou.myqcloud.com"
 
 wecube_version_default="latest"
