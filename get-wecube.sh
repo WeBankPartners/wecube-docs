@@ -1,21 +1,13 @@
 #!/bin/sh
 
 #### Configuration Section ####
+GITHUB_RELEASE_URL="https://api.github.com/repos/kanetz/wecube-docs/releases"
+
 INSTALLER_URL="https://github.com/kanetz/delivery-by-terraform/archive/master.zip"
 PLUGIN_INSTALLER_URL="https://github.com/kanetz/wecube-auto/archive/master.zip"
-PLUGINS_BUCKET_URL="https://wecube-1259801214.cos.ap-guangzhou.myqcloud.com/v2.3.1/"
+PLUGINS_BUCKET_URL="https://wecube-1259801214.cos.ap-guangzhou.myqcloud.com"
 
-wecube_version_default="v2.3.1"
-PLUGIN_PKGS=(
-    "wecube-plugins-wecmdb-v1.4.4.zip"
-    "wecube-plugins-qcloud-v1.8.5.zip"
-    "wecube-plugins-saltstack-v1.8.5.zip"
-    "wecube-plugins-notifications-v0.1.0.zip"
-    "wecube-plugins-monitor-v1.3.5.zip"
-    "wecube-plugins-artifacts-v0.2.5.zip"
-    "wecube-plugins-service-mgmt-v0.4.1.zip"
-)
-
+wecube_version_default="latest"
 install_target_host_default="127.0.0.1"
 dest_dir_default="/data/wecube"
 mysql_password_default="WeCube1qazXSW@"
@@ -30,14 +22,14 @@ curl http://127.0.0.1:2375/version || (echo "Docker Engine is not listening on T
 echo -e "\nCongratulations, Docker is properly installed.\n" 
 
 
+read -p "Please enter WeCube version (wecube_version=$wecube_version_default): " wecube_version
+wecube_version=${wecube_version:-$wecube_version_default}
+
 read -p "Please specify host IP address (install_target_host=$install_target_host_default): " install_target_host
 install_target_host=${install_target_host:-$install_target_host_default}
 
 read -p "Please specify destination dir (dest_dir=$dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
-
-read -p "Please enter WeCube version (wecube_version=$wecube_version_default): " wecube_version
-wecube_version=${wecube_version:-$wecube_version_default}
 
 read -s -p "Please enter mysql root password (mysql_password=$mysql_password_default): " mysql_password_1 && echo ""
 [ -n "$mysql_password_1" ] && read -s -p "Please re-enter the password to confirm: " mysql_password_2 && echo ""
@@ -45,14 +37,37 @@ read -s -p "Please enter mysql root password (mysql_password=$mysql_password_def
 mysql_password=${mysql_password_1:-$mysql_password_default}
 
 echo ""
+echo "- wecube_version=$wecube_version"
 echo "- install_target_host=$install_target_host"
 echo "- dest_dir=$dest_dir"
-echo "- wecube_version=$wecube_version"
 echo "- mysql_password=(*not shown*)"
 echo ""
 read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
+wecube_image_version="$wecube_version"
+PLUGIN_PKGS=()
+echo -e "\nFetching component versions for release $wecube_version..."
+COMPONENT_TABLE_MD=$(curl -sSfl "$GITHUB_RELEASE_URL/$wecube_version" | grep -o '| wecube image |.*\\r\\n\\r\\n' | sed -e 's/[ ]*|[ ]*/|/g')
+while [[ $COMPONENT_TABLE_MD ]]; do
+    COMPONENT=${COMPONENT_TABLE_MD%%"\r\n"*}
+    COMPONENT_TABLE_MD=${COMPONENT_TABLE_MD#*"\r\n"}
+
+    COMPONENT_NAME=${COMPONENT#"|"}
+    COMPONENT_NAME=${COMPONENT_NAME%%"|"*}
+    
+    COMPONENT_VERSION=${COMPONENT%"|"}
+    COMPONENT_VERSION=${COMPONENT_VERSION##*"|"}
+
+    if [ "$COMPONENT_NAME" == 'wecube image' ]; then
+        wecube_image_version="$COMPONENT_VERSION"
+    elif [ "$COMPONENT_NAME" ]; then
+        PLUGIN_PKGS+=("$COMPONENT_NAME-$COMPONENT_VERSION.zip")
+    fi
+done
+
+echo "wecube_image_version=$wecube_image_version"
+echo "wecube_plugins=(${PLUGIN_PKGS[@]})"
 
 BASE_DIR="$dest_dir/installer"
 mkdir -p "$BASE_DIR"
@@ -66,7 +81,7 @@ INSTALLER_DIR="$BASE_DIR/wecube"
 pushd $INSTALLER_DIR >/dev/null
 
 echo -e "\nRunning wecube-installer scripts...\n"
-./setup-wecube-containers.sh $install_target_host $mysql_password $wecube_version_default $dest_dir
+./setup-wecube-containers.sh $install_target_host $mysql_password $wecube_image_version $dest_dir
 echo -e "\nWeCube installation completed. Please visit WeCube at http://${install_target_host}:19090\n"
 
 #read -p "Continue with plugin configuration? [y/Y] " -n 1 -r && echo ""
@@ -86,7 +101,7 @@ mkdir -p "$PLUGIN_PKG_DIR"
 PLUGIN_LIST_CSV="$PLUGIN_PKG_DIR/plugin-list.csv"
 echo "plugin_package_path" > $PLUGIN_LIST_CSV
 for PLUGIN_PKG in "${PLUGIN_PKGS[@]}"; do
-    PLUGIN_URL="$PLUGINS_BUCKET_URL/$PLUGIN_PKG"
+    PLUGIN_URL="$PLUGINS_BUCKET_URL/$wecube_version/$PLUGIN_PKG"
     PLUGIN_PKG_FILE="$PLUGIN_PKG_DIR/$PLUGIN_PKG"
     echo -e "\nFetching from $PLUGIN_URL"
     curl -#L $PLUGIN_URL -o $PLUGIN_PKG_FILE
