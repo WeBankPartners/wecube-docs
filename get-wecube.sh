@@ -101,7 +101,7 @@ mkdir -p "$PLUGIN_PKG_DIR"
 PLUGIN_LIST_CSV="$PLUGIN_PKG_DIR/plugin-list.csv"
 echo "plugin_package_path" > $PLUGIN_LIST_CSV
 for PLUGIN_PKG in "${PLUGIN_PKGS[@]}"; do
-    PLUGIN_URL="$PLUGINS_BUCKET_URL/$wecube_version/$PLUGIN_PKG"
+    PLUGIN_URL="$PLUGINS_BUCKET_URL/$wecube_image_version/$PLUGIN_PKG"
     PLUGIN_PKG_FILE="$PLUGIN_PKG_DIR/$PLUGIN_PKG"
     echo -e "\nFetching from $PLUGIN_URL"
     curl -#L $PLUGIN_URL -o $PLUGIN_PKG_FILE
