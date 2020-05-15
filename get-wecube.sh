@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #### Configuration Section ####
-GITHUB_RELEASE_URL="https://api.github.com/repos/kanetz/wecube-docs/releases"
+GITHUB_RELEASE_URL="https://api.github.com/repos/WeBankPartners/wecube-platform/releases"
 
 INSTALLER_URL="https://github.com/kanetz/delivery-by-terraform/archive/master.zip"
 PLUGIN_INSTALLER_URL="https://github.com/kanetz/wecube-auto/archive/master.zip"
@@ -48,16 +48,16 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 wecube_image_version="$wecube_version"
 PLUGIN_PKGS=()
 echo -e "\nFetching component versions for release $wecube_version..."
-COMPONENT_TABLE_MD=$(curl -sSfl "$GITHUB_RELEASE_URL/$wecube_version" | grep -o '| wecube image |.*\\r\\n\\r\\n' | sed -e 's/[ ]*|[ ]*/|/g')
+COMPONENT_TABLE_MD=$(curl -sSfl "$GITHUB_RELEASE_URL/$wecube_version" | grep -o '|[ ]*wecube image[ ]*|.*\\r\\n' | sed -e 's/[ ]*|[ ]*/|/g')
 while [[ $COMPONENT_TABLE_MD ]]; do
     COMPONENT=${COMPONENT_TABLE_MD%%"\r\n"*}
     COMPONENT_TABLE_MD=${COMPONENT_TABLE_MD#*"\r\n"}
 
-    COMPONENT_NAME=${COMPONENT#"|"}
-    COMPONENT_NAME=${COMPONENT_NAME%%"|"*}
-    
-    COMPONENT_VERSION=${COMPONENT%"|"}
-    COMPONENT_VERSION=${COMPONENT_VERSION##*"|"}
+    COMPONENT=${COMPONENT#"|"}
+    COMPONENT_NAME=${COMPONENT%%"|"*}
+
+    COMPONENT=${COMPONENT#*"|"}
+    COMPONENT_VERSION=${COMPONENT%%"|"*}
 
     if [ "$COMPONENT_NAME" == 'wecube image' ]; then
         wecube_image_version="$COMPONENT_VERSION"
