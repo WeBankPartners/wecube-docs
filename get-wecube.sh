@@ -46,9 +46,10 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
 wecube_image_version="$wecube_version"
+GITHUB_LATEST_RELEASE_URL="$GITHUB_RELEASE_URL/$wecube_version"
 PLUGIN_PKGS=()
 echo -e "\nFetching component versions for release $wecube_version..."
-COMPONENT_TABLE_MD=$(curl -sSfl "$GITHUB_RELEASE_URL/$wecube_version" | grep -o '|[ ]*wecube image[ ]*|.*\\r\\n' | sed -e 's/[ ]*|[ ]*/|/g')
+COMPONENT_TABLE_MD=$(curl -sSfl "$GITHUB_LATEST_RELEASE_URL" | grep -o '|[ ]*wecube image[ ]*|.*\\r\\n' | sed -e 's/[ ]*|[ ]*/|/g')
 while [[ $COMPONENT_TABLE_MD ]]; do
     COMPONENT=${COMPONENT_TABLE_MD%%"\r\n"*}
     COMPONENT_TABLE_MD=${COMPONENT_TABLE_MD#*"\r\n"}
@@ -68,6 +69,7 @@ done
 
 echo "wecube_image_version=$wecube_image_version"
 echo "wecube_plugins=(${PLUGIN_PKGS[@]})"
+[ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e '\nFailed to fetch component versions from $GITHUB_LATEST_RELEASE_URL!\nAbort installation.' && exit 1
 
 BASE_DIR="$dest_dir/installer"
 mkdir -p "$BASE_DIR"
