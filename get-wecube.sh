@@ -77,8 +77,6 @@ echo "wecube_image_version=$wecube_image_version"
 echo "wecube_plugins=(${PLUGIN_PKGS[@]})"
 [ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e "\nFailed to fetch component versions from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
 
-exit
-
 BASE_DIR="$dest_dir/installer"
 mkdir -p "$BASE_DIR"
 INSTALLER_PKG="$BASE_DIR/wecube-installer.zip"
