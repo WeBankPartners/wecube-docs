@@ -45,11 +45,18 @@ echo ""
 read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
+GITHUB_RELEASE_URL="$GITHUB_RELEASE_URL/$wecube_version"
+echo -e "\nFetching release info for $wecube_version from $GITHUB_RELEASE_URL..."
+GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL")
+[ -z "$GITHUB_RELEASE_JSON" ] && echo -e '\nFailed to fetch release info from $GITHUB_RELEASE_URL\nInstallation aborted.' && exit 1
+
+RELEASE_TAG_NAME=$(grep -o '"tag_name":[ ]*"[^"]*"' <<< "$GITHUB_RELEASE_JSON" | grep -o 'v[[:digit:]\.]*')
+[ -z "$RELEASE_TAG_NAME" ] && echo -e '\nFailed to fetch release tag name!\Installation aborted.' && exit 1
+echo "wecube_release_tag_name=$RELEASE_TAG_NAME"
+
 wecube_image_version="$wecube_version"
-GITHUB_LATEST_RELEASE_URL="$GITHUB_RELEASE_URL/$wecube_version"
 PLUGIN_PKGS=()
-echo -e "\nFetching component versions for release $wecube_version..."
-COMPONENT_TABLE_MD=$(curl -sSfl "$GITHUB_LATEST_RELEASE_URL" | grep -o '|[ ]*wecube image[ ]*|.*\\r\\n' | sed -e 's/[ ]*|[ ]*/|/g')
+COMPONENT_TABLE_MD=$(grep -o '|[ ]*wecube image[ ]*|.*\\r\\n' <<< "$GITHUB_RELEASE_JSON" | sed -e 's/[ ]*|[ ]*/|/g')
 while [[ $COMPONENT_TABLE_MD ]]; do
     COMPONENT=${COMPONENT_TABLE_MD%%"\r\n"*}
     COMPONENT_TABLE_MD=${COMPONENT_TABLE_MD#*"\r\n"}
@@ -66,10 +73,11 @@ while [[ $COMPONENT_TABLE_MD ]]; do
         PLUGIN_PKGS+=("$COMPONENT_NAME-$COMPONENT_VERSION.zip")
     fi
 done
-
 echo "wecube_image_version=$wecube_image_version"
 echo "wecube_plugins=(${PLUGIN_PKGS[@]})"
-[ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e '\nFailed to fetch component versions from $GITHUB_LATEST_RELEASE_URL!\nAbort installation.' && exit 1
+[ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e "\nFailed to fetch component versions from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
+
+exit
 
 BASE_DIR="$dest_dir/installer"
 mkdir -p "$BASE_DIR"
@@ -103,7 +111,7 @@ mkdir -p "$PLUGIN_PKG_DIR"
 PLUGIN_LIST_CSV="$PLUGIN_PKG_DIR/plugin-list.csv"
 echo "plugin_package_path" > $PLUGIN_LIST_CSV
 for PLUGIN_PKG in "${PLUGIN_PKGS[@]}"; do
-    PLUGIN_URL="$PLUGINS_BUCKET_URL/$wecube_image_version/$PLUGIN_PKG"
+    PLUGIN_URL="$PLUGINS_BUCKET_URL/$RELEASE_TAG_NAME/$PLUGIN_PKG"
     PLUGIN_PKG_FILE="$PLUGIN_PKG_DIR/$PLUGIN_PKG"
     echo -e "\nFetching from $PLUGIN_URL"
     curl -#L $PLUGIN_URL -o $PLUGIN_PKG_FILE
