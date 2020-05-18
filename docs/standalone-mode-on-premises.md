@@ -41,6 +41,8 @@ WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强�
     # 安装Docker
     yum install -y yum-utils device-mapper-persistent-data lvm2
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+    yum makecache fast
     yum install -y docker-ce docker-ce-cli containerd.io
     
     # 安装Docker Compose
