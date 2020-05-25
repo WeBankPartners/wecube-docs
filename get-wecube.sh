@@ -1,8 +1,6 @@
 #!/bin/sh
 
 #### Configuration Section ####
-GITHUB_RELEASE_URL="https://api.github.com/repos/WeBankPartners/wecube-platform/releases"
-
 INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 PLUGIN_INSTALLER_URL="https://github.com/WeBankPartners/wecube-auto/archive/master.zip"
 PLUGINS_BUCKET_URL="https://wecube-1259801214.cos.ap-guangzhou.myqcloud.com"
@@ -16,9 +14,9 @@ mysql_password_default="WeCube1qazXSW@"
 set -e
 
 echo -e "Checking Docker...\n"
-docker version || (echo "Docker Engine is not installed!" && exit 1)
-docker-compose version || (echo "Docker Compose is not installed!" && exit 1)
-curl http://127.0.0.1:2375/version || (echo "Docker Engine is not listening on TCP port 2375!" && exit 1)
+docker version || (echo 'Docker Engine is not installed!' && exit 1)
+docker-compose version || (echo 'Docker Compose is not installed!' && exit 1)
+curl http://127.0.0.1:2375/version || (echo 'Docker Engine is not listening on TCP port 2375!' && exit 1)
 echo -e "\nCongratulations, Docker is properly installed.\n" 
 
 
@@ -45,18 +43,30 @@ echo ""
 read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
-GITHUB_RELEASE_URL="$GITHUB_RELEASE_URL/$wecube_version"
+
+GITHUB_RELEASE_URL="https://api.github.com/repos/WeBankPartners/wecube-platform/releases/$wecube_version"
+GITHUB_RELEASE_JSON=""
+RETRIES=30
 echo -e "\nFetching release info for $wecube_version from $GITHUB_RELEASE_URL..."
-GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL")
-[ -z "$GITHUB_RELEASE_JSON" ] && echo -e '\nFailed to fetch release info from $GITHUB_RELEASE_URL\nInstallation aborted.' && exit 1
+while [ $RETRIES -gt 0 ] && [ -z "$GITHUB_RELEASE_JSON" ]; do
+    RETRIES=$((RETRIES - 1))
+    GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL")
+    if [ -z "$GITHUB_RELEASE_JSON" ]; then
+        echo "Retry in 1 second..."
+        sleep 1
+    else
+        break
+    fi
+done
+[ -z "$GITHUB_RELEASE_JSON" ] && echo -e "\nFailed to fetch release info from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
 
 RELEASE_TAG_NAME=$(grep -o '"tag_name":[ ]*"[^"]*"' <<< "$GITHUB_RELEASE_JSON" | grep -o 'v[[:digit:]\.]*')
-[ -z "$RELEASE_TAG_NAME" ] && echo -e '\nFailed to fetch release tag name!\Installation aborted.' && exit 1
+[ -z "$RELEASE_TAG_NAME" ] && echo -e "\nFailed to fetch release tag name!\Installation aborted." && exit 1
 echo "wecube_release_tag_name=$RELEASE_TAG_NAME"
 
 wecube_image_version="$wecube_version"
 PLUGIN_PKGS=()
-COMPONENT_TABLE_MD=$(grep -o '|[ ]*wecube image[ ]*|.*\\r\\n' <<< "$GITHUB_RELEASE_JSON" | sed -e 's/[ ]*|[ ]*/|/g')
+COMPONENT_TABLE_MD=$(grep -o '|[ ]*wecube image[ ]*|.*|\\r\\n' <<< "$GITHUB_RELEASE_JSON" | sed -e 's/[ ]*|[ ]*/|/g')
 while [[ $COMPONENT_TABLE_MD ]]; do
     COMPONENT=${COMPONENT_TABLE_MD%%"\r\n"*}
     COMPONENT_TABLE_MD=${COMPONENT_TABLE_MD#*"\r\n"}
