@@ -93,7 +93,7 @@ INSTALLER_PKG="$BASE_DIR/wecube-installer.zip"
 echo -e "\nFetching wecube-installer from $INSTALLER_URL"
 curl -#L $INSTALLER_URL -o $INSTALLER_PKG
 unzip -o -q $INSTALLER_PKG -d $BASE_DIR
-cp -R "$BASE_DIR/delivery-by-terraform-master/delivery-wecube-for-stand-alone/application/wecube" $BASE_DIR
+cp -R "$BASE_DIR/delivery-by-terraform-master/delivery-wecube-for-stand-alone/application-for-tencentcloud/wecube" $BASE_DIR
 INSTALLER_DIR="$BASE_DIR/wecube"
 
 pushd $INSTALLER_DIR >/dev/null
