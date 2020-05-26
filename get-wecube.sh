@@ -99,6 +99,7 @@ INSTALLER_DIR="$BASE_DIR/wecube"
 pushd $INSTALLER_DIR >/dev/null
 
 echo -e "\nRunning wecube-installer scripts...\n"
+chmod +x *.sh
 ./setup-wecube-containers.sh $install_target_host $mysql_password $wecube_image_version $dest_dir
 echo -e "\nWeCube installation completed. Please visit WeCube at http://${install_target_host}:19090\n"
 
