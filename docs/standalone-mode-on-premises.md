@@ -108,7 +108,7 @@ curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/g
 | install_target_host | *127.0.0.1* | WeCube安装的目标主机名称或IP地址<br/>（**请勿使用此默认值**，详见下方说明。） |
 | dest_dir | */data/wecube* | WeCube的安装目录 |
 | wecube_version | *v2.1.1* | WeCube安装的目标版本 |
-| mysql_password | *WeCube1qazXSW@* | MySQL数据库root账号的密码 |
+| mysql_password | *Wecube@123456* | MySQL数据库root账号的密码 |
 
 !!! warning "请注意"
 

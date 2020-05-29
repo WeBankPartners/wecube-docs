@@ -98,8 +98,8 @@ WeCube的安装配置项如下表所示，您可以通过编辑安装执行目�
 
 | 配置项名称 | 默认值 | 用途说明 |
 | - | - | - |
-| instance_root_password | WeCube1qazXSW@ | 云主机的root密码 |
-| mysql_root_password | WeCube1qazXSW@ | MySQL数据库的root密码 |
+| instance_root_password | Wecube@123456 | 云主机的root密码 |
+| mysql_root_password | Wecube@123456 | MySQL数据库的root密码 |
 | wecube_version | *\*随WeCube版本改变\** | WeCube的版本 |
 | wecube_home | /data/wecube | WeCube安装目录 |
 

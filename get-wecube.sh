@@ -7,7 +7,7 @@ PLUGIN_INSTALLER_URL="https://github.com/WeBankPartners/wecube-auto/archive/mast
 wecube_version_default="latest"
 install_target_host_default="127.0.0.1"
 dest_dir_default="/data/wecube"
-mysql_password_default="WeCube1qazXSW@"
+mysql_password_default="Wecube@123456"
 #### End of Configuration Section ####
 
 set -e
@@ -58,10 +58,6 @@ while [ $RETRIES -gt 0 ] && [ -z "$GITHUB_RELEASE_JSON" ]; do
     fi
 done
 [ -z "$GITHUB_RELEASE_JSON" ] && echo -e "\nFailed to fetch release info from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
-
-RELEASE_TAG_NAME=$(grep -o '"tag_name":[ ]*"[^"]*"' <<< "$GITHUB_RELEASE_JSON" | grep -o 'v[[:digit:]\.]*')
-[ -z "$RELEASE_TAG_NAME" ] && echo -e "\nFailed to fetch release tag name!\Installation aborted." && exit 1
-echo "wecube_release_tag_name=$RELEASE_TAG_NAME"
 
 wecube_image_version="$wecube_version"
 PLUGIN_PKGS=()
