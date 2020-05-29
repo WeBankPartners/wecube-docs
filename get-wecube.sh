@@ -3,7 +3,6 @@
 #### Configuration Section ####
 INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 PLUGIN_INSTALLER_URL="https://github.com/WeBankPartners/wecube-auto/archive/master.zip"
-PLUGINS_BUCKET_URL="https://wecube-1259801214.cos.ap-guangzhou.myqcloud.com"
 
 wecube_version_default="latest"
 install_target_host_default="127.0.0.1"
@@ -77,14 +76,18 @@ while [[ $COMPONENT_TABLE_MD ]]; do
     COMPONENT=${COMPONENT#*"|"}
     COMPONENT_VERSION=${COMPONENT%%"|"*}
 
+    COMPONENT=${COMPONENT#*"|"}
+    COMPONENT_LINK=${COMPONENT%%"|"*}
+
     if [ "$COMPONENT_NAME" == 'wecube image' ]; then
         wecube_image_version="$COMPONENT_VERSION"
     elif [ "$COMPONENT_NAME" ]; then
-        PLUGIN_PKGS+=("$COMPONENT_NAME-$COMPONENT_VERSION.zip")
+        PLUGIN_PKGS+=("$COMPONENT_LINK")
     fi
 done
-echo "wecube_image_version=$wecube_image_version"
-echo "wecube_plugins=(${PLUGIN_PKGS[@]})"
+echo "wecube_image_version: $wecube_image_version"
+echo "wecube_plugins:"
+printf '%s\n' "${PLUGIN_PKGS[@]}"
 [ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e "\nFailed to fetch component versions from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
 
 BASE_DIR="$dest_dir/installer"
@@ -118,9 +121,8 @@ PLUGIN_PKG_DIR="$PLUGIN_INSTALLER_DIR/plugins"
 mkdir -p "$PLUGIN_PKG_DIR"
 PLUGIN_LIST_CSV="$PLUGIN_PKG_DIR/plugin-list.csv"
 echo "plugin_package_path" > $PLUGIN_LIST_CSV
-for PLUGIN_PKG in "${PLUGIN_PKGS[@]}"; do
-    PLUGIN_URL="$PLUGINS_BUCKET_URL/$RELEASE_TAG_NAME/$PLUGIN_PKG"
-    PLUGIN_PKG_FILE="$PLUGIN_PKG_DIR/$PLUGIN_PKG"
+for PLUGIN_URL in "${PLUGIN_PKGS[@]}"; do
+    PLUGIN_PKG_FILE="$PLUGIN_PKG_DIR/${PLUGIN_URL##*'/'}"
     echo -e "\nFetching from $PLUGIN_URL"
     curl -#L $PLUGIN_URL -o $PLUGIN_PKG_FILE
     echo $PLUGIN_PKG_FILE >> $PLUGIN_LIST_CSV
