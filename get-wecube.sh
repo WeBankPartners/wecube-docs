@@ -4,8 +4,8 @@
 INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 PLUGIN_INSTALLER_URL="https://github.com/WeBankPartners/wecube-auto/archive/master.zip"
 
-wecube_version_default="latest"
 install_target_host_default="127.0.0.1"
+wecube_version_default="latest"
 dest_dir_default="/data/wecube"
 mysql_password_default="Wecube@123456"
 #### End of Configuration Section ####
@@ -19,11 +19,11 @@ curl http://127.0.0.1:2375/version || (echo 'Docker Engine is not listening on T
 echo -e "\nCongratulations, Docker is properly installed.\n" 
 
 
-read -p "Please enter WeCube version (wecube_version=$wecube_version_default): " wecube_version
-wecube_version=${wecube_version:-$wecube_version_default}
-
 read -p "Please specify host IP address (install_target_host=$install_target_host_default): " install_target_host
 install_target_host=${install_target_host:-$install_target_host_default}
+
+read -p "Please enter WeCube version (wecube_version=$wecube_version_default): " wecube_version
+wecube_version=${wecube_version:-$wecube_version_default}
 
 read -p "Please specify destination dir (dest_dir=$dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
