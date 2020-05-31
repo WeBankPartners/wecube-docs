@@ -45,7 +45,7 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 
 if [ -f "$wecube_version" ]; then
     echo "Reading customized WeCube version specs from $wecube_version..."
-    source "$wecube_version"
+    PATH="$PATH:." source "$wecube_version"
 else
     GITHUB_RELEASE_URL="https://api.github.com/repos/WeBankPartners/wecube-platform/releases/$wecube_version"
     GITHUB_RELEASE_JSON=""
@@ -55,8 +55,9 @@ else
         RETRIES=$((RETRIES - 1))
         GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL" || true)
         if [ -z "$GITHUB_RELEASE_JSON" ]; then
-            echo "Retry in 1 second..."
-            sleep 1
+            PAUSE=$(( ( RANDOM % 5 ) + 1 ))
+            echo "Retry in $PAUSE second..."
+            sleep "$PAUSE"
         else
             break
         fi
