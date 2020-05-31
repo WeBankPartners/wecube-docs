@@ -49,7 +49,7 @@ RETRIES=30
 echo -e "\nFetching release info for $wecube_version from $GITHUB_RELEASE_URL..."
 while [ $RETRIES -gt 0 ] && [ -z "$GITHUB_RELEASE_JSON" ]; do
     RETRIES=$((RETRIES - 1))
-    GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL")
+    GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL" || true)
     if [ -z "$GITHUB_RELEASE_JSON" ]; then
         echo "Retry in 1 second..."
         sleep 1
@@ -83,7 +83,7 @@ while [[ $COMPONENT_TABLE_MD ]]; do
 done
 echo "wecube_image_version: $wecube_image_version"
 echo "wecube_plugins:"
-printf '%s\n' "${PLUGIN_PKGS[@]}"
+printf '  %s\n' "${PLUGIN_PKGS[@]}"
 [ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e "\nFailed to fetch component versions from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
 
 BASE_DIR="$dest_dir/installer"
