@@ -114,7 +114,7 @@ curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/g
 
     由于当前版本的WeCube设计，**请勿使用**默认的本地回环地址127.0.0.1作为安装目标主机的IP地址。大部分情况下，您应当使用为主机分配的内网IP地址作为部署配置项`install_target_host`的输入值。
 
-请根据情况提供合适的输入值，如要使用默认值直接回车即可。提供了所有输入值之后，安装脚本将最后再次请您确认以上3个配置项的值，确认后将开始执行WeCube的安装过程。安装脚本执行完毕后，将输出如下内容：
+请根据情况提供合适的输入值，如要使用默认值直接回车即可。提供了所有输入值之后，安装脚本将最后再次请您确认以上配置项的值，确认后将开始执行WeCube的安装过程。安装脚本执行完毕后，将输出如下内容：
 
 ```
 WeCube installation completed. Please visit WeCube at http://<您输入的主机名称或IP地址>:19090
