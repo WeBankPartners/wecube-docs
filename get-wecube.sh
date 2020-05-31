@@ -34,8 +34,8 @@ read -s -p "Please enter mysql root password (mysql_password=$mysql_password_def
 mysql_password=${mysql_password_1:-$mysql_password_default}
 
 echo ""
-echo "- wecube_version=$wecube_version"
 echo "- install_target_host=$install_target_host"
+echo "- wecube_version=$wecube_version"
 echo "- dest_dir=$dest_dir"
 echo "- mysql_password=(*not shown*)"
 echo ""
@@ -43,48 +43,57 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
 
-GITHUB_RELEASE_URL="https://api.github.com/repos/WeBankPartners/wecube-platform/releases/$wecube_version"
-GITHUB_RELEASE_JSON=""
-RETRIES=30
-echo -e "\nFetching release info for $wecube_version from $GITHUB_RELEASE_URL..."
-while [ $RETRIES -gt 0 ] && [ -z "$GITHUB_RELEASE_JSON" ]; do
-    RETRIES=$((RETRIES - 1))
-    GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL" || true)
-    if [ -z "$GITHUB_RELEASE_JSON" ]; then
-        echo "Retry in 1 second..."
-        sleep 1
-    else
-        break
-    fi
-done
-[ -z "$GITHUB_RELEASE_JSON" ] && echo -e "\nFailed to fetch release info from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
+if [ -f "$wecube_version" ]; then
+    echo "Reading customized WeCube version specs from $wecube_version..."
+    source "$wecube_version"
+else
+    GITHUB_RELEASE_URL="https://api.github.com/repos/WeBankPartners/wecube-platform/releases/$wecube_version"
+    GITHUB_RELEASE_JSON=""
+    RETRIES=30
+    echo -e "\nFetching release info for $wecube_version from $GITHUB_RELEASE_URL..."
+    while [ $RETRIES -gt 0 ] && [ -z "$GITHUB_RELEASE_JSON" ]; do
+        RETRIES=$((RETRIES - 1))
+        GITHUB_RELEASE_JSON=$(curl -sSfl "$GITHUB_RELEASE_URL" || true)
+        if [ -z "$GITHUB_RELEASE_JSON" ]; then
+            echo "Retry in 1 second..."
+            sleep 1
+        else
+            break
+        fi
+    done
+    [ -z "$GITHUB_RELEASE_JSON" ] && echo -e "\nFailed to fetch release info from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
 
-wecube_image_version="$wecube_version"
-PLUGIN_PKGS=()
-COMPONENT_TABLE_MD=$(grep -o '|[ ]*wecube image[ ]*|.*|\\r\\n' <<< "$GITHUB_RELEASE_JSON" | sed -e 's/[ ]*|[ ]*/|/g')
-while [[ $COMPONENT_TABLE_MD ]]; do
-    COMPONENT=${COMPONENT_TABLE_MD%%"\r\n"*}
-    COMPONENT_TABLE_MD=${COMPONENT_TABLE_MD#*"\r\n"}
+    wecube_image_version=""
+    PLUGIN_PKGS=()
+    COMPONENT_TABLE_MD=$(grep -o '|[ ]*wecube image[ ]*|.*|\\r\\n' <<< "$GITHUB_RELEASE_JSON" | sed -e 's/[ ]*|[ ]*/|/g')
+    while [[ $COMPONENT_TABLE_MD ]]; do
+        COMPONENT=${COMPONENT_TABLE_MD%%"\r\n"*}
+        COMPONENT_TABLE_MD=${COMPONENT_TABLE_MD#*"\r\n"}
 
-    COMPONENT=${COMPONENT#"|"}
-    COMPONENT_NAME=${COMPONENT%%"|"*}
+        COMPONENT=${COMPONENT#"|"}
+        COMPONENT_NAME=${COMPONENT%%"|"*}
 
-    COMPONENT=${COMPONENT#*"|"}
-    COMPONENT_VERSION=${COMPONENT%%"|"*}
+        COMPONENT=${COMPONENT#*"|"}
+        COMPONENT_VERSION=${COMPONENT%%"|"*}
 
-    COMPONENT=${COMPONENT#*"|"}
-    COMPONENT_LINK=${COMPONENT%%"|"*}
+        COMPONENT=${COMPONENT#*"|"}
+        COMPONENT_LINK=${COMPONENT%%"|"*}
 
-    if [ "$COMPONENT_NAME" == 'wecube image' ]; then
-        wecube_image_version="$COMPONENT_VERSION"
-    elif [ "$COMPONENT_NAME" ]; then
-        PLUGIN_PKGS+=("$COMPONENT_LINK")
-    fi
-done
+        if [ "$COMPONENT_NAME" == 'wecube image' ]; then
+            wecube_image_version="$COMPONENT_VERSION"
+        elif [ "$COMPONENT_NAME" ]; then
+            PLUGIN_PKGS+=("$COMPONENT_LINK")
+        fi
+    done
+fi
+
 echo "wecube_image_version: $wecube_image_version"
+[ -z "$wecube_image_version" ] && echo -e "\nFailed to determine WeCube image version! Installation aborted." && exit 1
+
 echo "wecube_plugins:"
 printf '  %s\n' "${PLUGIN_PKGS[@]}"
-[ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e "\nFailed to fetch component versions from $GITHUB_RELEASE_URL\nInstallation aborted." && exit 1
+[ ${#PLUGIN_PKGS[@]} == 0 ] && echo -e "\nFailed to determine component versions! Installation aborted." && exit 1
+
 
 BASE_DIR="$dest_dir/installer"
 mkdir -p "$BASE_DIR"
@@ -101,8 +110,6 @@ echo -e "\nRunning wecube-installer scripts...\n"
 ./setup-wecube-containers.sh $install_target_host $mysql_password $wecube_image_version $dest_dir
 echo -e "\nWeCube installation completed. Please visit WeCube at http://${install_target_host}:19090\n"
 
-#read -p "Continue with plugin configuration? [y/Y] " -n 1 -r && echo ""
-#[[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation completed with no plugin configured." && exit 1
 
 echo -e "\nNow starting to configure plugins...\n"
 PLUGIN_INSTALLER_PKG="$INSTALLER_DIR/wecube-plugin-installer.zip"
