@@ -34,18 +34,20 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 
 
 BASE_DIR="$dest_dir/installer"
-mkdir -p "$BASE_DIR"
+INSTALLER_DIR="$BASE_DIR/wecube"
+mkdir -p "$INSTALLER_DIR"
+
 INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 INSTALLER_PKG="$BASE_DIR/wecube-installer.zip"
 echo -e "\nFetching WeCube installer from $INSTALLER_URL"
 curl -L $INSTALLER_URL -o $INSTALLER_PKG
 unzip -o -q $INSTALLER_PKG -d $BASE_DIR
 cp -R "$BASE_DIR/delivery-by-terraform-master/delivery-wecube-for-stand-alone/application-for-tencentcloud/wecube" $BASE_DIR
-INSTALLER_DIR="$BASE_DIR/wecube"
-
-pushd $INSTALLER_DIR >/dev/null
+[ -f $wecube_version ] && cp $wecube_version $INSTALLER_DIR
 
 echo -e "\nRunning WeCube installer scripts...\n"
+pushd $INSTALLER_DIR >/dev/null
 ./install-wecube.sh $install_target_host $mysql_password $wecube_version $dest_dir 'Y'
+popd >/dev/null
 
 echo -e "\n\nWeCube installation completed. Please visit WeCube at http://${install_target_host}:19090\n"
