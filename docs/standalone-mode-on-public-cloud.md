@@ -53,7 +53,7 @@ terraform version
 
 ### 下载WeCube安装脚本
 
-请下载此处提供的 [WeCube安装脚本包](https://github.com/kanetz/delivery-by-terraform/archive/master.zip) ，然后将其中唯一的目录`delivery-by-terraform-master`解压并存放到您选择的某个位置。
+请下载此处提供的 [WeCube安装脚本包](https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip) ，然后将其中唯一的目录`delivery-by-terraform-master`解压并存放到您选择的某个位置。
 
 ### 执行WeCube安装脚本
 
