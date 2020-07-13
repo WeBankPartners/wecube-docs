@@ -25,10 +25,11 @@ nav:
     - '监测数据中心': 'tutorial-monitor.md'
     - '小结': 'tutorial-summary.md'
   - '用户手册':
-    - '注册和配置插件': 'plugin.md'
-    - '编排配置': 'orchestration-configuration.md'
-    - '编排执行': 'orchestration-execution.md'
-    - '批量执行': 'batch-execution.md'
+    - '用户角色与画像': 'manual-user-roles-and-profiles.md'
+    - '注册和配置插件': 'manual-plugin.md'
+    - '编排配置': 'manual-orchestration-configuration.md'
+    - '编排执行': 'manual-orchestration-execution.md'
+    - '批量执行': 'manual-batch-execution.md'
   - '插件':
     - 'WeCMDB': 'plugin-wecmdb.md'
     - 'Open-Monitor': 'plugin-open-monitor.md'

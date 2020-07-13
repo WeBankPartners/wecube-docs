@@ -14,7 +14,7 @@
 现在，我们将要以执行任务编排的方式，为规划好的云上数据中心创建网络资源、计算资源和存储资源。
 
 !!! note ""
-    关于编排的设计与执行，请参考文档 “[用户手册：编排配置](orchestration-configuration.md)” 和 “[用户手册：编排执行](orchestration-execution.md)”。
+    关于编排的设计与执行，请参考文档 “[用户手册：编排配置](manual-orchestration-configuration.md)” 和 “[用户手册：编排执行](manual-orchestration-execution.md)”。
 
 #### 初始化网络区域中的网络资源
 
@@ -137,10 +137,10 @@
 您可以继续阅读文档中心中用户手册下的其它文档内容：
 
 - [安装WeCube](standalone-mode-on-public-cloud.md)
-- [注册和配置插件](plugin.md)
-- [编排配置](orchestration-configuration.md)
-- [编排执行](orchestration-execution.md)
-- [批量执行](batch-execution.md)
+- [注册和配置插件](manual-plugin.md)
+- [编排配置](manual-orchestration-configuration.md)
+- [编排执行](manual-orchestration-execution.md)
+- [批量执行](manual-batch-execution.md)
 
 
 - 公有云软件系统一键交付 (Delivery By Terraform) 
