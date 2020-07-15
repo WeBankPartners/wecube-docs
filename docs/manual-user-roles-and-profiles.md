@@ -34,17 +34,17 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
     CMDB系统管理员可以使用 **[CMDB模型管理](manual-cmdb-model.md)** 功能来管理和维护包括数据类型、数据属性、数据关系、模型层次、模型视角等在内的CMDB模型要素。
 
-- **系统** / **CMDB基础数据管理**
+- **系统** / **[CMDB基础数据管理](manual-cmdb-enumerations.md)**
 
-    CMDB系统管理员可以使用 **CMDB基础数据管理** 功能来维护CMDB模型的数据属性中所引用的枚举数据类型。
+    CMDB系统管理员可以使用 **[CMDB基础数据管理](manual-cmdb-enumerations.md)** 功能来维护作为CMDB系统基础数据的枚举数据类型。
 
-- **系统** / **CMDB数据权限管理**
+- **系统** / **[CMDB数据权限管理](manual-cmdb-data-permission.md)**
 
-    CMDB系统管理员可以使用 **CMDB数据权限管理** 功能来针对CMDB模型数据类型及数据记录的增、删、改、查、执行等操作进行基于用户角色的授权控制。
+    CMDB系统管理员可以使用 **[CMDB数据权限管理](manual-cmdb-data-permission.md)** 功能来针对CMDB模型数据类型及数据记录的增、删、改、查、执行等操作进行基于用户角色的授权控制。
 
-- **系统** / **CMDB日志查询**
+- **系统** / **[CMDB日志查询](manual-cmdb-logging.md)**
 
-    CMDB系统管理员可以使用 **CMDB日志查询** 功能来检索所有针对CMDB模型和数据的操作审核日志内容。
+    CMDB系统管理员可以使用 **[CMDB日志查询](manual-cmdb-logging.md)** 功能来检索所有针对CMDB模型和数据的操作审核日志内容。
 
 
 ### 监控系统管理员
