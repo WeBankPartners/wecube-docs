@@ -115,9 +115,9 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
     应用开发团队可以使用 **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)** 功能来为在具体运行环境中的应用系统组件实例指定部署时应当使用的构建物料包。
 
-- **协同** / **[任务编排设计](manual-orchestration-configuration.md)**
+- **协同** / **[任务编排设计](manual-orchestration-design.md)**
 
-    应用开发团队可以使用 **[任务编排设计](manual-orchestration-configuration.md)** 功能来维护和检视整个应用系统的部署流程，通过在流程中配置包含插件调用的自动化步骤、嵌入审批或人工节点来设计满足组织要求的部署流程。
+    应用开发团队可以使用 **[任务编排设计](manual-orchestration-design.md)** 功能来维护和检视整个应用系统的部署流程，通过在流程中配置包含插件调用的自动化步骤、嵌入审批或人工节点来设计满足组织要求的部署流程。
 
 - **执行** / **[任务编排执行](manual-orchestration-execution.md)**
 
@@ -132,9 +132,9 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
     应用运维可以使用 **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)** 功能来为在相应运行环境中的应用系统组件实例指定部署时应当使用的构建物料包。
 
-- **协同** / **[任务编排设计](manual-orchestration-configuration.md)**
+- **协同** / **[任务编排设计](manual-orchestration-design.md)**
 
-    应用运维可以使用 **[任务编排设计](manual-orchestration-configuration.md)** 功能来维护和检视整个应用系统的部署流程，通过在流程中配置包含插件调用的自动化步骤、嵌入审批或人工节点来设计满足组织要求的部署流程。
+    应用运维可以使用 **[任务编排设计](manual-orchestration-design.md)** 功能来维护和检视整个应用系统的部署流程，通过在流程中配置包含插件调用的自动化步骤、嵌入审批或人工节点来设计满足组织要求的部署流程。
 
 - **执行** / **[任务编排执行](manual-orchestration-execution.md)**
 
@@ -149,9 +149,9 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
     生产环境应用运维可以使用 **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)** 功能来为在生产环境中运行应用系统组件实例指定已经经过验证的在部署时应当使用的构建物料包。
 
-- **协同** / **[任务编排设计](manual-orchestration-configuration.md)**
+- **协同** / **[任务编排设计](manual-orchestration-design.md)**
 
-    生产环境应用运维可以使用 **[任务编排设计](manual-orchestration-configuration.md)** 功能来维护和检视整个应用系统的部署流程，通过在流程中配置包含插件调用的自动化步骤、嵌入审批或人工节点来设计满足组织要求的部署流程。
+    生产环境应用运维可以使用 **[任务编排设计](manual-orchestration-design.md)** 功能来维护和检视整个应用系统的部署流程，通过在流程中配置包含插件调用的自动化步骤、嵌入审批或人工节点来设计满足组织要求的部署流程。
 
 - **执行** / **[任务编排执行](manual-orchestration-execution.md)**
 

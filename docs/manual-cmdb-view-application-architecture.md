@@ -17,11 +17,11 @@
 
 在服务调用图视角中，您可以在页面上看到业务应用系统各组件（部署单元）间的服务调用关系。
 
-[![服务调用图](images/cmdb-view-application-architecture/service-invocation-diagram.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-view-application-architecture/service-invocation.png){: target=\_image}
+[![服务调用图](images/cmdb-view-application-architecture/service-invocation-diagram.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-view-application-architecture/service-invocation-diagram.png){: target=\_image}
 
 您也可以在页面右侧的调用时序设计列表中选择一个服务调用场景，查看该场景下服务调用的具体顺序。
 
-[![服务调用图](images/cmdb-view-application-architecture/service-invocation-sequence.png)](images/cmdb-view-application-architecture/service-sequence.png){: target=\_image}
+[![服务调用图](images/cmdb-view-application-architecture/service-invocation-sequence.png)](images/cmdb-view-application-architecture/service-invocation-sequence.png){: target=\_image}
 
 
 ## 部署架构图视角
