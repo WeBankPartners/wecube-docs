@@ -17,8 +17,8 @@
 
 在页面上方的面板标签中，除了代表规划设计图的第一个标签之外，其它每个标签都对应规划设计中包含的一种CI数据类型，如下图所示：
 
-[![规划设计CI数据类型标签](images/cmdb-view-resource-planning/planning-pannel-tabs.png)](images/cmdb-view-resource-planning/planning-pannel-tabs.png){: target=\_image}
+[![规划设计CI数据类型标签](images/cmdb-view-resource-planning/pannel-tabs.png)](images/cmdb-view-resource-planning/pannel-tabs.png){: target=\_image}
 
 通过切换这些标签页，您可以对相应的CI数据对象进行查看、编辑、删除和导出等操作，也可以使用表格组件上方的过滤搜索进行有针对性的查询。
 
-[![规划设计CI数据对象表格](images/cmdb-view-resource-planning/planning-data-tables.png)](images/cmdb-view-resource-planning/planning-data-tables.png){: target=\_image}
+[![规划设计CI数据对象表格](images/cmdb-view-resource-planning/data-tables.png)](images/cmdb-view-resource-planning/data-tables.png){: target=\_image}
