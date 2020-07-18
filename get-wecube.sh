@@ -40,7 +40,19 @@ mkdir -p "$INSTALLER_DIR"
 INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 INSTALLER_PKG="$BASE_DIR/wecube-installer.zip"
 echo -e "\nFetching WeCube installer from $INSTALLER_URL"
-curl -L $INSTALLER_URL -o $INSTALLER_PKG
+RETRIES=30
+while [ $RETRIES -gt 0 ]; do
+  if $(curl --connect-timeout 30 --speed-time 30 --speed-limit 1000 -fL $INSTALLER_URL -o $INSTALLER_PKG); then
+    break
+  else
+    RETRIES=$((RETRIES - 1))
+    PAUSE=$(( ( RANDOM % 5 ) + 1 ))
+    echo "Retry in $PAUSE seconds, $RETRIES times remaining..."
+    sleep "$PAUSE"
+  fi
+done
+[ $RETRIES -eq 0 ] && echo 'Failed to fetch installer package! Installation aborted.' && exit 1
+
 unzip -o -q $INSTALLER_PKG -d $BASE_DIR
 cp -R "$BASE_DIR/delivery-by-terraform-master/delivery-wecube-for-stand-alone/application-for-tencentcloud/wecube" $BASE_DIR
 [ -f $wecube_version ] && cp $wecube_version $INSTALLER_DIR
