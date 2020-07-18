@@ -34,7 +34,7 @@ read -p "Continue? [y/Y] " -n 1 -r && echo ""
 
 mkdir -p $dest_dir
 
-INSTALLER_URL="https://github.com/kanetz/delivery-by-terraform/archive/master.zip"
+INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 INSTALLER_PKG="$dest_dir/wecube-installer.zip"
 INSTALLER_DIR="$dest_dir/installer"
 echo -e "\nFetching WeCube installer from $INSTALLER_URL"
