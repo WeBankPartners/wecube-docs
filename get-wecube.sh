@@ -37,7 +37,7 @@ BASE_DIR="$dest_dir/installer"
 INSTALLER_DIR="$BASE_DIR/wecube"
 mkdir -p "$INSTALLER_DIR"
 
-INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
+INSTALLER_URL="https://github.com/kanetz/delivery-by-terraform/archive/master.zip"
 INSTALLER_PKG="$BASE_DIR/wecube-installer.zip"
 echo -e "\nFetching WeCube installer from $INSTALLER_URL"
 RETRIES=30
