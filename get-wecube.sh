@@ -74,7 +74,7 @@ S3_SECRET_KEY=secret_key
 
 MYSQL_PORT=3307
 MYSQL_USERNAME=root
-MYSQL_PASSWORD=${mysql_password_default}
+MYSQL_PASSWORD=${mysql_password}
 EOF
 ./invoke-installer.sh "$PROVISIONING_ENV_FILE" docker mysql-docker minio-docker open-monitor-agent
 
@@ -87,7 +87,7 @@ DB_HOST=${install_target_host}
 DB_PORT=3307
 DB_NAME=wecube
 DB_USERNAME=root
-DB_PASSWORD=${mysql_password_default}
+DB_PASSWORD=${mysql_password}
 EOF
 ./invoke-installer.sh "$WECUBE_DB_ENV_FILE" db-connectivity
 
@@ -100,7 +100,7 @@ DB_HOST=${install_target_host}
 DB_PORT=3307
 DB_NAME=auth_server
 DB_USERNAME=root
-DB_PASSWORD=${mysql_password_default}
+DB_PASSWORD=${mysql_password}
 EOF
 ./invoke-installer.sh "$AUTH_SERVER_DB_ENV_FILE" db-connectivity
 
@@ -111,7 +111,7 @@ HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION=${wecube_version}
 SHOULD_INSTALL_PLUGINS=true
-INITIAL_PASSWORD=${mysql_password_default}
+INITIAL_PASSWORD=${mysql_password}
 
 STATIC_RESOURCE_HOSTS=${install_target_host}
 S3_HOST=${install_target_host}
@@ -120,19 +120,19 @@ CORE_DB_HOST=${install_target_host}
 CORE_DB_PORT=3307
 CORE_DB_NAME=wecube
 CORE_DB_USERNAME=root
-CORE_DB_PASSWORD=${mysql_password_default}
+CORE_DB_PASSWORD=${mysql_password}
 
 AUTH_SERVER_DB_HOST=${install_target_host}
 AUTH_SERVER_DB_PORT=3307
 AUTH_SERVER_DB_NAME=auth_server
 AUTH_SERVER_DB_USERNAME=root
-AUTH_SERVER_DB_PASSWORD=${mysql_password_default}
+AUTH_SERVER_DB_PASSWORD=${mysql_password}
 
 PLUGIN_DB_HOST=${install_target_host}
 PLUGIN_DB_PORT=3307
 PLUGIN_DB_NAME=mysql
 PLUGIN_DB_USERNAME=root
-PLUGIN_DB_PASSWORD=${mysql_password_default}
+PLUGIN_DB_PASSWORD=${mysql_password}
 EOF
 ./invoke-installer.sh "$WECUBE_PLATFORM_ENV_FILE" wecube-platform
 
@@ -143,7 +143,7 @@ HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION=${wecube_version}
 SHOULD_INSTALL_PLUGINS=true
-INITIAL_PASSWORD=${mysql_password_default}
+INITIAL_PASSWORD=${mysql_password}
 
 CORE_HOST=${install_target_host}
 
@@ -151,7 +151,7 @@ CORE_DB_HOST=${install_target_host}
 CORE_DB_PORT=3307
 CORE_DB_NAME=wecube
 CORE_DB_USERNAME=root
-CORE_DB_PASSWORD=${mysql_password_default}
+CORE_DB_PASSWORD=${mysql_password}
 EOF
 ./invoke-installer.sh "$WECUBE_PLUGIN_HOSTING_ENV_FILE" wecube-plugin-hosting
 
@@ -162,7 +162,7 @@ HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION=${wecube_version}
 SHOULD_INSTALL_PLUGINS=true
-INITIAL_PASSWORD=${mysql_password_default}
+INITIAL_PASSWORD=${mysql_password}
 
 S3_ACCESS_KEY=access_key
 S3_SECRET_KEY=secret_key
@@ -177,19 +177,19 @@ CORE_DB_HOST=${install_target_host}
 CORE_DB_PORT=3307
 CORE_DB_NAME=wecube
 CORE_DB_USERNAME=root
-CORE_DB_PASSWORD=${mysql_password_default}
+CORE_DB_PASSWORD=${mysql_password}
 
 AUTH_SERVER_DB_HOST=${install_target_host}
 AUTH_SERVER_DB_PORT=3307
 AUTH_SERVER_DB_NAME=auth_server
 AUTH_SERVER_DB_USERNAME=root
-AUTH_SERVER_DB_PASSWORD=${mysql_password_default}
+AUTH_SERVER_DB_PASSWORD=${mysql_password}
 
 PLUGIN_DB_HOST=${install_target_host}
 PLUGIN_DB_PORT=3307
 PLUGIN_DB_NAME=mysql
 PLUGIN_DB_USERNAME=root
-PLUGIN_DB_PASSWORD=${mysql_password_default}
+PLUGIN_DB_PASSWORD=${mysql_password}
 EOF
 ./invoke-installer.sh "$WECUBE_SYSTEM_SETTINGS_ENV_FILE" wecube-system-settings
 
