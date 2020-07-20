@@ -76,7 +76,7 @@ MYSQL_PORT=3307
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=${initial_password}
 EOF
-./invoke-installer.sh "$PROVISIONING_ENV_FILE" docker mysql-docker minio-docker open-monitor-agent
+./invoke-installer.sh "$PROVISIONING_ENV_FILE" yum-packages docker mysql-docker minio-docker open-monitor-agent
 
 WECUBE_DB_ENV_FILE="$INSTALLER_DIR/db-deployment-wecube-db-standalone.env"
 cat <<EOF >"$WECUBE_DB_ENV_FILE"

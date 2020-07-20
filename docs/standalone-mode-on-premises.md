@@ -12,14 +12,13 @@
 
 #### 操作系统
 
-WeCube的安装和运行仅仅依赖于Docker，对操作系统没有其它强制要求。所以，您可以查阅 [此站点 :fa-external-link:](https://docs.docker.com/engine/install/#supported-platforms){: target=\_blank} 来获取Docker所支持的操作系统平台详情。
-
-!!! info "WeCube安装脚本对Linux系统的依赖"
-    由于WeCube的安装脚本目前是基于Linux系统的Shell Script制作的，因此非常抱歉，本文中的后续安装步骤只能在Linux系统下执行，我们会在合适的时机补充Windows系统下的安装方式。
+WeCube的运行仅仅依赖于Docker，但是安装脚本是基于CentOS制作的。所以，请在安装了CentOS系统的Linux服务器上来安装WeCube。
 
 #### Docker
 
 您需要安装最新稳定版本的 [Docker Engine :fa-external-link:](https://docs.docker.com/engine/install/){: target=\_blank} 和 [Docker Compose :fa-external-link:](https://docs.docker.com/compose/install/){: target=\_blank}，请参阅此处提供的链接所指向的相关站点获取它们各自的安装信息和指引。
+
+如果您希望使用我们提供的缺省设置的Docker安装版本，您可以跳过此节的内容，直接开始执行WeCube的安装脚本，WeCube的安装过程将会检查并根据需要安装Docker。如果您希望自行定义和设置Docker的安装，请参考以下内容。
 
 !!! warning "请注意"
     您需要将Docker Engine配置为在运行时监听主机上**非本地回环地址127.0.0.1**的**TCP 2375**端口，因为WeCube将使用此端口调用Docker Engine API来进行插件运行时的管理。您可以参阅 [此站点 :fa-external-link:](https://docs.docker.com/engine/install/linux-postinstall/#configure-where-the-docker-daemon-listens-for-connections){: target=\_blank} 获取如何进行此配置的相关信息和指引。
