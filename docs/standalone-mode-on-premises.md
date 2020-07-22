@@ -16,12 +16,12 @@ WeCube的运行仅仅依赖于Docker，但是安装脚本是基于CentOS制作�
 
 #### Docker
 
+如果您希望使用我们提供的缺省设置的Docker安装版本，您可以跳过此节的内容，直接[执行WeCube的安装脚本](#wecube_1)，WeCube的安装过程将会检查并根据需要安装Docker。如果您希望自行定义和设置Docker的安装，请参考以下内容。
+
 您需要安装最新稳定版本的 [Docker Engine :fa-external-link:](https://docs.docker.com/engine/install/){: target=\_blank} 和 [Docker Compose :fa-external-link:](https://docs.docker.com/compose/install/){: target=\_blank}，请参阅此处提供的链接所指向的相关站点获取它们各自的安装信息和指引。
 
-如果您希望使用我们提供的缺省设置的Docker安装版本，您可以跳过此节的内容，直接开始执行WeCube的安装脚本，WeCube的安装过程将会检查并根据需要安装Docker。如果您希望自行定义和设置Docker的安装，请参考以下内容。
-
 !!! warning "请注意"
-    您需要将Docker Engine配置为在运行时监听主机上**非本地回环地址127.0.0.1**的**TCP 2375**端口，因为WeCube将使用此端口调用Docker Engine API来进行插件运行时的管理。您可以参阅 [此站点 :fa-external-link:](https://docs.docker.com/engine/install/linux-postinstall/#configure-where-the-docker-daemon-listens-for-connections){: target=\_blank} 获取如何进行此配置的相关信息和指引。
+    您需要将Docker Engine配置为在运行时监听主机上**非本地回环地址127.0.0.1**的**TCP 2375**端口，因为WeCube将使用此端口调用Docker Engine API来进行插件运行时环境的管理。您可以参阅 [此站点 :fa-external-link:](https://docs.docker.com/engine/install/linux-postinstall/#configure-where-the-docker-daemon-listens-for-connections){: target=\_blank} 获取如何进行此配置的相关信息和指引。
 
 ??? note "如果您使用CentOS，也可以考虑使用这里提供的命令行指令来进行Docker的安装与配置，请展开来查看。"
     但是，我们还是**强烈建议**您从 [Docker官方网站 :fa-external-link:](https://docs.docker.com/engine/install/){: target=\_blank} 获取安装和配置的信息和指引。
@@ -100,7 +100,7 @@ curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/g
 
 ```
 
-脚本执行时首先会检查Docker的安装和运行情况，检查通过后将会提示您输入以下安装配置项：
+脚本执行时首先会提示您输入以下安装配置项：
 
 | 配置项名称 | 默认值 | 用途说明 |
 | - | - | - |
@@ -108,6 +108,7 @@ curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/g
 | wecube_version | *latest* | WeCube安装的目标版本，默认为最新发布版本 |
 | dest_dir | */data/wecube* | WeCube的安装目录 |
 | initial_password | *Wecube@123456* | 安装目标主机的root账号密码，同时用于MySQL数据库root账号的初始密码 |
+| use_mirror_in_mainland_china | *true* | 是否在安装过程中使用位于中国大陆的镜像站点进行加速：true - 是；其它值 - 否 |
 
 !!! warning "请注意"
 

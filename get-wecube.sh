@@ -5,29 +5,34 @@ install_target_host_default="127.0.0.1"
 wecube_version_default="latest"
 dest_dir_default="/data/wecube"
 initial_password_default="Wecube@123456"
+use_mirror_in_mainland_china_default="true"
 #### End of Configuration Section ####
 
 set -e
 
-read -p "Please specify host IP address (install_target_host=$install_target_host_default): " install_target_host
+read -p "Please specify host IP address ($install_target_host_default): " install_target_host
 install_target_host=${install_target_host:-$install_target_host_default}
 
-read -p "Please enter WeCube version (wecube_version=$wecube_version_default): " wecube_version
+read -p "Please enter WeCube version ($wecube_version_default): " wecube_version
 wecube_version=${wecube_version:-$wecube_version_default}
 
-read -p "Please specify destination dir (dest_dir=$dest_dir_default): " dest_dir
+read -p "Please specify destination dir ($dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
 
-read -s -p "Please enter password of root user on host and for mysql (initial_password=$initial_password_default): " initial_password_1 && echo ""
+read -s -p "Please enter password of root user on host and for mysql ($initial_password_default): " initial_password_1 && echo ""
 [ -n "$initial_password_1" ] && read -s -p "Please re-enter the password to confirm: " initial_password_2 && echo ""
 [ -n "$initial_password_1" ] && [ "$initial_password_1" != "$initial_password_2" ] && echo 'Inputs do not match!' && exit 1
 initial_password=${initial_password_1:-$initial_password_default}
+
+read -p "Please specify whether mirror sites in Mainland China should be used ($use_mirror_in_mainland_china_default): " use_mirror_in_mainland_china
+use_mirror_in_mainland_china=${use_mirror_in_mainland_china:-$use_mirror_in_mainland_china_default}
 
 echo ""
 echo "- install_target_host=$install_target_host"
 echo "- wecube_version=$wecube_version"
 echo "- dest_dir=$dest_dir"
 echo "- initial_password=(*not shown*)"
+echo "- use_mirror_in_mainland_china=$use_mirror_in_mainland_china"
 echo ""
 read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
@@ -65,6 +70,7 @@ cat <<EOF >"$PROVISIONING_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
+USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
 
 DOCKER_PORT=2375
 
@@ -112,6 +118,7 @@ WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION=${wecube_version}
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD=${initial_password}
+USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
 
 STATIC_RESOURCE_HOSTS=${install_target_host}
 S3_HOST=${install_target_host}
@@ -144,6 +151,7 @@ WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION=${wecube_version}
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD=${initial_password}
+USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
 
 CORE_HOST=${install_target_host}
 
@@ -163,6 +171,7 @@ WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION=${wecube_version}
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD=${initial_password}
+USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
 
 S3_ACCESS_KEY=access_key
 S3_SECRET_KEY=secret_key
