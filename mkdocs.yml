@@ -10,9 +10,9 @@ nav:
   - '首页': 'index.md'
   - '初识WeCube': 'introduction.md'
   - '概念解析':
-    - 'CMDB模型': ''
-    - '插件服务': ''
-    - '任务编排': ''
+    - 'CMDB模型': 'concept-cmdb-model.md'
+    - '插件服务': 'concept-plugin-service.md'
+    - '任务编排': 'concept-task-orchestration.md'
 #  - 'What is WeCube?': 'introduction-en.md'
   - '安装WeCube':
     - '在私有资源上以单机模式安装': 'standalone-mode-on-premises.md'

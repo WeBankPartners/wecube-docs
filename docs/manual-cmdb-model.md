@@ -85,9 +85,9 @@ CI属性名称 | 简洁易懂的描述性名称。
 
 CI数据类型之间的关联关系实际上一类特殊的CI数据属性。
 
-[![CI数据关联关系](images/cmdb-model/ci-relationships.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-model/ci-relationships.png){: target=\_image}
+[![CI数据关联关系](images/cmdb-model/ci-relationships.png){: style="display: block; width: 50%; margin: 0 auto;"}](images/cmdb-model/ci-relationships.png){: target=\_image}
 
-您需要确定关联关系所属的CI数据类型，并在拥有这个关联关系的CI数据类型上创建一个类型为 “**ref**” 或着 “multiRef” 的CI数据属性。在要创建的CI数据属性中，与关联关系有关的属性请参见下表：
+您需要确定关联关系所属的CI数据类型，并在拥有这个关联关系的CI数据类型上创建一个类型为 “**ref**” 或着 “**multiRef**” 的CI数据属性。在要创建的CI数据属性中，与关联关系有关的属性请参见下表：
 
 属性 | 说明
 - | -
