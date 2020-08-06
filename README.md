@@ -1,4 +1,4 @@
-# wecube-docs ![Repo Sync Status](https://github.com/WeBankPartners/wecube-docs/workflows/Sync%20WeBankPartners@GitHub%20repos%20to%20WeBankPartners@Gitee%20with%20force%20push%20(git%20push%20-f)/badge.svg)
+# wecube-docs ![Sync to Gitee](https://github.com/WeBankPartners/wecube-docs/workflows/Sync%20to%20Gitee/badge.svg)
 
 Documentation Site of WeCube
 
