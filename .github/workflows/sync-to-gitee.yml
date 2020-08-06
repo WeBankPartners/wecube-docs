@@ -2,6 +2,7 @@ name: Sync WeBankPartners@GitHub repos to WeBankPartners@Gitee with force push (
 on:
   schedule:
     - cron: '*/5 * * * *'
+  workflow_dispatch:
 jobs:
   run:
     name: Run
