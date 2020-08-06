@@ -1,11 +1,11 @@
-name: Sync WeBankPartners@GitHub repos to WeBankPartners@Gitee with force push (git push -f)
+name: Sync to Gitee
 on:
   schedule:
     - cron: '0 * * * *'
   workflow_dispatch:
 jobs:
   run:
-    name: Run
+    name: Sync WeBankPartners@GitHub repos to WeBankPartners@Gitee with force push (git push -f)
     runs-on: ubuntu-latest
     steps:
     - name: Sync using Yikun/hub-mirror-action@master
