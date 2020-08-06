@@ -1,8 +1,18 @@
-- name: Sync WeBankPartners@GitHub repos to WeBankPartners@Gitee with force push (git push -f)
-  uses: Yikun/hub-mirror-action@master
-  with:
-    src: github/WeBankPartners
-    dst: gitee/WeBankPartners
-    dst_key: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
-    dst_token: ${{ secrets.GITEE_API_TOKEN }}
-    force_update: true
+name: Sync WeBankPartners@GitHub repos to WeBankPartners@Gitee with force push (git push -f)
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+jobs:
+  run:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+    - name: Sync using Yikun/hub-mirror-action@master
+      uses: Yikun/hub-mirror-action@master
+      with:
+        src: github/WeBankPartners
+        dst: gitee/WeBankPartners
+        dst_key: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+        dst_token: ${{ secrets.GITEE_API_TOKEN }}
+        account_type: org
+        force_update: true
