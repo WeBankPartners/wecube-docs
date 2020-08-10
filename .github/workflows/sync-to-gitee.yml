@@ -8,12 +8,13 @@ jobs:
     name: Sync WeBankPartners@GitHub repos to WeBankPartners@Gitee with force push (git push -f)
     runs-on: ubuntu-latest
     steps:
-    - name: Sync using Yikun/hub-mirror-action@master
-      uses: Yikun/hub-mirror-action@master
+    - name: Sync using kanetz/hub-mirror-action@master (forked from Yikun/hub-mirror-action)
+      uses: kanetz/hub-mirror-action@master
       with:
         src: github/WeBankPartners
         dst: gitee/WeBankPartners
+        account_type: org
         dst_key: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
         dst_token: ${{ secrets.GITEE_API_TOKEN }}
-        account_type: org
         force_update: true
+        cache_path: /github/workspace/hub-mirror-cache
