@@ -1,0 +1,1365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<package name="qcloud" version="v1.8.8">
+    <plugins>
+        <plugin name="bucket" targetPackage="wecmdb" targetEntity="cos_resource_instance" targetEntityFilterRule="" registerName="resource" status="ENABLED">
+            <interface action="add-bucket" path="/qcloud/v1/bucket/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_APP_ID" required="Y" sensitiveData="N">account_app_id</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.name" required="Y" sensitiveData="N">bucket_name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.is_public" required="Y" sensitiveData="N">is_public</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.resource_set&gt;wecmdb:resource_set.network_zone&gt;wecmdb:network_zone.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.access_dns" sensitiveData="N">bucket_url</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="del-bucket" path="/qcloud/v1/bucket/delete" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_APP_ID" required="Y" sensitiveData="N">account_app_id</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.name" required="Y" sensitiveData="N">bucket_name</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_BUCKET_FORCE_DELETE" required="Y" sensitiveData="N">force_delete</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.resource_set&gt;wecmdb:resource_set.network_zone&gt;wecmdb:network_zone.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="clb" targetPackage="wecmdb" targetEntity="lb_resource_instance" targetEntityFilterRule="" registerName="resource" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/clb/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.key_name" required="N" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.subnet_asset_id" required="Y" sensitiveData="N">subnet_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.resource_instance_type&gt;wecmdb:resource_instance_type.code" required="Y" sensitiveData="N">type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.asset_id" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.ip_address" sensitiveData="N">vip</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/clb/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="clb-target" targetPackage="wecmdb" targetEntity="lb_instance" targetEntityFilterRule="" registerName="whole" status="ENABLED">
+            <interface action="add" path="/qcloud/v1/clb-target/add-backtarget" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">host_ids</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.port" required="Y" sensitiveData="N">host_ports</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.asset_id" required="Y" sensitiveData="N">lb_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.port" required="Y" sensitiveData="N">lb_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">protocol</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_listener_asset_id" sensitiveData="N">listener_id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete" path="/qcloud/v1/clb-target/del-backtarget" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DELETE_LB_LISTENER" required="N" sensitiveData="N">delete_listener</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">host_ids</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.port" required="Y" sensitiveData="N">host_ports</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.asset_id" required="Y" sensitiveData="N">lb_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.port" required="Y" sensitiveData="N">lb_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">protocol</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="clb-target" targetPackage="wecmdb" targetEntity="lb_instance" targetEntityFilterRule="" registerName="target" status="ENABLED">
+            <interface action="add" path="/qcloud/v1/clb-target/add-backtarget" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance{state_code eq 'created'}{fixed_date is NULL}.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">host_ids</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance{state_code eq 'created'}{fixed_date is NULL}.port" required="Y" sensitiveData="N">host_ports</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.asset_id" required="Y" sensitiveData="N">lb_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.port" required="Y" sensitiveData="N">lb_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">protocol</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_listener_asset_id" sensitiveData="N">listener_id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete" path="/qcloud/v1/clb-target/del-backtarget" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_NOT_DELETE_LB_LISTENER" required="N" sensitiveData="N">delete_listener</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance{state_code eq 'destroyed'}{fixed_date is NULL}.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">host_ids</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit~(invoke_unit)wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance{state_code eq 'destroyed'}{fixed_date is NULL}.port" required="Y" sensitiveData="N">host_ports</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.asset_id" required="Y" sensitiveData="N">lb_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.port" required="Y" sensitiveData="N">lb_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">protocol</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:lb_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="mysql" targetPackage="wecmdb" targetEntity="rdb_instance" targetEntityFilterRule="" registerName="database" status="ENABLED">
+            <interface action="create-deploy-backup" path="/qcloud/v1/mysql/create-backup" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'changed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance~(rdb_resource_instance)wecmdb:rdb_instance.unit&gt;wecmdb:unit.code" required="Y" sensitiveData="N">backup_database</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_MYSQL_BACKUP_TYPE" required="Y" sensitiveData="N">backup_method</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="N">backup_table</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">mysql_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.backup_asset_id" sensitiveData="N">backup_id</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="create-regular-backup" path="/qcloud/v1/mysql/create-backup" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance~(rdb_resource_instance)wecmdb:rdb_instance.unit&gt;wecmdb:unit.code" required="Y" sensitiveData="N">backup_database</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_MYSQL_BACKUP_TYPE" required="Y" sensitiveData="N">backup_method</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="N">backup_table</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">mysql_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.regular_backup_asset_id" sensitiveData="N">backup_id</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-deploy-backup" path="/qcloud/v1/mysql/delete-backup" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.backup_asset_id" required="Y" sensitiveData="N">backup_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">mysql_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-regular-backup" path="/qcloud/v1/mysql/delete-backup" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance._backup_asset_id" required="Y" sensitiveData="N">backup_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">mysql_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="mysql" targetPackage="wecmdb" targetEntity="rdb_resource_instance" targetEntityFilterRule="" registerName="resource" status="ENABLED">
+            <interface action="bind-vpc-security-group" path="/qcloud/v1/mysql/bind-security-group" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">mysql_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="Y" sensitiveData="N">security_group_ids</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="create" path="/qcloud/v1/mysql/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_MYSQL_CHARACTER_SET" required="Y" sensitiveData="N">character_set</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.billing_cycle" required="N" sensitiveData="N">charge_period</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.charge_type&gt;wecmdb:charge_type.code" required="Y" sensitiveData="N">charge_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.resource_instance_system&gt;wecmdb:resource_instance_system.code" required="Y" sensitiveData="N">engine_version</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.cluster_node_type&gt;wecmdb:cluster_node_type.code" required="Y" sensitiveData="N">instance_role</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_MYSQL_LOWER_CASE_TABLE_NAMES" required="Y" sensitiveData="N">lower_case_table_names</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="N">master_instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="N">master_region</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.resource_instance_spec&gt;wecmdb:resource_instance_spec.code" required="Y" sensitiveData="N">memory_size</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.key_name" required="N" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.user_password" required="N" sensitiveData="Y">password</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="ENCRYPT_SEED" required="Y" sensitiveData="Y">seed</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.subnet_asset_id" required="Y" sensitiveData="N">subnet_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.user_name" required="Y" sensitiveData="N">user_name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.storage" required="Y" sensitiveData="N">volume_size</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.asset_id" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.user_password" sensitiveData="Y">password</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.ip_address" sensitiveData="N">private_ip</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.login_port" sensitiveData="N">private_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.user_name" sensitiveData="N">user_name</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="create-instance-backup" path="/qcloud/v1/mysql/create-backup" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance~(rdb_resource_instance)wecmdb:rdb_instance.unit&gt;wecmdb:unit.code" required="Y" sensitiveData="N">backup_database</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_MYSQL_BACKUP_TYPE" required="Y" sensitiveData="N">backup_method</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="N">backup_table</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">mysql_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.backup_asset_id" sensitiveData="N">backup_id</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-instance-backup" path="/qcloud/v1/mysql/delete-backup" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.backup_asset_id" required="Y" sensitiveData="N">backup_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">mysql_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="restart" path="/qcloud/v1/mysql/restart" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'startup'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/mysql/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:rdb_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="nat-gateway" targetPackage="wecmdb" targetEntity="network_link" targetEntityFilterRule="{code eq 'nat'}" registerName="network_link" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/nat-gateway/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.netband_width" required="Y" sensitiveData="N">bandwidth</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_2&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.max_concurrent" required="Y" sensitiveData="N">max_concurrent</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.key_name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_2&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.nat_ip_address&gt;wecmdb:ip_address.code" sensitiveData="N">eip</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.nat_ip_address&gt;wecmdb:ip_address.asset_id" sensitiveData="N">eip_id</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/nat-gateway/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_2&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_2&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="peering-connection" targetPackage="wecmdb" targetEntity="network_link" targetEntityFilterRule="{code eq 'peer'}" registerName="network_link" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/peering-connection/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.netband_width" required="Y" sensitiveData="N">bandwidth</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_2&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.key_name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_1&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">peer_location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.NONE" required="Y" sensitiveData="N">peer_provider_params</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_USER_ID" required="Y" sensitiveData="N">peer_uin</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_1&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">peer_vpc_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_2&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/peering-connection/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_2&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.network_segment_1&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">peer_location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.NONE" required="N" sensitiveData="Y">peer_provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_link.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="redis" targetPackage="wecmdb" targetEntity="cache_resource_instance" targetEntityFilterRule="" registerName="resource" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/redis/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.charge_type&gt;wecmdb:charge_type.code" required="Y" sensitiveData="N">billing_mode</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.key_name" required="N" sensitiveData="N">instance_name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.resource_instance_spec&gt;wecmdb:resource_instance_spec.code" required="Y" sensitiveData="N">mem_size</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.user_password" required="Y" sensitiveData="Y">password</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.billing_cycle" required="N" sensitiveData="N">period</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="N" sensitiveData="N">security_group_ids</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="ENCRYPT_SEED" required="Y" sensitiveData="Y">seed</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.network_segment&gt;wecmdb:network_segment.subnet_asset_id" required="Y" sensitiveData="N">subnet_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.resource_instance_type&gt;wecmdb:resource_instance_type.code" required="Y" sensitiveData="N">type_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.asset_id" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">instance_name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.user_password" sensitiveData="N">password</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.login_port" sensitiveData="N">port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.ip_address" sensitiveData="N">vip</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete" path="/qcloud/v1/redis/delete" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cache_resource_instance.asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="route-policy" targetPackage="wecmdb" targetEntity="route" targetEntityFilterRule="" registerName="route" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/route-policy/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.description" required="N" sensitiveData="N">desc</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.dest_network_segment&gt;wecmdb:network_segment.code" required="Y" sensitiveData="N">dest_cidr</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.network_link&gt;wecmdb:network_link.asset_id" required="Y" sensitiveData="N">gateway_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.network_link&gt;wecmdb:network_link.network_link_type&gt;wecmdb:network_link_type.code" required="Y" sensitiveData="N">gateway_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.owner_network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.owner_network_segment&gt;wecmdb:network_segment.route_table_asset_id" required="Y" sensitiveData="N">route_table_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/route-policy/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.owner_network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:route.owner_network_segment&gt;wecmdb:network_segment.route_table_asset_id" required="Y" sensitiveData="N">route_table_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:routing_rule.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="route-table" targetPackage="wecmdb" targetEntity="network_segment" targetEntityFilterRule="{network_segment_usage eq 'SUBNET'}" registerName="subnet" status="ENABLED">
+            <interface action="associate-subnet" path="/qcloud/v1/route-table/associate-subnet" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{fixed_date is NULL}{private_route_table eq 'Y'}{route_table_asset_id eq ''}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.route_table_asset_id" required="Y" sensitiveData="N">route_table_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.subnet_asset_id" required="Y" sensitiveData="N">subnet_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="create" path="/qcloud/v1/route-table/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{fixed_date is NULL}{private_route_table eq 'Y'}{route_table_asset_id eq ''}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.route_table_asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.route_table_asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/route-table/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{fixed_date is NULL}{private_route_table eq 'N'}{route_table_asset_id neq ''}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.route_table_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-group" targetPackage="wecmdb" targetEntity="network_segment" targetEntityFilterRule="{network_segment_usage eq 'VPC'}" registerName="vpc" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/security-group/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}{private_security_group eq 'Y'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.security_group_asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.security_group_asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/security-group/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.security_group_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-group" targetPackage="wecmdb" targetEntity="unit" targetEntityFilterRule="" registerName="unit" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/security-group/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{fixed_date is NULL}{white_list_type neq 'N'}{security_group_asset_id eq ''}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.key_name" required="Y" sensitiveData="N">description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.resource_set&gt;wecmdb:resource_set.network_zone&gt;wecmdb:network_zone.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.key_name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.security_group_asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/security-group/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}{white_list_type neq 'N'}{security_group_asset_id neq ''}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.security_group_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.resource_set&gt;wecmdb:resource_set.network_zone&gt;wecmdb:network_zone.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:unit.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-group" targetPackage="wecmdb" targetEntity="network_segment" targetEntityFilterRule="{network_segment_usage eq 'SUBNET'}" registerName="subnet" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/security-group/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}{private_security_group eq 'Y'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.security_group_asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.security_group_asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/security-group/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}{private_security_group eq 'Y'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.security_group_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-policy" targetPackage="wecmdb" targetEntity="default_security_policy" targetEntityFilterRule="" registerName="default" status="ENABLED">
+            <interface action="create-policies" path="/qcloud/v1/security-policy/create-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.owner_network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.security_policy_action" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.policy_network_segment&gt;wecmdb:network_segment.code" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.description" required="N" sensitiveData="N">policy_description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.security_policy_type" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.owner_network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-policies" path="/qcloud/v1/security-policy/delete-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.owner_network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.security_policy_action" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.policy_network_segment&gt;wecmdb:network_segment.code" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.security_policy_type" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.owner_network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:default_security_policy.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-policy" targetPackage="wecmdb" targetEntity="invoke" targetEntityFilterRule="{invoked_resource_type eq 'LB'}" registerName="egress_lb" status="ENABLED">
+            <interface action="create-policies" path="/qcloud/v1/security-policy/create-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.description" required="N" sensitiveData="N">policy_description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:lb_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-policies" path="/qcloud/v1/security-policy/delete-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:lb_instance.lb_resource_instance&gt;wecmdb:lb_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:lb_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-policy" targetPackage="wecmdb" targetEntity="invoke" targetEntityFilterRule="{invoked_resource_type eq 'HOST'}" registerName="egress_app" status="ENABLED">
+            <interface action="create-policies" path="/qcloud/v1/security-policy/create-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.app_resource_instance&gt;wecmdb:app_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.description" required="N" sensitiveData="N">policy_description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-policies" path="/qcloud/v1/security-policy/delete-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.app_resource_instance&gt;wecmdb:app_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:app_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-policy" targetPackage="wecmdb" targetEntity="invoke" targetEntityFilterRule="{invoked_resource_type eq 'RDB'}" registerName="egress_rdb" status="ENABLED">
+            <interface action="create-policies" path="/qcloud/v1/security-policy/create-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.description" required="N" sensitiveData="N">policy_description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:rdb_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-policies" path="/qcloud/v1/security-policy/delete-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:rdb_instance.rdb_resource_instance&gt;wecmdb:rdb_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:rdb_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="security-policy" targetPackage="wecmdb" targetEntity="invoke" targetEntityFilterRule="{invoked_resource_type eq 'CACHE'}" registerName="egress_cache" status="ENABLED">
+            <interface action="create-policies" path="/qcloud/v1/security-policy/create-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:cache_instance.cache_resource_instance&gt;wecmdb:cache_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.description" required="N" sensitiveData="N">policy_description</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:cache_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete-policies" path="/qcloud/v1/security-policy/delete-policies" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.subsys&gt;wecmdb:subsys.app_system&gt;wecmdb:app_system.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" required="Y" sensitiveData="N">policy_action</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:cache_instance.cache_resource_instance&gt;wecmdb:cache_resource_instance.ip_address" required="Y" sensitiveData="N">policy_cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit~(unit)wecmdb:cache_instance.port" required="Y" sensitiveData="N">policy_port</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoked_unit&gt;wecmdb:unit.protocol" required="Y" sensitiveData="N">policy_protocol</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" required="Y" sensitiveData="N">policy_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.invoke_unit&gt;wecmdb:unit.security_group_asset_id" required="N" sensitiveData="N">security_group_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:invoke.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="storage" targetPackage="wecmdb" targetEntity="block_storage" targetEntityFilterRule="" registerName="block_storage" status="ENABLED">
+            <interface action="buy-and-mount-cbs-disk" path="/qcloud/v1/cbs/create-mount" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.billing_cycle" required="N" sensitiveData="N">disk_charge_period</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.charge_type" required="Y" sensitiveData="N">disk_charge_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.name" required="N" sensitiveData="N">disk_name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.disk_size" required="Y" sensitiveData="N">disk_size</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.storage_type&gt;wecmdb:storage_type.code" required="Y" sensitiveData="N">disk_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.file_system" required="Y" sensitiveData="N">file_system_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">instance_guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.mount_point" required="Y" sensitiveData="N">mount_dir</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.user_password" required="Y" sensitiveData="Y">password</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="ENCRYPT_SEED" required="Y" sensitiveData="Y">seed</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.asset_id" sensitiveData="N">disk_id</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.code" sensitiveData="N">volume_name</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="umount-destroy-cbs-disk" path="/qcloud/v1/cbs/umount-terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">instance_guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.mount_point" required="Y" sensitiveData="N">mount_dir</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.host_resource_instance&gt;wecmdb:host_resource_instance.user_password" required="Y" sensitiveData="Y">password</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage..NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="ENCRYPT_SEED" required="Y" sensitiveData="Y">seed</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.code" required="Y" sensitiveData="N">volume_name</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:block_storage.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="subnet" targetPackage="wecmdb" targetEntity="network_segment" targetEntityFilterRule="{network_segment_usage eq 'SUBNET'}" registerName="network_segment" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/subnet/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}{private_route_table eq 'N'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.code" required="Y" sensitiveData="N">cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.subnet_asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.subnet_asset_id" sensitiveData="N">id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="create-with-routetable" path="/qcloud/v1/subnet/create-with-routetable" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}{private_route_table eq 'Y'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.code" required="Y" sensitiveData="N">cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.subnet_asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.subnet_asset_id" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.route_table_asset_id" sensitiveData="N">route_table_id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/subnet/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}{private_route_table eq 'N'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.subnet_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate-with-routetable" path="/qcloud/v1/subnet/terminate-with-routetable" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}{private_route_table eq 'Y'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.subnet_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.route_table_asset_id" required="Y" sensitiveData="N">route_table_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="user" targetPackage="wecmdb" targetEntity="cos_instance" targetEntityFilterRule="" registerName="cos" status="ENABLED">
+            <interface action="add" path="/qcloud/v1/user/add" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_BUCKET_FULL_CONTROL" required="N" sensitiveData="Y">bucket_permission</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.cos_resource_instance&gt;wecmdb:cos_resource_instance.access_dns" required="N" sensitiveData="N">bucket_url</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.cos_resource_instance&gt;wecmdb:cos_resource_instance.resource_set&gt;wecmdb:resource_set.network_zone&gt;wecmdb:network_zone.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="ENCRYPT_SEED" required="Y" sensitiveData="Y">seed</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.access_user" required="Y" sensitiveData="N">user_name</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.access_id" sensitiveData="N">secret_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.access_key" sensitiveData="Y">secret_key</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">uin</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="delete" path="/qcloud/v1/user/delete" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.cos_resource_instance&gt;wecmdb:cos_resource_instance.resource_set&gt;wecmdb:resource_set.network_zone&gt;wecmdb:network_zone.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.access_user" required="Y" sensitiveData="N">user_name</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:cos_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="vm" targetPackage="wecmdb" targetEntity="host_resource_instance" targetEntityFilterRule="" registerName="resource" status="ENABLED">
+            <interface action="bind-subnet-security-group" path="/qcloud/v1/vm/add-security-groups" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}{subnet_security_group eq 'Y'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="Y" sensitiveData="N">security_group_ids</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="bind-vpc-security-group" path="/qcloud/v1/vm/add-security-groups" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="Y" sensitiveData="N">security_group_ids</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="create" path="/qcloud/v1/vm/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.resource_instance_spec&gt;wecmdb:resource_instance_spec.code" required="Y" sensitiveData="N">host_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="N" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.resource_instance_system&gt;wecmdb:resource_instance_system.code" required="Y" sensitiveData="N">image_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.billing_cycle" required="N" sensitiveData="N">instance_charge_period</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.charge_type&gt;wecmdb:charge_type.code" required="Y" sensitiveData="N">instance_charge_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="N">instance_family</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.key_name" required="N" sensitiveData="N">instance_name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="N">instance_private_ip</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="N">instance_type</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.user_password" required="Y" sensitiveData="Y">password</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="N">project_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="ENCRYPT_SEED" required="Y" sensitiveData="Y">seed</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.subnet_asset_id" required="Y" sensitiveData="N">subnet_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.storage" required="Y" sensitiveData="N">system_disk_size</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">vpc_id</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.cpu" sensitiveData="N">cpu</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.ip_address" sensitiveData="N">instance_private_ip</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">instance_state</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.memory" sensitiveData="N">memory</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.user_password" sensitiveData="Y">password</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="remove-subnet-security-group" path="/qcloud/v1/vm/remove-security-groups" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}{subnet_security_group eq 'Y'}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="Y" sensitiveData="N">security_group_ids</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="remove-vpc-security-group" path="/qcloud/v1/vm/remove-security-groups" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.f_network_segment&gt;wecmdb:network_segment.security_group_asset_id" required="Y" sensitiveData="N">security_group_ids</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="start" path="/qcloud/v1/vm/start" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'startup'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="start-for-init" path="/qcloud/v1/vm/start" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="stop" path="/qcloud/v1/vm/stop" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'stoped'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="stop-for-init" path="/qcloud/v1/vm/stop" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/vm/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:host_resource_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="vm" targetPackage="wecmdb" targetEntity="app_instance" targetEntityFilterRule="" registerName="app_deploy" status="ENABLED">
+            <interface action="bind_sg_app_created" path="/qcloud/v1/vm/add-security-groups" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.host_resource_instance&gt;wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.unit&gt;wecmdb:unit.security_group_asset_id" required="Y" sensitiveData="N">security_group_ids</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="remove-sg-app-deleted" path="/qcloud/v1/vm/remove-security-groups" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.host_resource_instance&gt;wecmdb:host_resource_instance.asset_id" required="Y" sensitiveData="N">instance_id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.host_resource_instance&gt;wecmdb:host_resource_instance.network_segment&gt;wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.unit&gt;wecmdb:unit.security_group_asset_id" required="Y" sensitiveData="N">security_group_ids</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:app_instance.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+        <plugin name="vpc" targetPackage="wecmdb" targetEntity="network_segment" targetEntityFilterRule="{network_segment_usage eq 'VPC'}" registerName="network_segment" status="ENABLED">
+            <interface action="create" path="/qcloud/v1/vpc/create" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'created'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.code" required="Y" sensitiveData="N">cidr_block</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.name" required="Y" sensitiveData="N">name</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.vpc_asset_id" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.route_table_asset_id" sensitiveData="N">route_table_id</parameter>
+                </outputParameters>
+            </interface>
+            <interface action="terminate" path="/qcloud/v1/vpc/terminate" httpMethod="" isAsyncProcessing="N" type="EXECUTION" filterRule="{state_code eq 'destroyed'}{fixed_date is NULL}">
+                <inputParameters>
+                    <parameter datatype="string" mappingType="system_variable" mappingSystemVariableName="QCLOUD_API_SECRET" required="Y" sensitiveData="Y">api_secret</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" required="Y" sensitiveData="N">guid</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.vpc_asset_id" required="Y" sensitiveData="N">id</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.data_center&gt;wecmdb:data_center.location" required="Y" sensitiveData="N">location</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.NONE" required="N" sensitiveData="Y">provider_params</parameter>
+                </inputParameters>
+                <outputParameters>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorCode</parameter>
+                    <parameter datatype="string" mappingType="context" sensitiveData="N">errorMessage</parameter>
+                    <parameter datatype="string" mappingType="entity" mappingEntityExpression="wecmdb:network_segment.guid" sensitiveData="N">guid</parameter>
+                </outputParameters>
+            </interface>
+            <roleBinds>
+                <roleBind permission="MGMT" roleName="SUPER_ADMIN"/>
+                <roleBind permission="USE" roleName="SUPER_ADMIN"/>
+            </roleBinds>
+        </plugin>
+    </plugins>
+    <systemParameters>
+        <systemParameter name="QCLOUD_API_SECRET" scopeType="qcloud" defaultValue="SecretID=XXXX;SecretKey=XXXX" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_APP_ID" scopeType="qcloud" defaultValue="XXXXXXXXXX" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_BUCKET_FORCE_DELETE" scopeType="qcloud" defaultValue="true" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_BUCKET_FULL_CONTROL" scopeType="qcloud" defaultValue="full_control" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_BUCKET_PUBLIC" scopeType="qcloud" defaultValue="false" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_BUCKET_READ" scopeType="qcloud" defaultValue="read" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_BUCKET_WRITE" scopeType="qcloud" defaultValue="write" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_DEFAULT_SECURITY_POLICY_ACTION" scopeType="qcloud" defaultValue="accept" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_DELETE_LB_LISTENER" scopeType="qcloud" defaultValue="Y" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_MYSQL_BACKUP_TYPE" scopeType="qcloud" defaultValue="logical" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_MYSQL_CHARACTER_SET" scopeType="qcloud" defaultValue="UTF8" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_MYSQL_LOWER_CASE_TABLE_NAMES" scopeType="qcloud" defaultValue="0" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_NOT_DELETE_LB_LISTENER" scopeType="qcloud" defaultValue="N" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_SECURITY_POLICY_ACTION_EGRESS" scopeType="qcloud" defaultValue="egress" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_SECURITY_POLICY_ACTION_INGRESS" scopeType="qcloud" defaultValue="ingress" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+        <systemParameter name="QCLOUD_USER_ID" scopeType="qcloud" defaultValue="XXXXXXXXXXXX" status="active" source="qcloud__v1.8.8" packageName="qcloud"/>
+    </systemParameters>
+</package>
+
+<!--
+
+**THIS FILE WAS GENERATED BY WECUBE PLATFORM PROGRAM**
+**Date:2020-08-24 15:08:23
+**UserID:umadmin
+
+**PluginPackageID:qcloud__v1.8.8
+**PluginName:qcloud
+**PluginVersion:v1.8.8
+
+-->
