@@ -66,7 +66,7 @@ echo -e "\nRunning WeCube installer scripts...\n"
 pushd $INSTALLER_DIR >/dev/null
 
 PROVISIONING_ENV_FILE="$INSTALLER_DIR/provisioning.env"
-cat <<EOF >"$PROVISIONING_ENV_FILE"
+(umask 066 && cat <<EOF >"$PROVISIONING_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
@@ -82,10 +82,11 @@ MYSQL_PORT=3307
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=${initial_password}
 EOF
+)
 ./invoke-installer.sh "$PROVISIONING_ENV_FILE" yum-packages docker mysql-docker minio-docker open-monitor-agent
 
 WECUBE_DB_ENV_FILE="$INSTALLER_DIR/db-deployment-wecube-db-standalone.env"
-cat <<EOF >"$WECUBE_DB_ENV_FILE"
+(umask 066 && cat <<EOF >"$WECUBE_DB_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 
@@ -95,10 +96,11 @@ DB_NAME=wecube
 DB_USERNAME=root
 DB_PASSWORD=${initial_password}
 EOF
+)
 ./invoke-installer.sh "$WECUBE_DB_ENV_FILE" db-connectivity
 
 AUTH_SERVER_DB_ENV_FILE="$INSTALLER_DIR/db-deployment-auth-server-db-standalone.env"
-cat <<EOF >"$AUTH_SERVER_DB_ENV_FILE"
+(umask 066 && cat <<EOF >"$AUTH_SERVER_DB_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 
@@ -108,10 +110,11 @@ DB_NAME=auth_server
 DB_USERNAME=root
 DB_PASSWORD=${initial_password}
 EOF
+)
 ./invoke-installer.sh "$AUTH_SERVER_DB_ENV_FILE" db-connectivity
 
 WECUBE_PLATFORM_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-platform-standalone.env"
-cat <<EOF >"$WECUBE_PLATFORM_ENV_FILE"
+(umask 066 && cat <<EOF >"$WECUBE_PLATFORM_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
@@ -141,10 +144,11 @@ PLUGIN_DB_NAME=mysql
 PLUGIN_DB_USERNAME=root
 PLUGIN_DB_PASSWORD=${initial_password}
 EOF
+)
 ./invoke-installer.sh "$WECUBE_PLATFORM_ENV_FILE" wecube-platform
 
 WECUBE_PLUGIN_HOSTING_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-plugin-hosting-standalone.env"
-cat <<EOF >"$WECUBE_PLUGIN_HOSTING_ENV_FILE"
+(umask 066 && cat <<EOF >"$WECUBE_PLUGIN_HOSTING_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
@@ -161,10 +165,11 @@ CORE_DB_NAME=wecube
 CORE_DB_USERNAME=root
 CORE_DB_PASSWORD=${initial_password}
 EOF
+)
 ./invoke-installer.sh "$WECUBE_PLUGIN_HOSTING_ENV_FILE" wecube-plugin-hosting
 
 WECUBE_SYSTEM_SETTINGS_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-system-settings-standalone.env"
-cat <<EOF >"$WECUBE_SYSTEM_SETTINGS_ENV_FILE"
+(umask 066 && cat <<EOF >"$WECUBE_SYSTEM_SETTINGS_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
@@ -200,6 +205,7 @@ PLUGIN_DB_NAME=mysql
 PLUGIN_DB_USERNAME=root
 PLUGIN_DB_PASSWORD=${initial_password}
 EOF
+)
 ./invoke-installer.sh "$WECUBE_SYSTEM_SETTINGS_ENV_FILE" wecube-system-settings
 
 popd >/dev/null
