@@ -48,6 +48,12 @@ nav:
       - '应用物料管理': 'manual-application-artifacts.md'
     - '任务编排设计': 'manual-orchestration-design.md'
     - '任务编排执行': 'manual-orchestration-execution.md'
+    - '监控插件功能':
+      - '对象视图': 'manual-open-monitor-object-view.md'
+      - '监控配置': 'manual-open-monitor-config.md'
+      - '指标设计': 'manual-open-monitor-metrics.md'
+      - '告警列表': 'manual-open-monitor-alerting.md'
+      - '自定义视图': 'manual-open-monitor-customized-view.md'
     - '批量执行': 'manual-batch-execution.md'
   - '插件':
     - 'WeCMDB': 'plugin-wecmdb.md'
