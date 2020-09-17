@@ -1,11 +1,12 @@
 #!/bin/bash
 
 #### Configuration Section ####
-install_target_host_default="127.0.0.1"
-wecube_version_default="latest"
-dest_dir_default="/data/wecube"
-initial_password_default="Wecube@123456"
-use_mirror_in_mainland_china_default="true"
+install_target_host_default='127.0.0.1'
+wecube_release_version_default='latest'
+wecube_feature_set_default='*'
+dest_dir_default='/data/wecube'
+initial_password_default='Wecube@123456'
+use_mirror_in_mainland_china_default='true'
 #### End of Configuration Section ####
 
 set -e
@@ -13,8 +14,11 @@ set -e
 read -p "Please specify host IP address ($install_target_host_default): " install_target_host
 install_target_host=${install_target_host:-$install_target_host_default}
 
-read -p "Please enter WeCube version ($wecube_version_default): " wecube_version
-wecube_version=${wecube_version:-$wecube_version_default}
+read -p "Please specify WeCube release version ($wecube_release_version_default): " wecube_release_version
+wecube_release_version=${wecube_release_version:-$wecube_release_version_default}
+
+read -p "Please specify WeCube feature set ($wecube_feature_set_default): " wecube_feature_set
+wecube_feature_set=${wecube_feature_set:-$wecube_feature_set_default}
 
 read -p "Please specify destination dir ($dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
@@ -29,7 +33,8 @@ use_mirror_in_mainland_china=${use_mirror_in_mainland_china:-$use_mirror_in_main
 
 echo ""
 echo "- install_target_host=$install_target_host"
-echo "- wecube_version=$wecube_version"
+echo "- wecube_release_version=$wecube_release_version"
+echo "- wecube_feature_set=$wecube_feature_set"
 echo "- dest_dir=$dest_dir"
 echo "- initial_password=(*not shown*)"
 echo "- use_mirror_in_mainland_china=$use_mirror_in_mainland_china"
@@ -58,9 +63,9 @@ done
 
 unzip -o -q $INSTALLER_PKG -d $dest_dir
 cp -R "$dest_dir/delivery-by-terraform-master/installer" $dest_dir
-[ -f $wecube_version ] && \
-  cp $wecube_version "$INSTALLER_DIR/wecube-platform/" && \
-  cp $wecube_version "$INSTALLER_DIR/wecube-system-settings/"
+[ -f $wecube_release_version ] && \
+  cp $wecube_release_version "$INSTALLER_DIR/wecube-platform/" && \
+  cp $wecube_release_version "$INSTALLER_DIR/wecube-system-settings/"
 
 echo -e "\nRunning WeCube installer scripts...\n"
 pushd $INSTALLER_DIR >/dev/null
@@ -118,7 +123,8 @@ WECUBE_PLATFORM_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-platform-standalo
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
-WECUBE_RELEASE_VERSION=${wecube_version}
+WECUBE_RELEASE_VERSION=${wecube_release_version}
+WECUBE_FEATURE_SET=${wecube_feature_set}
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD=${initial_password}
 USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
@@ -152,7 +158,8 @@ WECUBE_PLUGIN_HOSTING_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-plugin-host
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
-WECUBE_RELEASE_VERSION=${wecube_version}
+WECUBE_RELEASE_VERSION=${wecube_release_version}
+WECUBE_FEATURE_SET=${wecube_feature_set}
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD=${initial_password}
 USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
@@ -173,7 +180,8 @@ WECUBE_SYSTEM_SETTINGS_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-system-set
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP=${install_target_host}
 WECUBE_HOME=${dest_dir}
-WECUBE_RELEASE_VERSION=${wecube_version}
+WECUBE_RELEASE_VERSION=${wecube_release_version}
+WECUBE_FEATURE_SET=${wecube_feature_set}
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD=${initial_password}
 USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
