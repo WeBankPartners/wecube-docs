@@ -73,9 +73,9 @@ pushd $INSTALLER_DIR >/dev/null
 PROVISIONING_ENV_FILE="$INSTALLER_DIR/provisioning.env"
 (umask 066 && cat <<EOF >"$PROVISIONING_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
-HOST_PRIVATE_IP=${install_target_host}
-WECUBE_HOME=${dest_dir}
-USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
+HOST_PRIVATE_IP='${install_target_host}'
+WECUBE_HOME='${dest_dir}'
+USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
 DOCKER_PORT=2375
 
@@ -85,7 +85,7 @@ S3_SECRET_KEY=secret_key
 
 MYSQL_PORT=3307
 MYSQL_USERNAME=root
-MYSQL_PASSWORD=${initial_password}
+MYSQL_PASSWORD='${initial_password}'
 EOF
 )
 ./invoke-installer.sh "$PROVISIONING_ENV_FILE" yum-packages docker mysql-docker minio-docker open-monitor-agent
@@ -93,13 +93,13 @@ EOF
 WECUBE_DB_ENV_FILE="$INSTALLER_DIR/db-deployment-wecube-db-standalone.env"
 (umask 066 && cat <<EOF >"$WECUBE_DB_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
-HOST_PRIVATE_IP=${install_target_host}
+HOST_PRIVATE_IP='${install_target_host}'
 
-DB_HOST=${install_target_host}
+DB_HOST='${install_target_host}'
 DB_PORT=3307
 DB_NAME=wecube
 DB_USERNAME=root
-DB_PASSWORD=${initial_password}
+DB_PASSWORD='${initial_password}'
 EOF
 )
 ./invoke-installer.sh "$WECUBE_DB_ENV_FILE" db-connectivity
@@ -107,13 +107,13 @@ EOF
 AUTH_SERVER_DB_ENV_FILE="$INSTALLER_DIR/db-deployment-auth-server-db-standalone.env"
 (umask 066 && cat <<EOF >"$AUTH_SERVER_DB_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
-HOST_PRIVATE_IP=${install_target_host}
+HOST_PRIVATE_IP='${install_target_host}'
 
-DB_HOST=${install_target_host}
+DB_HOST='${install_target_host}'
 DB_PORT=3307
 DB_NAME=auth_server
 DB_USERNAME=root
-DB_PASSWORD=${initial_password}
+DB_PASSWORD='${initial_password}'
 EOF
 )
 ./invoke-installer.sh "$AUTH_SERVER_DB_ENV_FILE" db-connectivity
@@ -121,34 +121,34 @@ EOF
 WECUBE_PLATFORM_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-platform-standalone.env"
 (umask 066 && cat <<EOF >"$WECUBE_PLATFORM_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
-HOST_PRIVATE_IP=${install_target_host}
+HOST_PRIVATE_IP='${install_target_host}'
 WECUBE_HOME=${dest_dir}
-WECUBE_RELEASE_VERSION=${wecube_release_version}
-WECUBE_FEATURE_SET=${wecube_feature_set}
+WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_FEATURE_SET='${wecube_feature_set}'
 SHOULD_INSTALL_PLUGINS=true
-INITIAL_PASSWORD=${initial_password}
-USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
+INITIAL_PASSWORD='${initial_password}'
+USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
-STATIC_RESOURCE_HOSTS=${install_target_host}
-S3_HOST=${install_target_host}
+STATIC_RESOURCE_HOSTS='${install_target_host}'
+S3_HOST='${install_target_host}'
 
-CORE_DB_HOST=${install_target_host}
+CORE_DB_HOST='${install_target_host}'
 CORE_DB_PORT=3307
 CORE_DB_NAME=wecube
 CORE_DB_USERNAME=root
-CORE_DB_PASSWORD=${initial_password}
+CORE_DB_PASSWORD='${initial_password}'
 
-AUTH_SERVER_DB_HOST=${install_target_host}
+AUTH_SERVER_DB_HOST='${install_target_host}'
 AUTH_SERVER_DB_PORT=3307
 AUTH_SERVER_DB_NAME=auth_server
 AUTH_SERVER_DB_USERNAME=root
-AUTH_SERVER_DB_PASSWORD=${initial_password}
+AUTH_SERVER_DB_PASSWORD='${initial_password}'
 
-PLUGIN_DB_HOST=${install_target_host}
+PLUGIN_DB_HOST='${install_target_host}'
 PLUGIN_DB_PORT=3307
 PLUGIN_DB_NAME=mysql
 PLUGIN_DB_USERNAME=root
-PLUGIN_DB_PASSWORD=${initial_password}
+PLUGIN_DB_PASSWORD='${initial_password}'
 EOF
 )
 ./invoke-installer.sh "$WECUBE_PLATFORM_ENV_FILE" wecube-platform
@@ -156,21 +156,21 @@ EOF
 WECUBE_PLUGIN_HOSTING_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-plugin-hosting-standalone.env"
 (umask 066 && cat <<EOF >"$WECUBE_PLUGIN_HOSTING_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
-HOST_PRIVATE_IP=${install_target_host}
-WECUBE_HOME=${dest_dir}
-WECUBE_RELEASE_VERSION=${wecube_release_version}
-WECUBE_FEATURE_SET=${wecube_feature_set}
+HOST_PRIVATE_IP='${install_target_host}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_FEATURE_SET='${wecube_feature_set}'
 SHOULD_INSTALL_PLUGINS=true
-INITIAL_PASSWORD=${initial_password}
-USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
+INITIAL_PASSWORD='${initial_password}'
+USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
-CORE_HOST=${install_target_host}
+CORE_HOST='${install_target_host}'
 
-CORE_DB_HOST=${install_target_host}
+CORE_DB_HOST='${install_target_host}'
 CORE_DB_PORT=3307
 CORE_DB_NAME=wecube
 CORE_DB_USERNAME=root
-CORE_DB_PASSWORD=${initial_password}
+CORE_DB_PASSWORD='${initial_password}'
 EOF
 )
 ./invoke-installer.sh "$WECUBE_PLUGIN_HOSTING_ENV_FILE" wecube-plugin-hosting
@@ -178,40 +178,40 @@ EOF
 WECUBE_SYSTEM_SETTINGS_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-system-settings-standalone.env"
 (umask 066 && cat <<EOF >"$WECUBE_SYSTEM_SETTINGS_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
-HOST_PRIVATE_IP=${install_target_host}
-WECUBE_HOME=${dest_dir}
-WECUBE_RELEASE_VERSION=${wecube_release_version}
-WECUBE_FEATURE_SET=${wecube_feature_set}
+HOST_PRIVATE_IP='${install_target_host}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_FEATURE_SET='${wecube_feature_set}'
 SHOULD_INSTALL_PLUGINS=true
-INITIAL_PASSWORD=${initial_password}
-USE_MIRROR_IN_MAINLAND_CHINA=${use_mirror_in_mainland_china}
+INITIAL_PASSWORD='${initial_password}'
+USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
 S3_ACCESS_KEY=access_key
 S3_SECRET_KEY=secret_key
 AGENT_S3_BUCKET_NAME=wecube-agent
 
-CORE_HOST=${install_target_host}
-S3_HOST=${install_target_host}
-PLUGIN_HOST=${install_target_host}
-PORTAL_HOST=${install_target_host}
+CORE_HOST='${install_target_host}'
+S3_HOST='${install_target_host}'
+PLUGIN_HOST='${install_target_host}'
+PORTAL_HOST='${install_target_host}'
 
-CORE_DB_HOST=${install_target_host}
+CORE_DB_HOST='${install_target_host}'
 CORE_DB_PORT=3307
 CORE_DB_NAME=wecube
 CORE_DB_USERNAME=root
-CORE_DB_PASSWORD=${initial_password}
+CORE_DB_PASSWORD='${initial_password}'
 
-AUTH_SERVER_DB_HOST=${install_target_host}
+AUTH_SERVER_DB_HOST='${install_target_host}'
 AUTH_SERVER_DB_PORT=3307
 AUTH_SERVER_DB_NAME=auth_server
 AUTH_SERVER_DB_USERNAME=root
-AUTH_SERVER_DB_PASSWORD=${initial_password}
+AUTH_SERVER_DB_PASSWORD='${initial_password}'
 
-PLUGIN_DB_HOST=${install_target_host}
+PLUGIN_DB_HOST='${install_target_host}'
 PLUGIN_DB_PORT=3307
 PLUGIN_DB_NAME=mysql
 PLUGIN_DB_USERNAME=root
-PLUGIN_DB_PASSWORD=${initial_password}
+PLUGIN_DB_PASSWORD='${initial_password}'
 EOF
 )
 ./invoke-installer.sh "$WECUBE_SYSTEM_SETTINGS_ENV_FILE" wecube-system-settings
