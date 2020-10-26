@@ -13,7 +13,7 @@ set -e
 read -p "Please specify host IP address ($install_target_host_default): " install_target_host
 install_target_host=${install_target_host:-$install_target_host_default}
 
-read -p "Please specify WeCube release version ($wecube_release_version_default): " wecube_release_version
+read -p "Please specify WeCube release version [latest, v2.7.0, ...] ($wecube_release_version_default): " wecube_release_version
 wecube_release_version=${wecube_release_version:-$wecube_release_version_default}
 
 read -p "Please specify destination dir ($dest_dir_default): " dest_dir
@@ -181,6 +181,7 @@ USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 S3_ACCESS_KEY=access_key
 S3_SECRET_KEY=secret_key
 AGENT_S3_BUCKET_NAME=wecube-agent
+ARTIFACTS_S3_BUCKET_NAME=wecube-artifacts
 
 CORE_HOST='${install_target_host}'
 S3_HOST='${install_target_host}'
