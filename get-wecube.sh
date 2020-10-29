@@ -42,6 +42,14 @@ mkdir -p $dest_dir
 INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 INSTALLER_PKG="$dest_dir/wecube-installer.zip"
 INSTALLER_DIR="$dest_dir/installer"
+INSTALLER_SOURCE_CODE_DIR="$dest_dir/delivery-by-terraform-master/installer"
+
+if [ "$USE_MIRROR_IN_MAINLAND_CHINA" == "true" ]; then
+  echo 'Using Gitee as mirror for WeCube code repository in Mainland China.'
+  INSTALLER_URL="https://gitee.com/WeBankPartners/delivery-by-terraform/repository/archive/master.zip"
+  INSTALLER_SOURCE_CODE_DIR="$dest_dir/delivery-by-terraform/installer"
+fi
+
 echo -e "\nFetching WeCube installer from $INSTALLER_URL"
 RETRIES=30
 while [ $RETRIES -gt 0 ]; do
@@ -57,7 +65,7 @@ done
 [ $RETRIES -eq 0 ] && echo 'Failed to fetch installer package! Installation aborted.' && exit 1
 
 unzip -o -q $INSTALLER_PKG -d $dest_dir
-cp -R "$dest_dir/delivery-by-terraform-master/installer" $dest_dir
+cp -R $INSTALLER_SOURCE_CODE_DIR $dest_dir
 [ -f $wecube_release_version ] && \
   cp $wecube_release_version "$INSTALLER_DIR/wecube-platform/" && \
   cp $wecube_release_version "$INSTALLER_DIR/wecube-system-settings/"
