@@ -100,6 +100,12 @@ curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/g
 
 ```
 
+如果您在执行以上指令时遇到了访问GitHub站点`raw.githubusercontent.com`的网络错误，那么您可以执行以下命令行指令来通过我们在Gitee上的镜像站点进行安装：
+``` bash
+curl -fsSL https://gitee.com/WeBankPartners/wecube-docs/raw/master/get-wecube.sh -o get-wecube.sh && sh get-wecube.sh
+
+```
+
 脚本执行时首先会提示您输入以下安装配置项：
 
 | 配置项名称 | 默认值 | 用途说明 |
