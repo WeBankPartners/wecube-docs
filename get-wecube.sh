@@ -3,6 +3,7 @@
 #### Configuration Section ####
 install_target_host_default='127.0.0.1'
 wecube_release_version_default='latest'
+wecube_config_set_default='bootcamp'
 dest_dir_default='/data/wecube'
 initial_password_default='Wecube@123456'
 use_mirror_in_mainland_china_default='true'
@@ -16,6 +17,9 @@ install_target_host=${install_target_host:-$install_target_host_default}
 read -p "Please specify WeCube release version [latest, v2.7.0, ...] ($wecube_release_version_default): " wecube_release_version
 wecube_release_version=${wecube_release_version:-$wecube_release_version_default}
 
+read -p "Please specify WeCube config set [bootcamp, standard, empty] ($wecube_config_set_default): " wecube_config_set
+wecube_config_set=${wecube_config_set:-$wecube_config_set_default}
+
 read -p "Please specify destination dir ($dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
 
@@ -28,11 +32,12 @@ read -p "Please specify whether mirror sites in Mainland China should be used ($
 use_mirror_in_mainland_china=${use_mirror_in_mainland_china:-$use_mirror_in_mainland_china_default}
 
 echo ""
-echo "- install_target_host=$install_target_host"
-echo "- wecube_release_version=$wecube_release_version"
-echo "- dest_dir=$dest_dir"
-echo "- initial_password=(*not shown*)"
-echo "- use_mirror_in_mainland_china=$use_mirror_in_mainland_china"
+echo "- install_target_host          = $install_target_host"
+echo "- wecube_release_version       = $wecube_release_version"
+echo "- wecube_config_set            = $wecube_config_set"
+echo "- dest_dir                     = $dest_dir"
+echo "- initial_password             = (*not shown*)"
+echo "- use_mirror_in_mainland_china = $use_mirror_in_mainland_china"
 echo ""
 read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
@@ -182,6 +187,7 @@ DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
 WECUBE_HOME='${dest_dir}'
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_CONFIG_SET='${wecube_config_set}'
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
