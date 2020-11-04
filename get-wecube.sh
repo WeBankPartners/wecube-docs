@@ -3,7 +3,7 @@
 #### Configuration Section ####
 install_target_host_default='127.0.0.1'
 wecube_release_version_default='latest'
-wecube_config_set_default='bootcamp'
+wecube_settings_default='bootcamp'
 dest_dir_default='/data/wecube'
 initial_password_default='Wecube@123456'
 use_mirror_in_mainland_china_default='true'
@@ -17,8 +17,8 @@ install_target_host=${install_target_host:-$install_target_host_default}
 read -p "Please specify WeCube release version [latest, v2.7.0, ...] ($wecube_release_version_default): " wecube_release_version
 wecube_release_version=${wecube_release_version:-$wecube_release_version_default}
 
-read -p "Please specify WeCube config set [bootcamp, standard, empty] ($wecube_config_set_default): " wecube_config_set
-wecube_config_set=${wecube_config_set:-$wecube_config_set_default}
+read -p "Please specify WeCube settings [bootcamp, standard, empty] ($wecube_settings_default): " wecube_settings
+wecube_settings=${wecube_settings:-$wecube_settings_default}
 
 read -p "Please specify destination dir ($dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
@@ -34,7 +34,7 @@ use_mirror_in_mainland_china=${use_mirror_in_mainland_china:-$use_mirror_in_main
 echo ""
 echo "- install_target_host          = $install_target_host"
 echo "- wecube_release_version       = $wecube_release_version"
-echo "- wecube_config_set            = $wecube_config_set"
+echo "- wecube_settings              = $wecube_settings"
 echo "- dest_dir                     = $dest_dir"
 echo "- initial_password             = (*not shown*)"
 echo "- use_mirror_in_mainland_china = $use_mirror_in_mainland_china"
@@ -187,7 +187,7 @@ DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
 WECUBE_HOME='${dest_dir}'
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
-WECUBE_CONFIG_SET='${wecube_config_set}'
+WECUBE_SETTINGS='${wecube_settings}'
 SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
