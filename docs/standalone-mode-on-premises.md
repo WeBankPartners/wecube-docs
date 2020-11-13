@@ -106,13 +106,13 @@ curl -fsSL https://gitee.com/WeBankPartners/wecube-docs/raw/master/get-wecube.sh
 
 ```
 
-脚本执行时首先会提示您输入以下安装配置项：
+[](#config-params)脚本执行时首先会提示您输入以下安装配置项：
 
 | 配置项名称 | 默认值 | 用途说明 |
 | - | - | - |
 | install_target_host | *127.0.0.1* | WeCube安装的目标主机名称或IP地址<br/>（**请勿使用此默认值**，详见下方说明。） |
-| wecube_release_version | *latest* | WeCube安装的目标版本，默认为最新发布版本，可指定为某个特定版本，如 `v2.7.0` |
-| wecube_settings | *bootcamp* | WeCube安装后的插件配置方案，默认使用上手指引配置，可指定为 标准安装配置`standard` 或 空配置`empty` |
+| wecube_release_version | *latest* | WeCube安装的目标版本，默认为最新发布版本 `latest`，可指定为某个特定版本，如 `v2.7.0` |
+| wecube_settings | *bootcamp* | WeCube安装后的插件配置方案，默认为 上手指引配置 `bootcamp`，可指定为 标准安装配置 `standard` 或 空配置 `empty` |
 | dest_dir | */data/wecube* | WeCube的安装目录 |
 | initial_password | *Wecube@123456* | 安装目标主机的root账号密码，同时用于MySQL数据库root账号的初始密码 |
 | use_mirror_in_mainland_china | *true* | 是否在安装过程中使用位于中国大陆的镜像站点进行加速：true - 是；其它值 - 否 |
