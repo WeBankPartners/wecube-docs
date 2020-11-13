@@ -23,7 +23,7 @@ nav:
     - '探索数据模型与数据记录': 'bootcamp-02-explore-data-model-and-data-records.md'
     - '演进数据模型并配置应用': 'bootcamp-03-evolve-data-model-for-application.md'
     - '配置自动化部署插件服务': 'bootcamp-04-configure-plugin-for-deployment.md'
-    - '执行标准化部署流程': 'bootcamp-05-execute-sop-for-deployment.md'
+    - '执行标准化应用部署流程': 'bootcamp-05-execute-sop-for-deployment.md'
     - '最后但同样重要的监控': 'bootcamp-06-last-but-not-least-monitoring.md'
 
 #    - '场景介绍': 'tutorial-scenarios.md'
