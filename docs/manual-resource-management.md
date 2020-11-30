@@ -6,7 +6,7 @@
 
 在主机标签页，会以表格形式显示当前可以分配给插件运行环境使用的资源主机，如下图所示：
 
-[![资源主机表格](images/resource-management/resource-hosts.png)](images/resource-management/resource-hosts.png){: target=\_image}
+[![资源主机表格](images/resource-management/resource-hosts.png)](images/resource-management/resource-hosts.png){: target="\_image"}
 
 您可以使用表格组件上方的过滤搜索进行有针对性的查询，也可以使用动作按钮对资源主机行查看、编辑、删除和导出等操作。关于资源主机的属性说明，请参见下表：
 
@@ -28,7 +28,7 @@ ID | 资源主机的唯一标识，由“主机”、“类型”和“名称”
 
 在实例标签页，会以表格形式显示当前已经分配给插件运行环境使用的资源实例，如下图所示：
 
-[![资源实例表格](images/resource-management/resource-instances.png)](images/resource-management/resource-instances.png){: target=\_image}
+[![资源实例表格](images/resource-management/resource-instances.png)](images/resource-management/resource-instances.png){: target="\_image"}
 
 您可以使用表格组件上方的过滤搜索进行有针对性的查询，由于资源实例已经分配给插件运行环境，所以您在此不能进行任何操作。关于资源实例的属性说明，请参见下表：
 

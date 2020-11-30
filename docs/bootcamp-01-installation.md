@@ -12,6 +12,6 @@
 - [在公有云上以单机模式安装](standalone-mode-on-public-cloud.md)
 
 
-安装过程完成后，您将得到一个使用精简方案的WeCube平台及插件配置。请依据提示使用默认的用户账号 `umadmin` 及初始密码 `umadmin` 进行登录并访问WeCube。
+安装过程完成后，您将得到一个应用了专门为上手指引过程设计的精简方案的WeCube平台及插件配置。请依据提示使用默认的用户账号 `umadmin` 及初始密码 `umadmin` 进行登录并访问WeCube。
 
 我们将在后续步骤中，与您一起使用WeCube来完成一个Java应用程序的部署与监控。

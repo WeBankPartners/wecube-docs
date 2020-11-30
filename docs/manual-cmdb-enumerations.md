@@ -4,7 +4,7 @@
 
 CMDB枚举数据以表格形式显示，如下图所示：
 
-[![CMDB枚举数据表格](images/cmdb-model/cmdb-enumerations.png)](images/cmdb-model/cmdb-enumerations.png){: target=\_image}
+[![CMDB枚举数据表格](images/cmdb-model/cmdb-enumerations.png)](images/cmdb-model/cmdb-enumerations.png){: target="\_image"}
 
 您可以使用表格组件上方的过滤搜索进行有针对性的查询，也可以使用动作按钮对系统参数进行查看、编辑、删除和导出等操作。关于CMDB枚举数据的属性说明，请参见下表：
 

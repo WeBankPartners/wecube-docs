@@ -6,7 +6,7 @@
 
 模型层级是通过将模型中的数据类型进行分组而形成的，每个模型层级中的CI数据类型通常共同聚焦于IT系统生命周期的同一个阶段，或者更多地由同一个的角色关注和管维护。这些层级可以根据需要由您随意进行配置。每个CI数据类型都属于一个层级，并在CMDB模型图中所属层级对应的位置范围中显示出来。
 
-[![CMDB模型层级](images/cmdb-model/model-layers.png)](images/cmdb-model/model-layers.png){: target=\_image}
+[![CMDB模型层级](images/cmdb-model/model-layers.png)](images/cmdb-model/model-layers.png){: target="\_image"}
 
 如上图所示，我们使用了5个模型层级对整个模型进行了分组：
 
@@ -22,11 +22,11 @@
 
 点击页面左上方的 “**+**” 按钮可以添加新的模型层级；通过点击页面左侧各模型层级的名称，可以在页面右侧打开模型层级编辑器进行数据维护，包括修改层级名称以及调整层级顺序。
 
-[![CMDB模型层级编辑](images/cmdb-model/layer-editor.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-model/layer-editor.png){: target=\_image}
+[![CMDB模型层级编辑](images/cmdb-model/layer-editor.png)](images/cmdb-model/layer-editor.png){: target="\_image" style="display: block; width: 61.8%; margin: 0 auto;"}
 
 另一方面，图层则是根据WeCube的产品设计思想将CI数据类型显式地划分在“常规图层”、“网络图层”和“基础图层”3个不同的图层区域中，其中“常规图层”包含大部分与计算和存储资源相关的数据模型，“网络图层”则仅包含网络资源相关的模型，“基础图层”中包含的模型则作为WeCube功能运作的基础数据来源。在查看模型时，您可以通过页面右上方的 “**切换图层**” 列表来指定想要查看或过滤掉的图层。
 
-[![CMDB模型图层过滤](images/cmdb-model/perspectives.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-model/perspectives.png){: target=\_image}
+[![CMDB模型图层过滤](images/cmdb-model/perspectives.png)](images/cmdb-model/perspectives.png){: target="\_image" style="display: block; width: 61.8%; margin: 0 auto;"}
 
 这样，模型层级和图层就成为了很好的分离不同角色关注点的工具，也使整个模型变得更加简洁。
 
@@ -46,18 +46,18 @@ CI类型ID | CI数据类型的英文标识符，用于物理存储引擎的标�
 
 当您完成对CI数据类型的编辑并保存后，CI数据类型实际上处于 `notCreated` 状态。此时，您还不能为这个CI数据类型创建任何CI数据对象。在CMDB模型图上，也将以绿色突出显示CI数据类型的名称。
 
-[![CI数据类型状态](images/cmdb-model/ci-type-status.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-model/ci-type-status.png){: target=\_image}
+[![CI数据类型状态](images/cmdb-model/ci-type-status.png)](images/cmdb-model/ci-type-status.png){: target="\_image" style="display: block; width: 61.8%; margin: 0 auto;"}
 
 您应当在页面右侧CI数据类型编辑器中点击 “**提交**” 按钮，将新创建的CI数据类型信息提交给物理存储引擎，完成后，该CI数据类型的状态将变为 `created` 并可以被正常使用了。
 
-[![CI数据类型提交](images/cmdb-model/ci-type-submission.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-model/ci-type-submission.png){: target=\_image}
+[![CI数据类型提交](images/cmdb-model/ci-type-submission.png)](images/cmdb-model/ci-type-submission.png){: target="\_image" style="display: block; width: 61.8%; margin: 0 auto;"}
 
 
 ## CI数据属性
 
 通过点击CMDB模型图中的CI数据类型图标，您可以在页面右侧看到该CI数据类型下的所有数据属性。
 
-[![CI数据属性](images/cmdb-model/ci-attributes.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-model/ci-attributes.png){: target=\_image}
+[![CI数据属性](images/cmdb-model/ci-attributes.png)](images/cmdb-model/ci-attributes.png){: target="\_image" style="display: block; width: 61.8%; margin: 0 auto;"}
 
 您可以创建新的CI数据属性，对现有的CI数据属性进行编辑并把提交到物理存储引擎以使更改生效，删除CI数据属性，或者调整CI数据属性的顺序。关于CI数据属性的属性说明，请参见下表：
 
@@ -85,7 +85,7 @@ CI属性名称 | 简洁易懂的描述性名称。
 
 CI数据类型之间的关联关系实际上一类特殊的CI数据属性。
 
-[![CI数据关联关系](images/cmdb-model/ci-relationships.png){: style="display: block; width: 50%; margin: 0 auto;"}](images/cmdb-model/ci-relationships.png){: target=\_image}
+[![CI数据关联关系](images/cmdb-model/ci-relationships.png)](images/cmdb-model/ci-relationships.png){: target="\_image" style="display: block; width: 50%; margin: 0 auto;"}
 
 您需要确定关联关系所属的CI数据类型，并在拥有这个关联关系的CI数据类型上创建一个类型为 “**ref**” 或着 “**multiRef**” 的CI数据属性。在要创建的CI数据属性中，与关联关系有关的属性请参见下表：
 
@@ -123,4 +123,4 @@ CI属性名称 | 简洁易懂的描述性名称。
 
 在CMDB模型图上，您可以通过页面上方的 “**状态**” 选择列表来指定想要查看或者过滤到的CI数据类型的状态。
 
-[![CI状态过滤](images/cmdb-model/ci-status-filter.png){: style="display: block; width: 61.8%; margin: 0 auto;"}](images/cmdb-model/ci-status-filter.png){: target=\_image}
+[![CI状态过滤](images/cmdb-model/ci-status-filter.png)](images/cmdb-model/ci-status-filter.png){: target="\_image" style="display: block; width: 61.8%; margin: 0 auto;"}
