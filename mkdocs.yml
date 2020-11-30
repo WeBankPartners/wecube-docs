@@ -62,6 +62,7 @@ nav:
       - '告警列表': 'manual-open-monitor-alerting.md'
       - '自定义视图': 'manual-open-monitor-customized-view.md'
     - '批量执行': 'manual-batch-execution.md'
+    - '高危监测': 'manual-itsdangerous.md'
   - '参考文档':
     - '应用发布规范': 'application-deployment-specification.md'
   - '常见问题': 'faq.md'
