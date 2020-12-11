@@ -132,7 +132,7 @@ WeCube installation completed. Please visit WeCube at http://<您输入的主机
 
 ## 卸载和重新安装WeCube
 
-如果您想要写在已经安装的WeCube，或者想要使用不同的版本或插件配置方案来安装WeCube，请执行以下命令行指令来清除WeCube的运行组件和安装目录（默认为 `/data/wecube`）：
+如果您想要卸载已经安装的WeCube，或者想要使用不同的版本或插件配置方案来安装WeCube，请执行以下命令行指令来清除WeCube的运行组件和安装目录（默认为 `/data/wecube`）：
 
 ```bash
 docker rm -f $(docker ps -a -q -f name=wecube -f name=open-monitor) && rm -rfI /data/wecube
