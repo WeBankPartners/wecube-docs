@@ -17,7 +17,7 @@ install_target_host=${install_target_host:-$install_target_host_default}
 read -p "Please specify WeCube release version [latest, v2.7.0, ...] ($wecube_release_version_default): " wecube_release_version
 wecube_release_version=${wecube_release_version:-$wecube_release_version_default}
 
-read -p "Please specify WeCube settings [bootcamp, standard, empty] ($wecube_settings_default): " wecube_settings
+read -p "Please specify WeCube settings [standard, bootcamp, empty] ($wecube_settings_default): " wecube_settings
 wecube_settings=${wecube_settings:-$wecube_settings_default}
 
 read -p "Please specify destination dir ($dest_dir_default): " dest_dir

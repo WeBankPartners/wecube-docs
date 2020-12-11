@@ -129,6 +129,17 @@ WeCube installation completed. Please visit WeCube at http://<您输入的主机
 
 请依据提示，使用默认的用户名 `umadmin` 和密码 `umadmin` 来访问安装好的WeCube。
 
+
+## 卸载和重新安装WeCube
+
+如果您想要写在已经安装的WeCube，或者想要使用不同的版本或插件配置方案来安装WeCube，请执行以下命令行指令来清除WeCube的运行组件和安装目录（默认为 `/data/wecube`）：
+
+```bash
+docker rm -f $(docker ps -a -q -f name=wecube -f name=open-monitor) && rm -rfI /data/wecube
+
+```
+
+
 ## 进一步了解
 
 关于WeCube安装目录结构的详细信息，请参见文档“[WeCube安装目录结构](directory-structure.md)”。
