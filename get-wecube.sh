@@ -3,7 +3,7 @@
 #### Configuration Section ####
 install_target_host_default='127.0.0.1'
 wecube_release_version_default='latest'
-wecube_settings_default='bootcamp'
+wecube_settings_default='standard'
 dest_dir_default='/data/wecube'
 initial_password_default='Wecube@123456'
 use_mirror_in_mainland_china_default='true'
