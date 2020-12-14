@@ -1,7 +1,7 @@
 #!/bin/bash
 
 INSTALLER_LOG_DIR="./installer-logs"
-mkdir -p $$INSTALLER_LOG_DIR
+mkdir -p $INSTALLER_LOG_DIR
 
 #### Configuration Section ####
 install_target_host_default='127.0.0.1'
