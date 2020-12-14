@@ -1,5 +1,8 @@
 #!/bin/bash
 
+INSTALLER_LOG_DIR="./installer-logs"
+mkdir -p $$INSTALLER_LOG_DIR
+
 #### Configuration Section ####
 install_target_host_default='127.0.0.1'
 wecube_release_version_default='latest'
@@ -10,6 +13,21 @@ use_mirror_in_mainland_china_default='true'
 #### End of Configuration Section ####
 
 set -e
+trap 'catch $? $LINENO' EXIT
+
+catch() {
+	[ "$1" == '0' ] && exit 0
+
+	LOG_COLLECT_DIR=$(realpath "$INSTALLER_LOG_DIR")
+	LOG_FILES="$dest_dir/log/wecube-core.log $dest_dir/wecmdb/log/wecmdb-plugin.log $dest_dir/monitor/logs/open-monitor.log"
+	echo -e "\n\e[0;33mCollecting WeCube logs into $LOG_COLLECT_DIR after error occurred...\e[0m"
+	for LOG_FILE in $LOG_FILES; do
+		[ -f "$LOG_FILE" ] && cp "$LOG_FILE" "$LOG_COLLECT_DIR/"
+	done
+	tar czvf wecube-logs.tar.gz $INSTALLER_LOG_DIR
+
+	exit 1
+}
 
 read -p "Please specify host IP address ($install_target_host_default): " install_target_host
 install_target_host=${install_target_host:-$install_target_host_default}
@@ -31,14 +49,15 @@ initial_password=${initial_password_1:-$initial_password_default}
 read -p "Please specify whether mirror sites in Mainland China should be used ($use_mirror_in_mainland_china_default): " use_mirror_in_mainland_china
 use_mirror_in_mainland_china=${use_mirror_in_mainland_china:-$use_mirror_in_mainland_china_default}
 
-echo ""
-echo "- install_target_host          = $install_target_host"
-echo "- wecube_release_version       = $wecube_release_version"
-echo "- wecube_settings              = $wecube_settings"
-echo "- dest_dir                     = $dest_dir"
-echo "- initial_password             = (*not shown*)"
-echo "- use_mirror_in_mainland_china = $use_mirror_in_mainland_china"
-echo ""
+cat | tee "$INSTALLER_LOG_DIR/input-params.log" <<<-EOF
+- install_target_host          = ${install_target_host}
+- wecube_release_version       = ${wecube_release_version}
+- wecube_settings              = ${wecube_settings}
+- dest_dir                     = ${dest_dir}
+- initial_password             = (*not shown*)
+- use_mirror_in_mainland_china = ${use_mirror_in_mainland_china}
+EOF
+
 read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
@@ -59,18 +78,33 @@ echo -e "\nFetching WeCube installer from $INSTALLER_URL"
 RETRIES=30
 while [ $RETRIES -gt 0 ]; do
   if $(curl --connect-timeout 30 --speed-time 30 --speed-limit 1000 -fL $INSTALLER_URL -o $INSTALLER_PKG); then
-    break
+	break
   else
-    RETRIES=$((RETRIES - 1))
-    PAUSE=$(( ( RANDOM % 5 ) + 1 ))
-    echo "Retry in $PAUSE seconds, $RETRIES times remaining..."
-    sleep "$PAUSE"
+	RETRIES=$((RETRIES - 1))
+	PAUSE=$(( ( RANDOM % 5 ) + 1 ))
+	echo "Retry in $PAUSE seconds, $RETRIES times remaining..."
+	sleep "$PAUSE"
   fi
 done
 [ $RETRIES -eq 0 ] && echo 'Failed to fetch installer package! Installation aborted.' && exit 1
 
 unzip -o -q $INSTALLER_PKG -d $dest_dir
 cp -R $INSTALLER_SOURCE_CODE_DIR $dest_dir
+
+INSTALLATION_PARAMS_ENV_FILE="$INSTALLER_DIR/installation-params.env"
+(umask 066 && cat <<EOF >"$WECUBE_SYSTEM_SETTINGS_ENV_FILE"
+DATE_TIME='$(date --rfc-3339=seconds)'
+HOST_PRIVATE_IP='${install_target_host}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_SETTINGS='${wecube_settings}'
+INITIAL_PASSWORD='${initial_password}'
+USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
+EOF
+)
+./invoke-installer.sh "$INSTALLATION_PARAMS_ENV_FILE" params-validator
+
+
 [ -f $wecube_release_version ] && \
   cp $wecube_release_version "$INSTALLER_DIR/wecube-platform/" && \
   cp $wecube_release_version "$INSTALLER_DIR/wecube-system-settings/"
@@ -132,7 +166,6 @@ DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
 WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
-SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
@@ -166,7 +199,6 @@ DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
 WECUBE_HOME='${dest_dir}'
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
-SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
@@ -188,7 +220,6 @@ HOST_PRIVATE_IP='${install_target_host}'
 WECUBE_HOME='${dest_dir}'
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
 WECUBE_SETTINGS='${wecube_settings}'
-SHOULD_INSTALL_PLUGINS=true
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
