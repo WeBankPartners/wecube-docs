@@ -1,5 +1,6 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(realpath $(dirname "$0"))
 INSTALLER_LOG_DIR="./installer-logs"
 mkdir -p $INSTALLER_LOG_DIR
 
@@ -18,6 +19,7 @@ trap 'catch $? $LINENO' EXIT
 catch() {
 	[ "$1" == '0' ] && exit 0
 
+	pushd $SCRIPT_DIR >/dev/null
 	LOG_COLLECT_DIR=$(realpath "$INSTALLER_LOG_DIR")
 	LOG_FILES="$dest_dir/log/wecube-core.log $dest_dir/wecmdb/log/wecmdb-plugin.log $dest_dir/monitor/logs/open-monitor.log"
 	echo -e "\n\e[0;33mCollecting WeCube logs into $LOG_COLLECT_DIR after error occurred...\e[0m"
@@ -25,6 +27,7 @@ catch() {
 		[ -f "$LOG_FILE" ] && cp "$LOG_FILE" "$LOG_COLLECT_DIR/"
 	done
 	tar czvf wecube-logs.tar.gz $INSTALLER_LOG_DIR
+	popd >/dev/null
 
 	exit 1
 }
