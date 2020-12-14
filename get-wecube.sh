@@ -49,7 +49,7 @@ initial_password=${initial_password_1:-$initial_password_default}
 read -p "Please specify whether mirror sites in Mainland China should be used ($use_mirror_in_mainland_china_default): " use_mirror_in_mainland_china
 use_mirror_in_mainland_china=${use_mirror_in_mainland_china:-$use_mirror_in_mainland_china_default}
 
-cat | tee "$INSTALLER_LOG_DIR/input-params.log" <<<-EOF
+cat <<<-EOF | tee "$INSTALLER_LOG_DIR/input-params.log"
 - install_target_host          = ${install_target_host}
 - wecube_release_version       = ${wecube_release_version}
 - wecube_settings              = ${wecube_settings}
