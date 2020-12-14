@@ -26,7 +26,9 @@ catch() {
 	for LOG_FILE in $LOG_FILES; do
 		[ -f "$LOG_FILE" ] && cp "$LOG_FILE" "$LOG_COLLECT_DIR/"
 	done
-	tar czvf wecube-logs.tar.gz $INSTALLER_LOG_DIR
+	LOG_FILE_ARCHIVE="wecube-logs.tar.gz"
+	tar czvf LOG_FILE_ARCHIVE $INSTALLER_LOG_DIR
+	echo "WeCube installation logs saved to file ${LOG_FILE_ARCHIVE}"
 	popd >/dev/null
 
 	exit 1
