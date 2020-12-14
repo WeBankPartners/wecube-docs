@@ -49,6 +49,7 @@ initial_password=${initial_password_1:-$initial_password_default}
 read -p "Please specify whether mirror sites in Mainland China should be used ($use_mirror_in_mainland_china_default): " use_mirror_in_mainland_china
 use_mirror_in_mainland_china=${use_mirror_in_mainland_china:-$use_mirror_in_mainland_china_default}
 
+echo ""
 cat <<-EOF | tee "$INSTALLER_LOG_DIR/input-params.log"
 - install_target_host          = ${install_target_host}
 - wecube_release_version       = ${wecube_release_version}
@@ -91,8 +92,15 @@ done
 unzip -o -q $INSTALLER_PKG -d $dest_dir
 cp -R $INSTALLER_SOURCE_CODE_DIR $dest_dir
 
+[ -f $wecube_release_version ] && \
+  cp $wecube_release_version "$INSTALLER_DIR/wecube-platform/" && \
+  cp $wecube_release_version "$INSTALLER_DIR/wecube-system-settings/"
+
+echo -e "\nRunning WeCube installer scripts...\n"
+pushd $INSTALLER_DIR >/dev/null
+
 INSTALLATION_PARAMS_ENV_FILE="$INSTALLER_DIR/installation-params.env"
-(umask 066 && cat <<EOF >"$WECUBE_SYSTEM_SETTINGS_ENV_FILE"
+(umask 066 && cat <<EOF >"$INSTALLATION_PARAMS_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
 WECUBE_HOME='${dest_dir}'
@@ -103,14 +111,6 @@ USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 EOF
 )
 ./invoke-installer.sh "$INSTALLATION_PARAMS_ENV_FILE" params-validator
-
-
-[ -f $wecube_release_version ] && \
-  cp $wecube_release_version "$INSTALLER_DIR/wecube-platform/" && \
-  cp $wecube_release_version "$INSTALLER_DIR/wecube-system-settings/"
-
-echo -e "\nRunning WeCube installer scripts...\n"
-pushd $INSTALLER_DIR >/dev/null
 
 PROVISIONING_ENV_FILE="$INSTALLER_DIR/provisioning.env"
 (umask 066 && cat <<EOF >"$PROVISIONING_ENV_FILE"
