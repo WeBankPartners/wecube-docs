@@ -96,13 +96,13 @@ curl http://127.0.0.1:2375/version
 
 请执行如下命令行指令：
 ``` bash
-curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/get-wecube.sh -o get-wecube.sh && sh get-wecube.sh
+curl -fsSL https://raw.githubusercontent.com/WeBankPartners/wecube-docs/master/get-wecube.sh -o get-wecube.sh && sh get-wecube.sh | tee ./installer-logs/out.log 2>&1
 
 ```
 
 如果您在执行以上指令时遇到了访问GitHub站点`raw.githubusercontent.com`的网络错误，那么您可以执行以下命令行指令来通过我们在Gitee上的镜像站点进行安装：
 ``` bash
-curl -fsSL https://gitee.com/WeBankPartners/wecube-docs/raw/master/get-wecube.sh -o get-wecube.sh && sh get-wecube.sh
+curl -fsSL https://gitee.com/WeBankPartners/wecube-docs/raw/master/get-wecube.sh -o get-wecube.sh && sh get-wecube.sh | tee ./installer-logs/out.log 2>&1
 
 ```
 
