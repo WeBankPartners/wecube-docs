@@ -10,7 +10,7 @@
 请通过 “**执行**菜单” - “**批量执行**菜单项” 进入批量执行页面，参考 [之前提到的方法](bootcamp-03-explore-plugin-for-deployment.md#_4)选择唯一的主机作为批量执行目标，并选择插件服务方法 `saltstack`/`host-script`(`adhoc_scripting`)/`run`，为 “**scriptContent**”参数 输入以下希望执行的命令行指令并点击 “**执行**”。
 
 ```bash
-yum install -y java-1.8.0-openjdk
+sudo yum install -y java-1.8.0-openjdk
 ```
 
 之后，您可以再次通过插件服务方法 `saltstack`/`host-script`(`adhoc_scripting`)/`run`，来执行命令行指令 `java -version` 来验证主机上已经具备了Java运行时环境。
