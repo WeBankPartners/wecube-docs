@@ -9,6 +9,7 @@ install_target_host_default='127.0.0.1'
 wecube_release_version_default='latest'
 wecube_settings_default='standard'
 dest_dir_default='/data/wecube'
+wecube_user_default='wecube'
 initial_password_default='Wecube@123456'
 use_mirror_in_mainland_china_default='true'
 #### End of Configuration Section ####
@@ -21,11 +22,11 @@ catch() {
 
 	pushd $SCRIPT_DIR >/dev/null
 	LOG_COLLECT_DIR=$(realpath "$INSTALLER_LOG_DIR")
-	LOG_FILES="$dest_dir/log/wecube-core.log $dest_dir/wecmdb/log/wecmdb-plugin.log $dest_dir/monitor/logs/open-monitor.log"
 	echo -e "\n\e[0;33mCollecting WeCube logs into $LOG_COLLECT_DIR after error occurred...\e[0m"
-	for LOG_FILE in $LOG_FILES; do
-		[ -f "$LOG_FILE" ] && cp "$LOG_FILE" "$LOG_COLLECT_DIR/"
-	done
+	cp -R $SCRIPT_DIR/out.log $dest_dir/logs/* $LOG_COLLECT_DIR/
+	cp -R $dest_dir/wecmdb/log/* $LOG_COLLECT_DIR/wecmdb/
+	cp -R $dest_dir/monitor/logs/* $LOG_COLLECT_DIR/monitor/
+
 	LOG_FILE_ARCHIVE="wecube-logs.tar.gz"
 	tar czvf $LOG_FILE_ARCHIVE $INSTALLER_LOG_DIR
 	echo "WeCube installation logs saved to file ${LOG_FILE_ARCHIVE}"
@@ -46,7 +47,10 @@ wecube_settings=${wecube_settings:-$wecube_settings_default}
 read -p "Please specify destination dir ($dest_dir_default): " dest_dir
 dest_dir=${dest_dir:-$dest_dir_default}
 
-read -s -p "Please enter password of root user on host and for mysql ($initial_password_default): " initial_password_1 && echo ""
+read -p "Please specify wecube user ($wecube_user_default): " wecube_user
+wecube_user=${wecube_user:-$wecube_user_default}
+
+read -s -p "Please enter password for wecube user and mysql root user ($initial_password_default): " initial_password_1 && echo ""
 [ -n "$initial_password_1" ] && read -s -p "Please re-enter the password to confirm: " initial_password_2 && echo ""
 [ -n "$initial_password_1" ] && [ "$initial_password_1" != "$initial_password_2" ] && echo 'Inputs do not match!' && exit 1
 initial_password=${initial_password_1:-$initial_password_default}
@@ -60,6 +64,7 @@ cat <<-EOF | tee "$INSTALLER_LOG_DIR/input-params.log"
 - wecube_release_version       = ${wecube_release_version}
 - wecube_settings              = ${wecube_settings}
 - dest_dir                     = ${dest_dir}
+- wecube_user                  = ${wecube_user}
 - initial_password             = (*not shown*)
 - use_mirror_in_mainland_china = ${use_mirror_in_mainland_china}
 EOF
@@ -108,9 +113,10 @@ INSTALLATION_PARAMS_ENV_FILE="$INSTALLER_DIR/installation-params.env"
 (umask 066 && cat <<EOF >"$INSTALLATION_PARAMS_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
-WECUBE_HOME='${dest_dir}'
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
 WECUBE_SETTINGS='${wecube_settings}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_USER='${wecube_user}'
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 EOF
@@ -121,7 +127,11 @@ PROVISIONING_ENV_FILE="$INSTALLER_DIR/provisioning.env"
 (umask 066 && cat <<EOF >"$PROVISIONING_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
+WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_SETTINGS='${wecube_settings}'
 WECUBE_HOME='${dest_dir}'
+WECUBE_USER='${wecube_user}'
+INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
 DOCKER_PORT=2375
@@ -135,12 +145,18 @@ MYSQL_USERNAME=root
 MYSQL_PASSWORD='${initial_password}'
 EOF
 )
-./invoke-installer.sh "$PROVISIONING_ENV_FILE" yum-packages docker mysql-docker minio-docker open-monitor-agent
+./invoke-installer.sh "$PROVISIONING_ENV_FILE" yum-packages wecube-user docker mysql-docker minio-docker open-monitor-agent
 
 WECUBE_DB_ENV_FILE="$INSTALLER_DIR/db-deployment-wecube-db-standalone.env"
 (umask 066 && cat <<EOF >"$WECUBE_DB_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
+WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_SETTINGS='${wecube_settings}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_USER='${wecube_user}'
+INITIAL_PASSWORD='${initial_password}'
+USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
 DB_HOST='${install_target_host}'
 DB_PORT=3307
@@ -155,6 +171,12 @@ AUTH_SERVER_DB_ENV_FILE="$INSTALLER_DIR/db-deployment-auth-server-db-standalone.
 (umask 066 && cat <<EOF >"$AUTH_SERVER_DB_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
+WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_SETTINGS='${wecube_settings}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_USER='${wecube_user}'
+INITIAL_PASSWORD='${initial_password}'
+USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
 DB_HOST='${install_target_host}'
 DB_PORT=3307
@@ -169,8 +191,10 @@ WECUBE_PLATFORM_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-platform-standalo
 (umask 066 && cat <<EOF >"$WECUBE_PLATFORM_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
-WECUBE_HOME=${dest_dir}
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_SETTINGS='${wecube_settings}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_USER='${wecube_user}'
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
@@ -202,8 +226,10 @@ WECUBE_PLUGIN_HOSTING_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-plugin-host
 (umask 066 && cat <<EOF >"$WECUBE_PLUGIN_HOSTING_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
-WECUBE_HOME='${dest_dir}'
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
+WECUBE_SETTINGS='${wecube_settings}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_USER='${wecube_user}'
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
@@ -222,9 +248,10 @@ WECUBE_SYSTEM_SETTINGS_ENV_FILE="$INSTALLER_DIR/app-deployment-wecube-system-set
 (umask 066 && cat <<EOF >"$WECUBE_SYSTEM_SETTINGS_ENV_FILE"
 DATE_TIME='$(date --rfc-3339=seconds)'
 HOST_PRIVATE_IP='${install_target_host}'
-WECUBE_HOME='${dest_dir}'
 WECUBE_RELEASE_VERSION='${wecube_release_version}'
 WECUBE_SETTINGS='${wecube_settings}'
+WECUBE_HOME='${dest_dir}'
+WECUBE_USER='${wecube_user}'
 INITIAL_PASSWORD='${initial_password}'
 USE_MIRROR_IN_MAINLAND_CHINA='${use_mirror_in_mainland_china}'
 
