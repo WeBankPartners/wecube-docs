@@ -72,7 +72,9 @@ EOF
 read -p "Continue? [y/Y] " -n 1 -r && echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && echo "Installation aborted." && exit 1
 
-mkdir -p $dest_dir
+sudo mkdir -p $dest_dir
+sudo chown -R $USER:$wecube_user $dest_dir
+sudo chmod 0770 $dest_dir
 
 INSTALLER_URL="https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip"
 INSTALLER_PKG="$dest_dir/wecube-installer.zip"
