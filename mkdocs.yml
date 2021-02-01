@@ -26,6 +26,9 @@ nav:
     - '资源管理': 'manual-resource-management.md'
     - '权限管理': 'manual-permission-management.md'
     - '插件注册': 'manual-plugin.md'
+    - '任务编排设计': 'manual-orchestration-design.md'
+    - '任务编排执行': 'manual-orchestration-execution.md'
+    - '批量执行': 'manual-batch-execution.md'
     - 'CMDB插件功能':
       - 'CMDB模型管理': 'manual-cmdb-model.md'
       - 'CMDB基础数据管理': 'manual-cmdb-enumerations.md'
@@ -38,16 +41,14 @@ nav:
       - 'CMDB应用视图 - 部署管理': 'manual-cmdb-view-deployment-management.md'
     - '应用物料插件功能':
       - '应用物料管理': 'manual-application-artifacts.md'
-    - '任务编排设计': 'manual-orchestration-design.md'
-    - '任务编排执行': 'manual-orchestration-execution.md'
     - '监控插件功能':
       - '对象视图': 'manual-open-monitor-object-view.md'
       - '监控配置': 'manual-open-monitor-config.md'
       - '指标设计': 'manual-open-monitor-metrics.md'
       - '告警列表': 'manual-open-monitor-alerting.md'
       - '自定义视图': 'manual-open-monitor-customized-view.md'
-    - '批量执行': 'manual-batch-execution.md'
-    - '高危监测': 'manual-itsdangerous.md'
+    - '高危监测插件功能': 'manual-itsdangerous.md'
+    - '远程终端插件功能': 'manual-terminal.md'
   - '参考文档':
     - '应用发布规范': 'application-deployment-specification.md'
   - '常见问题': 'faq.md'
