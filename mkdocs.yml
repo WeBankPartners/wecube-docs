@@ -49,6 +49,7 @@ nav:
       - '自定义视图': 'manual-open-monitor-customized-view.md'
     - '高危监测插件功能': 'manual-itsdangerous.md'
     - '远程终端插件功能': 'manual-terminal.md'
+    - '容量插件功能': 'manual-capacity.md'
   - '参考文档':
     - '应用发布规范': 'application-deployment-specification.md'
   - '常见问题': 'faq.md'
