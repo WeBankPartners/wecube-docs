@@ -60,48 +60,36 @@ terraform version
 !!! info "提示"
     请注意，WeCube的安装过程需要在公有云上创建按量付费使用的云资源。因此，根据云平台的要求，您的账号中可能需要有一定的余额才能正常进行安装过程。
 
+请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master`。
 
-!!! note "请根据您选择的公有云平台执行相应的安装步骤："
-    === "腾讯云"
-        请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_tencent_cloud`。
+在上述目录中，请执行以下命令行指令来下载和安装Terraform与公有云平台进行交互时所需要的组件。
 
-        在上述目录中，请执行以下命令行指令来下载和安装Terraform与腾讯云进行交互时所需要的组件。
+``` bash
+terraform init
 
-        ``` bash
-        terraform init
-        ```
+```
 
-        请继续执行以下命令行指令来使用默认的安装配置项开始WeCube的安装。您也可以对安装配置项进行自定义，详见下方说明。
+请继续执行以下命令行指令来使用默认的安装配置项开始WeCube的安装。您也可以对安装配置项进行自定义，详见下方说明。
 
-        ``` bash
-        terraform apply
-        ```
+``` bash
+terraform apply
 
-    === "阿里云"
-        [TODO: 安装过程需要验证]
+```
 
-        请在命令行中访问WeCube安装脚本包的解压后目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_ali_cloud`。
-
-        在上述目录中，请执行以下命令行指令来下载和安装Terraform与阿里云进行交互时所需要的组件。
-
-        ``` bash
-        terraform init
-        ```
-
-        请继续执行以下命令行指令来使用默认的安装配置项开始WeCube的安装。您也可以对安装配置项进行自定义，详见下方说明。
-
-        ``` bash
-        terraform apply
-        ```
-
-WeCube的安装配置项如下表所示，您可以通过编辑安装执行目录下的文件`terraform.tfvars`来更改配置值。
+WeCube的安装配置项如下表所示，您可以通过编辑安装执行目录下的文件`variables.tf`来更改配置值。
 
 | 配置项名称 | 默认值 | 用途说明 |
 | - | - | - |
-| instance_root_password | Wecube@123456 | 云主机的root密码 |
-| mysql_root_password | Wecube@123456 | MySQL数据库的root密码 |
-| wecube_version | *\*随WeCube版本改变\** | WeCube的版本 |
-| wecube_home | /data/wecube | WeCube安装目录 |
+| install_target_host | *127.0.0.1* | WeCube安装的目标主机名称或IP地址<br/>（**请勿使用此默认值**，详见下方说明。） |
+| wecube_release_version | *latest* | WeCube安装的目标版本，默认为最新发布版本 `latest`，可指定为某个特定版本，如 `v2.9.0` |
+| wecube_settings | *bootcamp* | WeCube安装后的插件配置方案，默认为 上手指引配置 `bootcamp`，可指定为 标准安装配置 `standard` 或 空配置 `empty` |
+| wecube_home | */data/wecube* | WeCube的安装目录 |
+| initial_password | *Wecube@123456* | 安装目标主机的root账号密码，同时用于MySQL数据库root账号的初始密码 |
+| use_mirror_in_mainland_china | *true* | 是否在安装过程中使用位于中国大陆的镜像站点进行加速：true - 是；其它值 - 否 |
+
+!!! warning "请注意"
+
+    由于当前版本的WeCube设计，**请勿使用**默认的本地回环地址127.0.0.1作为安装目标主机的IP地址。大部分情况下，您应当使用为主机分配的内网IP地址作为部署配置项`install_target_host`的输入值。
 
 安装过程启动后，Terraform会输出将要创建的资源信息并等待您的确认，请在命令行输入`yes`以允许Terraform开始创建云资源并安装WeCube，如下所示：
 
@@ -130,25 +118,15 @@ wecube_website = http://<公网IP地址>:19090
 
 如果您不再需要在公有云上安装好的WeCube，您可以按照以下步骤使用Terraform来销毁之前创建的云资源。
 
-!!! note "请根据您选择的公有云平台执行相应的安装步骤："
-    === "腾讯云"
-        请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_tencent_cloud`。
+请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master`。
 
-        在上述目录中，执行以下命令行指令来销毁在腾讯云上创建的资源：
+在上述目录中，执行以下命令行指令来销毁在云上创建的资源：
 
-        ``` bash
-        terraform destroy
-        ```
+``` bash
+terraform destroy
 
-    === "阿里云"
-        请在命令行中访问WeCube安装脚本包解压后的目录 `delivery-by-terraform-master/delivery-wecube-for-stand-alone/to_ali_cloud`。
-
-        在上述目录中，执行以下命令行指令来销毁在阿里云上创建的资源：
-
-        ``` bash
-        terraform destroy
-        ```
+```
 
 ## 进一步了解
 
-关于WeCube安装目录结构的详细信息，请参见文档“[WeCube安装目录结构](directory-structure.md)”。
+关于WeCube安装目录结构的详细信息，请参见文档“[WeCube安装目录结构](installation-directory-structure.md)”。

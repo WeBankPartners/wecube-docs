@@ -8,8 +8,8 @@
 
 关于WeCube安装的详细信息，请参见以下文档：
 
-- [在私有资源上以单机模式安装](standalone-mode-on-premises.md)
-- [在公有云上以单机模式安装](standalone-mode-on-public-cloud.md)
+- [在私有资源上以单机模式安装](installation-standalone-mode-on-premises.md)
+- [在公有云上以单机模式安装](installation-standalone-mode-on-public-cloud.md)
 
 
 安装过程完成后，您将得到一个应用了专门为上手指引过程设计的精简方案的WeCube平台及插件配置。请依据提示使用默认的用户账号 `umadmin` 及初始密码 `umadmin` 进行登录并访问WeCube。

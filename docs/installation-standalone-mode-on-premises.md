@@ -1,6 +1,6 @@
 # 在私有资源上以单机模式安装WeCube
 
-在这里，我们将为您说明如何使用 [Docker :fa-external-link:](https://docs.docker.com/){: target=\_blank} 在您自己的机器资源上安装以单机模式运行的WeCube。
+在这里，我们将为您说明如何在您自己的机器资源上安装以单机模式运行的WeCube。
 
 ## 先决条件
 
@@ -10,13 +10,15 @@
 
 ### 系统和软件资源
 
-#### 操作系统
+#### CentOS 7
 
-WeCube的运行仅仅依赖于Docker，但是安装脚本是基于CentOS制作的。所以，请在安装了CentOS系统的Linux服务器上来安装WeCube。
+WeCube的运行仅仅依赖于Docker，但是安装脚本是基于CentOS制作的。所以，请在安装了 **CentOS 7（7.2或以上版本）** 的Linux服务器上来安装WeCube。
 
 #### Docker
 
-如果您希望使用我们提供的缺省设置的Docker安装版本，您可以跳过此节的内容，直接[执行WeCube的安装脚本](#wecube_1)，WeCube的安装过程将会检查并根据需要安装Docker。如果您希望自行定义和设置Docker的安装，请参考以下内容。
+如果您希望使用我们提供的缺省设置的Docker安装版本，**您可以跳过此节的内容，直接 [执行WeCube的安装脚本](#wecube_1)**，WeCube的安装过程将会检查并根据需要自动安装Docker。
+
+如果您希望自行定义和设置Docker的安装，请参考以下内容。
 
 您需要安装最新稳定版本的 [Docker Engine :fa-external-link:](https://docs.docker.com/engine/install/){: target=\_blank} 和 [Docker Compose :fa-external-link:](https://docs.docker.com/compose/install/){: target=\_blank}，请参阅此处提供的链接所指向的相关站点获取它们各自的安装信息和指引。
 
@@ -106,16 +108,17 @@ curl -fsSL https://gitee.com/WeBankPartners/delivery-by-terraform/raw/master/get
 
 ```
 
-[](#config-params)脚本执行时首先会提示您输入以下安装配置项：
+脚本执行时首先会提示您输入以下安装配置项：
 
 | 配置项名称 | 默认值 | 用途说明 |
 | - | - | - |
-| install_target_host | *127.0.0.1* | WeCube安装的目标主机名称或IP地址<br/>（**请勿使用此默认值**，详见下方说明。） |
-| wecube_release_version | *latest* | WeCube安装的目标版本，默认为最新发布版本 `latest`，可指定为某个特定版本，如 `v2.7.0` |
-| wecube_settings | *bootcamp* | WeCube安装后的插件配置方案，默认为 上手指引配置 `bootcamp`，可指定为 标准安装配置 `standard` 或 空配置 `empty` |
-| dest_dir | */data/wecube* | WeCube的安装目录 |
-| initial_password | *Wecube@123456* | 安装目标主机的root账号密码，同时用于MySQL数据库root账号的初始密码 |
-| use_mirror_in_mainland_china | *true* | 是否在安装过程中使用位于中国大陆的镜像站点进行加速：true - 是；其它值 - 否 |
+| INSTALL_TARGET_HOST | *127.0.0.1* | WeCube安装的目标主机名称或IP地址<br/>（**请勿使用此默认值**，详见下方说明。） |
+| WECUBE_RELEASE_VERSION | *latest* | WeCube安装的目标版本，默认为最新发布版本 `latest`，可指定为某个特定版本，如 `v2.9.0` |
+| WECUBE_SETTINGS | *standard* | WeCube安装后的插件配置方案，默认为 标准安装配置 `standard`，可指定为 上手指引配置 `bootcamp` 或 空配置 `empty` |
+| WECUBE_HOME | */data/wecube* | WeCube的安装目录 |
+| WECUBE_USER | *wecube* | WeCube运行使用的用户 |
+| INITIAL_PASSWORD | *Wecube@123456* | WeCube运行使用的用户密码，同时用于MySQL数据库root账号的初始密码 |
+| USE_MIRROR_IN_MAINLAND_CHINA | *true* | 是否在安装过程中使用位于中国大陆的镜像站点进行加速：true - 是；其它值 - 否 |
 
 !!! warning "请注意"
 
@@ -124,7 +127,7 @@ curl -fsSL https://gitee.com/WeBankPartners/delivery-by-terraform/raw/master/get
 请根据情况提供合适的输入值，如要使用默认值直接回车即可。提供了所有输入值之后，安装脚本将最后再次请您确认以上配置项的值，确认后将开始执行WeCube的安装过程。安装脚本执行完毕后，将输出如下内容：
 
 ```
-WeCube installation completed. Please visit WeCube at http://<您输入的主机名称或IP地址>:19090
+Please visit WeCube at http://<您输入的主机名称或IP地址>:19090
 ```
 
 请依据提示，使用默认的用户名 `umadmin` 和密码 `umadmin` 来访问安装好的WeCube。
@@ -132,7 +135,7 @@ WeCube installation completed. Please visit WeCube at http://<您输入的主机
 
 ## 卸载和重新安装WeCube
 
-如果您想要卸载已经安装的WeCube，或者想要使用不同的版本或插件配置方案来安装WeCube，请执行以下命令行指令来清除WeCube的运行组件和安装目录（默认为 `/data/wecube`）：
+如果您想要卸载已经安装的WeCube，或者想要使用不同的版本或插件配置方案来安装WeCube，请执行以下命令行指令来清除WeCube的运行组件和安装目录（默认为 `/data/wecube`，请根据您的实际情况对命令行指令进行调整）：
 
 ```bash
 docker rm -f $(docker ps -a -q -f name=wecube -f name=open-monitor -f name=service-mgmt) && sudo rm -rfI /data/wecube
@@ -142,4 +145,4 @@ docker rm -f $(docker ps -a -q -f name=wecube -f name=open-monitor -f name=servi
 
 ## 进一步了解
 
-关于WeCube安装目录结构的详细信息，请参见文档“[WeCube安装目录结构](directory-structure.md)”。
+关于WeCube安装目录结构的详细信息，请参见文档“[WeCube安装目录结构](installation-directory-structure.md)”。
