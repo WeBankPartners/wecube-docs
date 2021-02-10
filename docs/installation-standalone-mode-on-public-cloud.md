@@ -79,7 +79,7 @@ WeCube的安装配置项如下表所示，您可以通过编辑安装执行目�
 | secret_id | | WeCube安装使用的云平台用户账号访问密钥Id，根据您所使用的云平台提供商，它可能会有其它名称 |
 | secret_key | | WeCube安装使用的云平台用户账号访问密钥Secret，根据您所使用的云平台提供商，它可能会有其它名称 |
 | region | | WeCube安装的目标地域 |
-| availability_zones | | WeCube安装的目标可用区，在单机模式下，您只需指定一个可用区 |
+| availability_zones | | WeCube安装的目标可用区，在单机模式下，您只需指定1个可用区; 在集群模式下，您需要指定2个可用区 |
 | wecube_release_version | *latest* | WeCube安装的目标版本，默认为最新发布版本 `latest`，可指定为某个特定版本，如 `v2.9.0` |
 | wecube_settings | *standard* | WeCube安装后的插件配置方案，默认为 标准安装配置 `standard`，可指定为 上手指引配置 `bootcamp` 或 空配置 `empty` |
 | wecube_home | */data/wecube* | WeCube的安装目录 |
