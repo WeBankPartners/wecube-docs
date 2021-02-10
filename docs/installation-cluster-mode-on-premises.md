@@ -33,7 +33,7 @@ WeCube的运行仅仅依赖于Docker，但是安装脚本是基于CentOS制作�
 
 #### Ansible
 
-为了方便您对私有资源进行规划，我们使用了 [Ansible :fa-external-link:](https://docs.ansible.com/core.html) 的资产清单（Inventory）、服务器分组以及角色等功能来帮助进行WeCube的安装。所以，您需要使用一台安装了 **最新稳定版本的Ansible** 的机器来执行WeCube的安装，请参阅 [此链接所指向的站点 :fa-external-link:](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) 来获取安装信息和指引。
+为了方便您对私有资源进行规划，我们使用了 [Ansible :fa-external-link:](https://docs.ansible.com/core.html) 的资产清单（Inventory）、服务器分组以及角色等功能来帮助进行WeCube的安装。所以，您需要使用一台安装了 **最新稳定版本的Ansible** 的机器来执行WeCube的安装，请参阅 [此链接所指向的站点 :fa-external-link:](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html){: target=\_blank} 来获取安装信息和指引。
 
 您也可以考虑使用准备好的私有资源中的一台服务器来执行WeCube的安装，我们建议您使用即将作为WeCube负载均衡服务器的 `lb_server` 中的一台。您可以使用以下命令行指令在CentOS 7上安装Ansible：
 
@@ -57,7 +57,7 @@ ansible --version
 
 ### 获取安装脚本
 
-请从 [此GitHub站点 :fa-external-link:](https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip) 或者 使用 [此Gitee镜像站点 :fa-external-link:](https://gitee.com/WeBankPartners/delivery-by-terraform/repository/archive/master.zip) 下载WeCube安装脚本包，将其存放到安装有Ansible的执行机器的本地磁盘并对安装包进行解压缩。
+请从 [此GitHub站点 :fa-external-link:](https://github.com/WeBankPartners/delivery-by-terraform/archive/master.zip){: target=\_blank} 或者 使用 [此Gitee镜像站点 :fa-external-link:](https://gitee.com/WeBankPartners/delivery-by-terraform/repository/archive/master.zip){: target=\_blank} 下载WeCube安装脚本包，将其存放到安装有Ansible的执行机器的本地磁盘并对安装包进行解压缩。
 
 
 ### 规划资源

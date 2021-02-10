@@ -13,6 +13,7 @@ nav:
     - '在私有资源上以单机模式安装': 'installation-standalone-mode-on-premises.md'
     - '在私有资源上以集群模式安装': 'installation-cluster-mode-on-premises.md'
     - '在公有云上以单机模式安装': 'installation-standalone-mode-on-public-cloud.md'
+    - '在公有云上以集群模式安装': 'installation-cluster-mode-on-public-cloud.md'
     - 'WeCube安装目录结构': 'installation-directory-structure.md'
   - '上手指引': 
     - '使用上手指引配置进行安装': 'bootcamp-01-installation.md'
