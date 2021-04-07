@@ -6,6 +6,7 @@
 4. 支持会话空闲回收
 5. 支持文件传输记录 & 历史会话 审计
 6. 支持实时终端输入的高危命令检测
+7. 基于wecube表达式的主机收藏夹
 
 
 ### 使用说明
@@ -21,7 +22,7 @@
 | TERMINAL_FIELD_IP                | ip_address                    | 从TERMINAL_ASSET_TYPE数据中提取的登陆IP字段                  |
 | TERMINAL_FIELD_PORT              | login_port                    | 从TERMINAL_ASSET_TYPE数据中提取的登陆端口字段                |
 | TERMINAL_FIELD_USER              | user_name                     | 从TERMINAL_ASSET_TYPE数据中提取的登陆用户名字段              |
-| TERMINAL_FIELD_PASSWORD          | user_password                 | 从TERMINAL_ASSET_TYPE数据中提取的登陆密码字段，支持qcloud/saltstack的{cipher_a}加密数据 |
+| TERMINAL_FIELD_PASSWORD          | user_password                 | 从TERMINAL_ASSET_TYPE数据中提取的登陆密码字段，支持qcloud/saltstack的\{cipher_a\}加密数据 |
 | TERMINAL_FIELD_DESC              | description                   | 从TERMINAL_ASSET_TYPE数据中提取的描述字段                    |
 | TERMINAL_SESSION_TIMEOUT         | 1800                          | 出于安全的考虑，会话不会长期有效，此变量控制一个会话在持续多少秒过程中如果用户无任何操作，服务器将主动断开会话连接 |
 | TERMINAL_WEBSOCKET_URL           | ws://127.0.0.1:19002          | WebSocket连接地址，插件在19002端口注册了websocket服务，以提供ssh会话能力，请根据实际访问IP进行更改，格式为ws://IP:PORT。 |
@@ -82,3 +83,5 @@
 菜单位置：系统-终端管理-文件传输
 
 可以针对用户的文件传输记录进行审计
+
+> version >= v0.2.0: 审计文件首先会被记录到本地/data/terminal/records/， session结束后会自动上传到wecube S3存储中
