@@ -1,0 +1,417 @@
+# 在私有资源上手工单机模式安装WeCube
+
+在这里，我们将为您说明如何在您自己的机器资源上手工安装以单机模式运行的WeCube。
+
+本文旨在帮助用户理解WeCube软件的完整安装过程，并在离线环境中手工完成配置。
+
+## 先决条件
+
+### 硬件资源
+
+在单机模式下，我们建议您为WeCube的正常运行预留至少 **4核CPU的计算资源**、**16GB的内存资源** 和 **50GB的硬盘存储资源**。
+
+### 系统和软件资源
+
+#### CentOS 7
+
+以下安装配置脚本基于CentOS操作系统，推荐使用CentOS 7.2+。
+
+#### Docker
+
+WeCube的运行依赖于Docker，在安装WeCube之前，需要在您的环境上正确部署和配置docker和docker-compose软件，最新的docker软件可以从docker-ce源中获取，epel源中有版本稍旧的docker-compose但足够本次安装使用，这需要您所在的组织/公司提供这些软件的源。
+
+??? note "如果您使用CentOS，也可以考虑使用这里提供的命令行指令来进行Docker的安装与配置，请展开来查看。"
+    我们还是**建议**您从 [Docker官方网站 :fa-external-link:](https://docs.docker.com/engine/install/){: target=\_blank} 获取最新的安装和配置的指引。
+
+~~~bash
+``` bash
+# 移除已安装的旧版本Docker
+yum remove docker \
+           docker-client \
+           docker-client-latest \
+           docker-common \
+           docker-latest \
+           docker-latest-logrotate \
+           docker-logrotate \
+           docker-engine
+
+# 安装Docker
+yum install -y yum-utils device-mapper-persistent-data lvm2
+# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# yum-config-manager --add-repo https://mirrors.cloud.tencent.com/docker-ce/linux/centos/docker-ce.repo
+yum makecache fast
+yum install -y docker-ce docker-ce-cli containerd.io
+
+# 安装Docker Compose
+yum install -y docker-compose
+
+# 安装基础工具
+yum install -y unzip
+
+# 配置Docker Engine以监听远程API请求
+mkdir -p /etc/systemd/system/docker.service.d
+cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd:// --containerd=/run/containerd/containerd.sock
+EOF
+
+# 启动Docker服务
+systemctl daemon-reload
+systemctl enable docker.service
+systemctl start docker.service
+
+# 启用IP转发并配置桥接来解决Docker容器对外部网络的通信问题
+cat <<EOF >/etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl -p /etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
+
+####
+```
+~~~
+
+
+
+安装并配置完成后，您可以使用以下命令行指令来确认Docker的运行情况：
+
+``` bash
+docker version
+docker-compose version
+curl http://127.0.0.1:2375/version
+
+```
+
+### 离线镜像准备
+
+首先，需要确认要安装的WeCube版本，版本号通常定义为vX.Y.Z，如v2.9.0，具体版本号可以从官方Release中找到
+
+[GitHub Release](https://github.com/WeBankPartners/wecube-platform/releases)
+
+[Gitee Release](https://gitee.com/WeBankPartners/wecube-platform/releases)
+
+并且可以从Release中找到插件包的下载地址，可以下载备用
+
+```bash
+WECUBE_VERSION=v2.9.1
+# pull images
+docker pull ccr.ccs.tencentyun.com/webankpartners/minio
+docker pull ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
+docker pull ccr.ccs.tencentyun.com/webankpartners/platform-core:$WECUBE_VERSION
+docker pull ccr.ccs.tencentyun.com/webankpartners/wecube-portal:$WECUBE_VERSION
+docker pull ccr.ccs.tencentyun.com/webankpartners/platform-gateway:$WECUBE_VERSION
+docker pull ccr.ccs.tencentyun.com/webankpartners/platform-auth-server:$WECUBE_VERSION
+
+# save images
+docker save -o webankpartners-minio.tar ccr.ccs.tencentyun.com/webankpartners/minio
+docker save -o webankpartners-mysql.tar ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
+docker save -o webankpartners-platform-core.tar ccr.ccs.tencentyun.com/webankpartners/platform-core:$WECUBE_VERSION
+docker save -o webankpartners-wecube-portal.tar ccr.ccs.tencentyun.com/webankpartners/wecube-portal:$WECUBE_VERSION
+docker save -o webankpartners-platform-gateway.tar ccr.ccs.tencentyun.com/webankpartners/platform-gateway:$WECUBE_VERSION
+docker save -o webankpartners-platform-auth-server.tar ccr.ccs.tencentyun.com/webankpartners/platform-auth-server:$WECUBE_VERSION
+```
+
+
+
+## 开始安装WeCube安装
+
+### 准备yaml内容
+
+在本地准备以下4个yaml文件
+
+1-wecube-db.yml
+
+```yaml
+version: "2"
+services:
+  mysql-wecube:
+    image: ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
+    restart: always
+    command:
+      [
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+        "--default-time-zone=+8:00",
+        "--max_allowed_packet=4M",
+        "--lower_case_table_names=1",
+      ]
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/installer/wecube/database/platform-core:/docker-entrypoint-initdb.d
+      - /data/mysql-wecube/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=WeCube@1234
+      - MYSQL_DATABASE=wecube
+    ports:
+      - 3307:3306
+
+  mysql-auth-server:
+    image: ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
+    restart: always
+    command:
+      [
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+        "--default-time-zone=+8:00",
+        "--max_allowed_packet=4M",
+        "--lower_case_table_names=1",
+      ]
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/installer/wecube/database/auth-server:/docker-entrypoint-initdb.d
+      - /data/mysql-auth-server/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=WeCube@1234
+      - MYSQL_DATABASE=auth_server
+    ports:
+      - 3308:3306
+
+```
+
+2-wecube-minio.yml
+
+```yaml
+version: '2'
+services:
+  wecube-minio:
+    image: ccr.ccs.tencentyun.com/webankpartners/minio
+    restart: always
+    command: [
+        'server',
+        'data'
+    ]
+    ports:
+      - 9000:9000
+    volumes:
+      - /data/wecube-minio/data:/data    
+      - /data/wecube-minio/config:/root
+      - /etc/localtime:/etc/localtime
+    environment:
+      - MINIO_ACCESS_KEY=access_key
+      - MINIO_SECRET_KEY=secret_key
+```
+
+3-wecube-auth-server.yml
+
+```yaml
+version: '2'
+services:
+  auth-server:
+    image: ccr.ccs.tencentyun.com/webankpartners/platform-auth-server:{{wecube_version}}
+    restart: always
+    volumes:
+      - /data/log/auth_server:/data/auth_server/log
+      - /etc/localtime:/etc/localtime
+    ports:
+      - 19120:8080
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_SERVER_ADDR={{host_ipaddress}}
+      - MYSQL_SERVER_PORT=3308
+      - MYSQL_SERVER_DATABASE_NAME=auth_server
+      - MYSQL_USER_NAME=root
+      - MYSQL_USER_PASSWORD=WeCube@1234
+      - AUTH_CUSTOM_PARAM=
+      - AUTH_SERVER_LOG_PATH=/data/auth_server/log
+      - USER_ACCESS_TOKEN=20
+      - USER_REFRESH_TOKEN=30
+```
+
+4-wecube.yml
+
+```yaml
+version: '2'
+services:
+  platform-core:
+    image: ccr.ccs.tencentyun.com/webankpartners/platform-core:{{wecube_version}}
+    restart: always
+    volumes:
+      - /data/log/wecube:/data/wecube/log
+      - /etc/localtime:/etc/localtime
+    ports:
+      - 19100:8080
+      - 19101:8081
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_SERVER_ADDR={{host_ipaddress}}
+      - MYSQL_SERVER_PORT=3307
+      - MYSQL_SERVER_DATABASE_NAME=wecube
+      - MYSQL_USER_NAME=root
+      - MYSQL_USER_PASSWORD=WeCube@1234
+      - WECUBE_PLUGIN_HOSTS={{host_ipaddress}}
+      - WECUBE_PLUGIN_HOST_PORT=22
+      - WECUBE_PLUGIN_HOST_USER={{host_user}}
+      - WECUBE_PLUGIN_HOST_PWD={{host_password}}
+      - S3_ENDPOINT=http://{{host_ipaddress}}:9000
+      - S3_ACCESS_KEY=access_key
+      - S3_SECRET_KEY=secret_key
+      - STATIC_RESOURCE_SERVER_IP={{host_ipaddress}}
+      - STATIC_RESOURCE_SERVER_USER={{host_user}}
+      - STATIC_RESOURCE_SERVER_PASSWORD={{host_password}}
+      - STATIC_RESOURCE_SERVER_PORT=22
+      - STATIC_RESOURCE_SERVER_PATH=/data/wecube-portal/data/ui-resources
+      - GATEWAY_URL={{host_ipaddress}}:19110
+      - GATEWAY_HOST={{host_ipaddress}}
+      - GATEWAY_PORT=19110
+      - GATEWAY_HOST_PORTS={{host_ipaddress}}:19110
+      - JWT_SSO_AUTH_URI=http://{{host_ipaddress}}:19120/auth/v1/api/login
+      - JWT_SSO_TOKEN_URI=http://{{host_ipaddress}}:19120/auth/v1/api/token
+      - WECUBE_PLUGIN_DEPLOY_PATH=/opt
+      - WECUBE_SERVER_JMX_PORT=19101
+      - WECUBE_BUCKET=wecube-plugin-package-bucket
+      - WECUBE_CORE_HOST={{host_ipaddress}}
+      - WECUBE_CUSTOM_PARAM=
+      - APP_LOG_PATH=/data/wecube/log
+
+  platform-gateway:
+    image: ccr.ccs.tencentyun.com/webankpartners/platform-gateway:{{wecube_version}}
+    restart: always
+    depends_on:
+      - platform-core
+    volumes:
+      - /data/log/wecube-gateway:/data/wecube-gateway/log
+      - /etc/localtime:/etc/localtime
+    ports:
+      - 19110:8080
+    environment:
+      - TZ=Asia/Shanghai
+      - GATEWAY_ROUTE_CONFIG_SERVER=http://{{host_ipaddress}}:19100
+      - GATEWAY_ROUTE_CONFIG_URI=/platform/v1/route-items
+      - GATEWAY_ROUTE_ACCESS_KEY=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJXRUNVQkUtQ09SRSIsImlhdCI6MTU3MDY5MDMwMCwidHlwZSI6ImFjY2Vzc1Rva2VuIiwiY2xpZW50VHlwZSI6IlNVQl9TWVNURU0iLCJleHAiOjE2MDIzMTI3MDAsImF1dGhvcml0eSI6IltTVUJfU1lTVEVNXSJ9.Mq8g_ZoPIQ_mB59zEq0KVtwGn_uPqL8qn6sP7WzEiJxoXQQIcVe7mYsG-E2jxCShEQL7PsMNLM47MYuY7R5nBg
+      - WECUBE_CORE_HOST={{host_ipaddress}}
+      - AUTH_SERVER_HOST={{host_ipaddress}}
+      - WECUBE_GATEWAY_LOG_PATH=/var/log/wecube-gateway
+
+  wecube-portal:
+    image: ccr.ccs.tencentyun.com/webankpartners/wecube-portal:{{wecube_version}}
+    restart: always
+    depends_on:
+      - platform-gateway
+      - platform-core
+    volumes:
+      - /data/log/wecube-portal:/var/log/nginx
+      - /data/wecube-portal/data/ui-resources:/root/app/ui-resources
+      - /etc/localtime:/etc/localtime
+    ports:
+      - 19090:8080
+    environment:
+      - GATEWAY_HOST={{host_ipaddress}}
+      - GATEWAY_PORT=19110
+      - PUBLIC_DOMAIN={{host_ipaddress}}:19090
+      - TZ=Asia/Shanghai
+    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.tpl > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
+```
+
+
+
+### 修正yaml内容的值
+
+```bash
+# 请修改以下变量为正确值
+HOST_IP='xxx.xxx.xxx.xxx'
+HOST_USER='root'
+HOST_PASSWORD='WeCube@1234'
+WECUBE_VERSION=v2.9.1
+
+sed -i "s/{{host_ipaddress}}/$HOST_IP/g" 1-wecube-db.yml
+sed -i "s/{{host_ipaddress}}/$HOST_IP/g" 2-wecube-minio.yml
+sed -i "s/{{host_ipaddress}}/$HOST_IP/g" 3-wecube-auth-server.yml
+sed -i "s/{{host_ipaddress}}/$HOST_IP/g" 4-wecube.yml
+sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 1-wecube-db.yml
+sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 2-wecube-minio.yml
+sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 3-wecube-auth-server.yml
+sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
+# 配置主机账户密码（用于创建插件UI目录及运行plugin docker）
+sed -i "s/{{host_user}}/$HOST_USER/g" 4-wecube.yml
+sed -i "s/{{host_password}}/$HOST_PASSWORD/g" 4-wecube.yml
+```
+
+
+
+### 启动docker容器
+
+- 启动db服务
+
+  docker-compose -f 1-wecube-db.yml up -d 
+
+- 启动minio服务
+
+  docker-compose -f 2-wecube-minio.yml up -d 
+
+- 启动auth-server服务
+
+  docker-compose -f 3-wecube-auth-server.yml up -d
+
+- 启动core/gateway/portal服务
+
+  docker-compose -f 4-wecube.yml up -d
+
+  
+
+  至此，已经可以打开系统页面进行正常访问，但还无法正常使用插件功能
+
+  **WeCube主页：http://{主机IP}:19090   默认账户密码：admin/admin**
+
+  **内置S3服务：http://{主机IP}:9000**
+
+### 更改系统变量值
+
+修改正确的值，以正确启动插件
+
+Web页面：系统-系统参数
+
+| key                               | value                           |
+| --------------------------------- | ------------------------------- |
+| system\_\_global\_\_GATEWAY_URL   | http://{{host_ipaddress}}:19090 |
+| system\_\_global\_\_S3_SERVER_URL | http://{{host_ipaddress}}:9000  |
+| system\_\_global\_\_S3_ACCESS_KEY | access_key                      |
+| system\_\_global\_\_S3_SECRET_KEY | secret_key                      |
+
+### 添加系统资源
+
+需要正确添加mysql数据库，S3服务，docker主机服务到WeCube系统资源中，插件才能从资源中申请到实例，插件所需的实例写在插件包的register.xml文件中，但您无需担心，只要添加了资源，系统会自动进行实例分配。
+
+Web页面：系统-资源管理
+
+1. 添加mysql：{{host_ipaddress}}:3307  root/WeCube@1234 （默认）
+2. 添加s3：{{host_ipaddress}}:9000 access_key/secret_key（默认）
+3. 添加host：{{host_ipaddress}}:22 root/你的主机密码（或更换其他账号密码）
+
+### 安装插件包
+
+首次使用插件请先登录S3服务(http://{主机IP}:9000)，创建bucket：wecube-plugin-package-bucket
+
+插件包下载地址：https://github.com/WeBankPartners/wecube-platform/releases
+
+下载的插件包可在 协同-插件注册 页面手动上传，上传完毕后确认注册，并手动运行
+
+> 请留意！！
+>
+> 插件包仅包含运行所需软件，不一定包含正常体验所需的预置数据
+>
+> 比如CMDB插件包，上传运行后，其模型为空，流程编排中cmdb注册的插件接口服务也为空，旨在提供给需要自定义模型的用户，并根据自定义模型配置对应的插件接口服务。
+>
+> 若希望快速体验WeCube服务，可在Release中下载 **插件配置最佳实践** - [标准安装配置](https://github.com/WeBankPartners/wecube-platform/releases)
+>
+> 最佳实践的标准安装配置包含了**插件预置数据** & **插件预置数据对应的服务接口定义**
+>
+> **插件预置数据** 通常为sql，直接导入到对应的插件数据库中即可
+>
+> **插件预置数据对应的服务接口定义** 通常为xml，在插件管理页面中进行配置导入
+
+到这里，您已经完成了WeCube的安装部署，请尽情体验吧。
+
+## 卸载WeCube
+
+如果您想要卸载已经安装的WeCube，或者想要使用不同的版本或插件配置方案来安装WeCube，请执行以下命令行指令来清除WeCube的运行组件和安装目录（默认为 `/data/wecube`，请根据您的实际情况对命令行指令进行调整）：
+
+```bash
+docker rm -f $(docker ps -a -q -f name=wecube -f name=open-monitor -f name=service-mgmt) && sudo rm -rfI /data/wecube
+```
+
+
+## 进一步了解
+
+关于WeCube安装目录结构的详细信息，请参见文档“[WeCube安装目录结构](installation-directory-structure.md)”。
