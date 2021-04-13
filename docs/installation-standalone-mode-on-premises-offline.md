@@ -23,55 +23,53 @@ WeCube的运行依赖于Docker，在安装WeCube之前，需要在您的环境�
 ??? note "如果您使用CentOS，也可以考虑使用这里提供的命令行指令来进行Docker的安装与配置，请展开来查看。"
     我们还是**建议**您从 [Docker官方网站 :fa-external-link:](https://docs.docker.com/engine/install/){: target=\_blank} 获取最新的安装和配置的指引。
 
-~~~bash
-``` bash
-# 移除已安装的旧版本Docker
-yum remove docker \
-           docker-client \
-           docker-client-latest \
-           docker-common \
-           docker-latest \
-           docker-latest-logrotate \
-           docker-logrotate \
-           docker-engine
+    ``` bash
+    # 移除已安装的旧版本Docker
+    yum remove docker \
+              docker-client \
+              docker-client-latest \
+              docker-common \
+              docker-latest \
+              docker-latest-logrotate \
+              docker-logrotate \
+              docker-engine
 
-# 安装Docker
-yum install -y yum-utils device-mapper-persistent-data lvm2
-# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-# yum-config-manager --add-repo https://mirrors.cloud.tencent.com/docker-ce/linux/centos/docker-ce.repo
-yum makecache fast
-yum install -y docker-ce docker-ce-cli containerd.io
+    # 安装Docker
+    yum install -y yum-utils device-mapper-persistent-data lvm2
+    # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    # yum-config-manager --add-repo https://mirrors.cloud.tencent.com/docker-ce/linux/centos/docker-ce.repo
+    yum makecache fast
+    yum install -y docker-ce docker-ce-cli containerd.io
 
-# 安装Docker Compose
-yum install -y docker-compose
+    # 安装Docker Compose
+    yum install -y docker-compose
 
-# 安装基础工具
-yum install -y unzip
+    # 安装基础工具
+    yum install -y unzip
 
-# 配置Docker Engine以监听远程API请求
-mkdir -p /etc/systemd/system/docker.service.d
-cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
-[Service]
-ExecStart=
-ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd:// --containerd=/run/containerd/containerd.sock
-EOF
+    # 配置Docker Engine以监听远程API请求
+    mkdir -p /etc/systemd/system/docker.service.d
+    cat <<EOF >/etc/systemd/system/docker.service.d/docker-wecube-override.conf
+    [Service]
+    ExecStart=
+    ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd:// --containerd=/run/containerd/containerd.sock
+    EOF
 
-# 启动Docker服务
-systemctl daemon-reload
-systemctl enable docker.service
-systemctl start docker.service
+    # 启动Docker服务
+    systemctl daemon-reload
+    systemctl enable docker.service
+    systemctl start docker.service
 
-# 启用IP转发并配置桥接来解决Docker容器对外部网络的通信问题
-cat <<EOF >/etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
-net.ipv4.ip_forward = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-sysctl -p /etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
+    # 启用IP转发并配置桥接来解决Docker容器对外部网络的通信问题
+    cat <<EOF >/etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
+    net.ipv4.ip_forward = 1
+    net.bridge.bridge-nf-call-ip6tables = 1
+    net.bridge.bridge-nf-call-iptables = 1
+    EOF
+    sysctl -p /etc/sysctl.d/zzz.net-forward-and-bridge-for-docker.conf
 
-####
-```
-~~~
+    ####
+    ```
 
 
 
