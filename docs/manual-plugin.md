@@ -98,6 +98,8 @@
 
 1. 在搜索结果查看返回的数据。
 
+    > 内置SQL注入拦截，并且仅允许select查询语句的执行，请放心使用
+    
     ![plugin_db](images/plugin/plugin_db.png)
 
 ### 对象存储
@@ -112,15 +114,11 @@
 
 1. 在插件配置的“数据模型”页面，点击“同步数据模型”按钮可以将插件包最新的数据模型以数据模型关系图展示，每次同步后版本号递增。
 
-    注：以CMDB插件为例，“同步数据模型”和“应用数据模型”功能需在CMDB插件已确认并运行后才可以操作。
+    注：以CMDB插件为例，“同步数据模型”功能需在CMDB插件已确认并运行后才可以操作。
 
     ![plugin_model_sync](images/plugin/plugin_model_sync.png)
 
-### 应用数据模型
 
-1. 在插件配置的“数据模型”页面进行数据模型同步后，点击“应用数据模型”可以把从插件同步过来的数据模型应用于WeCube系统。
-
-    ![plugin_model_apply](images/plugin/plugin_model_apply.png)
 
 ## 服务注册
 
@@ -130,17 +128,13 @@
 
 ### 新增注册列表
 
-1. 点击插件的服务，在页面右侧展开注册页面。
+1. 点击插件的服务右侧的加号按钮进行添加。
 
     ![plugin_services](images/plugin/plugin_services.png)
 
-1. 点击注册列表下拉框，点击“+”按钮。
+1. 配置插件服务的授权角色，点击确定。
 
-    ![plugin_service_add](images/plugin/plugin_service_add.png)
-
-1. 在“新增注册源”弹出框输入注册名称以及复制源，点击“确定”。
-
-    ![plugin_service_confirm](images/plugin/plugin_service_confirm.png)
+    ![plugin_service_add](images/plugin/plugin_service_auth.png)
 
 1. 输入注册名称，选择目标对象类型。目标对象类型下拉列表包含WeCube系统已注册并运行插件对象，如任务管理插件的任务、CMDB插件的CI类型等。如果目标对象类型不指定则作用于WeCube系统的所有插件对象。
 
@@ -148,31 +142,29 @@
 
 1. 配置插件接口的属性。属性类型分为4种类型context、entity、system variable和constant。
 
+    ![plugin_service_param_type](images/plugin/plugin_service_param_config.png)
+
     ![plugin_service_param_type](images/plugin/plugin_service_param_type.png)
 
     1）配置插件接口的属性类型为context，在任务编排配置时该接口的属性参数可以从编排的其他任务的输入或输出参数获取。
 
-    ![plugin_service_param_type_context](images/plugin/plugin_service_param_type_context.png)
-
-    2）配置插件接口的属性类型为eneity，可在属性配置框输入由根目标对象类型为起点关联的CI属性。输入"\~"弹出根目标对象被引用的其他CI类型列表，输入“."可弹出本对象的CI属性列表进行配置。
-
-    ![plugin_service_param_type_entity](images/plugin/plugin_service_param_type_entity.png)
+    2）配置插件接口的属性类型为entity，可在属性配置框输入由根目标对象类型为起点关联的CI属性。输入"\~"弹出根目标对象被引用的其他CI类型列表，输入“."可弹出本对象的CI属性列表进行配置。
 
     3）配置插件接口的属性类型为"system variable"，可在属性配置列表选择已在WeCube系统注册的系统参数。
 
-    ![plugin_service_param_type_system](images/plugin/plugin_service_param_type_system.png)
-
     4）配置插件接口的属性类型为“constant”，在任务编排配置时该接口的属性参数可以通过文本输入框输入常量值。
 
-    ![plugin_service_param_type_constant](images/plugin/plugin_service_param_type_constant.png)
+    配置完成后点击确定关闭配置框。
 
 1. 点击“保存”按钮保存插件服务列表的配置信息。
 
 ![plugin_service_save](images/plugin/plugin_service_save.png)
 
-1. 点击“注册”按钮注册插件服务列表。
+6. 点击“注册”按钮注册插件服务列表。
 
 ![plugin_service_regist](images/plugin/plugin_service_regist.png)
+
+
 
 ### 注销注册列表
 
@@ -181,18 +173,27 @@
 ![plugin_service_decom](images/plugin/plugin_service_decom.png)
 
 
+### 批量注册/注销列表
+
+点击“批量注册”快速注册/注销插件服务列表。
+
+![plugin_service_regist_multi](images/plugin/plugin_service_regist_multi.png)
+
+![plugin_service_regist_multi_confirm](images/plugin/plugin_service_regist_multi_comfirm.png)
+
+
 
 ## 停用插件包
 
 1. 打开插件包的运行管理页面，点击“销毁”按钮停用插件运行节点。
 
-![plugin_package_stop](images/plugin/plugin_package_stop.png)
+![plugin_destroy_new](images/plugin/plugin_destroy_new.png)
 
 1. 在插件注册页面的插件包右侧点击删除按钮，在确认弹出框点击“确定”按钮。
 
-注：如果该插件包已注册了UI界面子菜单，需刷新页面更新WeCube系统已删除的子菜单。
+    ![plugin_package_stop](images/plugin/plugin_package_stop.png)
 
-![plugin_package_decom](images/plugin/plugin_package_decom.png)
+注：如果该插件包已注册了UI界面子菜单，需刷新页面更新WeCube系统已删除的子菜单。
 
 1. 勾选“显示停用插件包”，可查看所有的插件包列表，包括已停用的。
 
