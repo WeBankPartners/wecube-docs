@@ -4,14 +4,16 @@
 
 ## 安装Terraform
 
-您需要 [下载最新稳定版本的Terraform :fa-external-link:](https://www.terraform.io/downloads.html){: target=\_blank}，将下载包中的terraform可执行文件解压并存放到环境变量`PATH`所包含的路径中。当然，您也可以把terraform可执行文件的存放目录直接添加到环境变量`PATH`之中。
+您需要 [下载Terraform :fa-external-link:](https://www.terraform.io/downloads.html){: target=\_blank}，将下载包中的terraform可执行文件解压并存放到环境变量`PATH`所包含的路径中。当然，您也可以把terraform可执行文件的存放目录直接添加到环境变量`PATH`之中。
 
-!!! note "我们在此提供Terraform官方网站上0.12.24版本的下载链接，您可以根据情况选择下载。"
-	[适用于macOS AMD64处理器的版本 :fa-external-link:](https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_darwin_amd64.zip){: target=\_blank}
+> 随着Terraform更新迭代，可能会引入新的特性导致安装无法兼容，建议使用0.14.x版本
 
-	[适用于Linux AMD64处理器的版本 :fa-external-link:](https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip){: target=\_blank}
+!!! note "我们在此提供Terraform官方网站上0.14.10版本的下载链接，您可以根据情况选择下载。"
+	[适用于macOS AMD64处理器的版本 :fa-external-link:](https://releases.hashicorp.com/terraform/0.14.10/terraform_0.14.10_darwin_amd64.zip){: target=\_blank}
 
-	[适用于Windows AMD64处理器的版本 :fa-external-link:](https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_windows_amd64.zip){: target=\_blank}
+	[适用于Linux AMD64处理器的版本 :fa-external-link:](https://releases.hashicorp.com/terraform/0.14.10/terraform_0.14.10_linux_amd64.zip){: target=\_blank}
+	
+	[适用于Windows AMD64处理器的版本 :fa-external-link:](https://releases.hashicorp.com/terraform/0.14.10/terraform_0.14.10_windows_amd64.zip){: target=\_blank}
 
 安装完毕后，请使用以下命令行指令进行验证：
 
@@ -34,33 +36,33 @@ terraform version
         1. 关于 **访问密钥**
 
             通常，您可以在 [腾讯云控制台的这个页面 :fa-external-link:](https://console.cloud.tencent.com/cam/capi){: target=\_blank} 找到您的访问密钥信息。
-
+    
             您需要关注的是页面中显示的 **SecretId** 和 **SecretKey**。
-
+    
         1. 关于 **地域** 与 **可用区**
-
+    
             通常，您可以在 [腾讯云文档中心站点的这个页面 :fa-external-link:](https://cloud.tencent.com/document/product/213/6091){: target=\_blank} 找到地域与可用区的信息。
-
+    
     === "阿里云"
         1. 关于 **访问密钥**
-
+    
             通常，您可以在 [阿里云控制台的这个页面 :fa-external-link:](https://usercenter.console.aliyun.com/#/manage/ak){: target=\_blank} 找到您的访问密钥信息。
-
+    
             您需要关注的是页面中显示的 **AccessKey ID** 和 ** AccessKey Secret**。
-
+    
         1. 关于 **地域** 与 **可用区**
-
+    
             通常，您可以在 [阿里云帮助文档站点的这个页面 :fa-external-link:](https://help.aliyun.com/document_detail/188196.html){: target=\_blank} 找到地域与可用区的信息。
-
+    
     === "AWS"
         1. 关于 **访问密钥**
-
+    
             通常，您可以在 [AWS控制面板的这个页面 :fa-external-link:](https://console.aws.amazon.com/iam/home#/security_credentials){: target=\_blank} 找到您的访问密钥信息。
-
+    
             您需要关注的是页面中显示的 **访问密钥(访问密钥 ID 和秘密访问密钥)**。
-
+    
         1. 关于 **地域** 与 **可用区**
-
+    
             通常，您可以在 [AWS文档站点的这个页面 :fa-external-link:](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html){: target=\_blank} 找到地域与可用区的信息。
 
 !!! warning "如有可能，请不要使用任何可以操作您敏感环境（如生产、预生产等）的访问密钥，以免产生安全风险。"
