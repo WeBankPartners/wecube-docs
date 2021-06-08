@@ -27,7 +27,7 @@ mkdocs-material-extensions==1.0b2
 mkdocs-minify-plugin==0.2.3
 mkdocs-pdf-export-plugin==0.5.5
 nltk==3.4.5
-Pillow==7.1.1
+Pillow==8.2.0
 pycparser==2.20
 Pygments==2.5.2
 pymdown-extensions==7.0
