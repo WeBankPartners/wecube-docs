@@ -30,21 +30,21 @@ WeCube平台管理员负责完成WeCube平台和插件的安装与配置，同�
 
 CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来讲，CMDB系统管理员会经常使用以下功能特性：
 
-- **系统** / **[CMDB模型管理](manual-cmdb-model.md)**
+- **设计** / **[模型配置](manual-cmdb-model.md)**
 
     CMDB系统管理员可以使用 **[CMDB模型管理](manual-cmdb-model.md)** 功能来管理和维护包括数据类型、数据属性、数据关系、模型层次、模型视角等在内的CMDB模型要素。
 
-- **系统** / **[CMDB基础数据管理](manual-cmdb-enumerations.md)**
+- **设计** / **[基础数据配置](manual-cmdb-enumerations.md)**
 
     CMDB系统管理员可以使用 **[CMDB基础数据管理](manual-cmdb-enumerations.md)** 功能来维护作为CMDB系统基础数据的枚举数据类型。
 
-- **系统** / **[CMDB数据权限管理](manual-cmdb-data-permission.md)**
+- **设计** / **[模型配置 - 数据权限管理](manual-cmdb-data-permission.md)**
 
     CMDB系统管理员可以使用 **[CMDB数据权限管理](manual-cmdb-data-permission.md)** 功能来针对CMDB模型数据类型及数据记录的增、删、改、查、执行等操作进行基于用户角色的授权控制。
 
-- **系统** / **[CMDB日志查询](manual-cmdb-logging.md)**
+- **系统** / **[CMDB操作日志](manual-cmdb-logging.md)**
 
-    CMDB系统管理员可以使用 **[CMDB日志查询](manual-cmdb-logging.md)** 功能来检索所有针对CMDB模型和数据的操作审核日志内容。
+    CMDB系统管理员可以使用 **[CMDB操作日志](manual-cmdb-logging.md)** 功能来检索所有针对CMDB模型和数据的操作审核日志内容。
 
 
 ### 监控系统管理员
@@ -73,7 +73,7 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
 - **设计** / **[数据管理(视图) - 网络架构视图](manual-cmdb-view-network-architecture.md)**
 
-    基础设施管理员可以使用 **[数据管理(视图) - 资源规划视图](manual-cmdb-view-network-planning.md)** 功能来聚焦查看和维护数据中心内的网络空间区域、网段划分、IP地址分配、路由规则、安全规则等网络资源相关信息。
+    基础设施管理员可以使用 **[数据管理(视图) - 网络规划视图](manual-cmdb-view-network-planning.md)** 功能来聚焦查看和维护数据中心内的网络空间区域、网段划分、IP地址分配、路由规则、安全规则等网络资源相关信息。
 
 ### 基础设施架构师与管理员 - 主机资源（计算和存储）
 
