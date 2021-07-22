@@ -39,11 +39,15 @@ nav:
       - 'CMDB基础数据管理': 'manual-cmdb-enumerations.md'
       - 'CMDB数据权限管理': 'manual-cmdb-data-permission.md'
       - 'CMDB日志查询': 'manual-cmdb-logging.md'
-      - 'CMDB资源视图 - 规划设计': 'manual-cmdb-view-resource-planning.md'
-      - 'CMDB资源视图 - 资源管理': 'manual-cmdb-view-resource-management.md'
-      - 'CMDB应用视图 - 架构设计': 'manual-cmdb-view-application-architecture.md'
-      - 'CMDB应用视图 - 架构查询': 'manual-cmdb-view-application-architecture-viewer.md'
-      - 'CMDB应用视图 - 部署管理': 'manual-cmdb-view-deployment-management.md'
+      - 'CMDB数据管理(视图)': 
+        - '概要说明': 'manual-cmdb-view-management.md'
+        - '应用架构视图': 'manual-cmdb-view-application-architecture.md'
+        - '应用部署视图': 'manual-cmdb-view-application-deployment.md'
+        - '网络架构视图': 'manual-cmdb-view-network-architecture.md'
+        - '网络规划视图': 'manual-cmdb-view-network-planning.md'
+        - '资源架构视图': 'manual-cmdb-view-resource-architecture.md'
+        - '资源规划视图': 'manual-cmdb-view-resource-planning.md'
+      - 'CMDB报表管理':  'manual-cmdb-report.md'
     - '应用物料插件功能':
       - '应用物料管理': 'manual-application-artifacts.md'
     - '监控插件功能':

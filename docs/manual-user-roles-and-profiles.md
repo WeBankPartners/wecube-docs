@@ -64,26 +64,24 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
 企业架构师负责企业范围内IT基础设施整体架构的设计，包括物理机房、网络空间以及适用于业务流程和应用系统的资源类型定义和资源分组划分原则等；因此，企业架构师会使用以下功能特性：
 
-- **设计** / **[资源视图 - 规划设计](manual-cmdb-view-resource-planning.md)**
-
-    负责IT基础设施架构设计的企业架构师可以使用 **[资源视图 - 规划设计](manual-cmdb-view-resource-planning.md)** 功能来管理企业IT数据中心的规划设计蓝图，以便在建设新的数据中心时，能够以标准的规划设计蓝图为模板快速实现。
+- **设计** / **[数据管理(视图)](manual-cmdb-view-management.md)**
 
 
 ### 基础设施架构师与管理员 - 网络资源
 
 专注于网络资源的基础设施管理员负责规划和管理数据中心的网络空间区域、网络设备资源、IP地址空间并分配IP地址资源等；因此，他们会使用以下功能特性：
 
-- **设计** / **[资源视图 - 资源管理](manual-cmdb-view-resource-management.md)**
+- **设计** / **[数据管理(视图) - 网络架构视图](manual-cmdb-view-network-architecture.md)**
 
-    基础设施管理员可以使用 **[资源视图 - 资源管理](manual-cmdb-view-resource-management.md)** 功能来聚焦查看和维护数据中心内的网络空间区域、网段划分、IP地址分配、路由规则、安全规则等网络资源相关信息。
+    基础设施管理员可以使用 **[数据管理(视图) - 资源规划视图](manual-cmdb-view-network-planning.md)** 功能来聚焦查看和维护数据中心内的网络空间区域、网段划分、IP地址分配、路由规则、安全规则等网络资源相关信息。
 
 ### 基础设施架构师与管理员 - 主机资源（计算和存储）
 
 专注于主机相关资源的基础设施管理员负责在已规划好的网络区域内维护各种计算和存储资源，如虚拟机资源实例、容器集群、数据库资源实例、分布式缓存资源实例、负载均衡资源实例、分布式存储资源等；因此，他们会使用以下功能特性：
 
-- **设计** / **[资源视图 - 资源管理](manual-cmdb-view-resource-management.md)**
+- **设计** / **[数据管理(视图) - 资源架构视图](manual-cmdb-view-resource-architecture.md)**
 
-    基础设施管理员可以使用 **[资源视图 - 资源管理](manual-cmdb-view-resource-management.md)** 功能来聚焦查看和维护数据中心内的各种计算和存储资源相关信息。
+    基础设施管理员可以使用 **[数据管理(视图) - 资源规划视图](manual-cmdb-view-resource-planning.md)** 功能来聚焦查看和维护数据中心内的各种计算和存储资源相关信息。
 
 - **监测** / **对象视图**
 
@@ -94,13 +92,13 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
 应用系统架构师负责设计业务应用系统的逻辑架构，并定义应用系统被部署到运行环境之中后体现形成的物理架构。通常来讲，应用系统架构师会经常使用以下功能特性：
 
-- **设计** / **[应用视图 - 架构设计](manual-cmdb-view-application-architecture.md)**
+- **设计** / **[数据管理(视图) - 应用架构视图](manual-cmdb-view-application-architecture.md)**
 
-    应用系统架构师可以使用 **[应用视图 - 架构设计](manual-cmdb-view-application-architecture.md)** 功能来维护和管理应用系统的逻辑架构，描述应用系统的组成构件以及系统组件之间的关系等。
+    应用系统架构师可以使用 **[数据管理(视图) - 应用架构视图](manual-cmdb-view-application-architecture.md)** 功能来维护和管理应用系统的逻辑架构，描述应用系统的组成构件以及系统组件之间的关系等。
 
-- **设计** / **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)**
+- **设计** / **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment.md)**
 
-    应用系统架构师可以使用 **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)** 功能来维护和管理在将应用系统部署到运行环境的视角时所形成的物理架构，描述应用系统各组件在部署时应当映射到运行环境中的资源集合以及具体的资源数量需求等。
+    应用系统架构师可以使用 **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment.md)** 功能来维护和管理在将应用系统部署到运行环境的视角时所形成的物理架构，描述应用系统各组件在部署时应当映射到运行环境中的资源集合以及具体的资源数量需求等。
 
 
 ### 应用开发团队
@@ -111,9 +109,9 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
     应用开发团队可以使用 **[应用物料管理](manual-application-artifacts.md)** 功能来为应用系统组件提供构建物料包，并为这些物料包配置在部署时需要进行替换使用的差异化配置变量。
 
-- **设计** / **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)**
+- **设计** / **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment.md)**
 
-    应用开发团队可以使用 **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)** 功能来为在具体运行环境中的应用系统组件实例指定部署时应当使用的构建物料包。
+    应用开发团队可以使用 **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment.md)** 功能来为在具体运行环境中的应用系统组件实例指定部署时应当使用的构建物料包。
 
 - **协同** / **[任务编排设计](manual-orchestration-design.md)**
 
@@ -128,9 +126,9 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
 验收环境或预生产环境应当作为上线前业务或用户部门验证应用系统功能最终环节的运行环境，应用运维应当保证环境的部署过程尽可能接近生产环境；因此，这些环境的应用运维会使用以下功能特性：
 
-- **设计** / **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)**
+- **设计** / **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment)**
 
-    应用运维可以使用 **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)** 功能来为在相应运行环境中的应用系统组件实例指定部署时应当使用的构建物料包。
+    应用运维可以使用 **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment)** 功能来为在相应运行环境中的应用系统组件实例指定部署时应当使用的构建物料包。
 
 - **协同** / **[任务编排设计](manual-orchestration-design.md)**
 
@@ -145,9 +143,9 @@ CMDB系统管理员负责CMDB模型和基础数据的管理与维护。通常来
 
 生产环境应用运维应当永远仅使用已经通过功能验证的应用构建物料包和已经在预生产环境中验证过的部署流程来对生产环境进行部署操作；因此，生产环境的应用运维会使用以下功能特性：
 
-- **设计** / **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)**
+- **设计** / **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment.md)**
 
-    生产环境应用运维可以使用 **[应用视图 - 部署管理](manual-cmdb-view-deployment-management.md)** 功能来为在生产环境中运行应用系统组件实例指定已经经过验证的在部署时应当使用的构建物料包。
+    生产环境应用运维可以使用 **[数据管理(视图) - 应用部署视图](manual-cmdb-view-application-deployment.md)** 功能来为在生产环境中运行应用系统组件实例指定已经经过验证的在部署时应当使用的构建物料包。
 
 - **协同** / **[任务编排设计](manual-orchestration-design.md)**
 
