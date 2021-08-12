@@ -20,7 +20,7 @@ Kubernetes插件接入WeCube平台的数据模型，提供多集群Cluster/Node/
 插件已与Monitor插件实现无缝对接，您可以通过Monitor插件的接口服务自动化注册K8S集群信息
 
 #### 手动添加集群
-这里演示如果通过Monitor插件页面手动添加K8S集群信息，进入监测-监控配置页面
+这里演示如何通过Monitor插件页面手动添加K8S集群信息，进入监测-监控配置页面
 ![data-model](./images/kubernetes/monitor_menu.png)
 切换到采集器标签页，录入K8S集群的信息，点击保存即可
 ![data-model](./images/kubernetes/monitor_k8s.png)
