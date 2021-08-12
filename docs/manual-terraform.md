@@ -310,7 +310,7 @@ requestId: 代表每次请求的唯一标识
 
 operator：代表操作用户，不需要修改
 
-inputs.confirmToken: 若插件返回需要确认，则将本字段值置为"Y"
+inputs.confirmToken: 默认提供空字符串值即可，若插件执行返回需要确认，您确认后仍需要执行，请将本字段值置为"Y"
 
 inputs.callbackParameter: 模拟WeCube平台请求的字段，与id字段相同即可
 
