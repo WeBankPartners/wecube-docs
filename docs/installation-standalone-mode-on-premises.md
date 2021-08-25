@@ -116,7 +116,7 @@ curl -fsSL https://gitee.com/WeBankPartners/delivery-by-terraform/raw/master/get
 | WECUBE_RELEASE_VERSION | *latest* | WeCube安装的目标版本，默认为最新发布版本 `latest`，可指定为某个特定版本，如 `v2.9.0` |
 | WECUBE_SETTINGS | *standard* | WeCube安装后的插件配置方案，默认为 标准安装配置 `standard`，可指定为 上手指引配置 `bootcamp` 或 空配置 `empty` |
 | WECUBE_HOME | */data/wecube* | WeCube的安装目录 |
-| WECUBE_USER | *wecube* | WeCube运行使用的用户 |
+| WECUBE_USER | *root* | WeCube运行使用的用户 |
 | INITIAL_PASSWORD | *Wecube@123456* | WeCube运行使用的用户密码，同时用于MySQL数据库root账号的初始密码 |
 | USE_MIRROR_IN_MAINLAND_CHINA | *true* | 是否在安装过程中使用位于中国大陆的镜像站点进行加速：true - 是；其它值 - 否 |
 
@@ -138,7 +138,7 @@ Please visit WeCube at http://<您输入的主机名称或IP地址>:19090
 如果您想要卸载已经安装的WeCube，或者想要使用不同的版本或插件配置方案来安装WeCube，请执行以下命令行指令来清除WeCube的运行组件和安装目录（默认为 `/data/wecube`，请根据您的实际情况对命令行指令进行调整）：
 
 ```bash
-docker rm -f $(docker ps -a -q -f name=wecube -f name=open-monitor -f name=service-mgmt) && sudo rm -rfI /data/wecube
+docker rm -f $(docker ps -a -q -f name=wecube -f name=wecmdb -f name=open-monitor -f name=service-mgmt) && sudo rm -rfI /data/wecube
 
 ```
 
