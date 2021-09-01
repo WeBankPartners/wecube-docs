@@ -64,7 +64,7 @@ curl -X 'POST' \
 
 repository值与Artifacts插件中的环境变量ARTIFACTS_NEXUS_REPOSITORY相对应
 
-component值用于**使用Artifacts插件的接口功能自动配置包**步骤
+component值用于**配置物料包**步骤
 
 
 
@@ -152,19 +152,21 @@ curl -X 'POST' \
 
 按参考操作手册和如下说明增加“开始 - 应用实例绑包 - 暂停告警 - 更新实例 - 启用告警 - 确认实例 - 确认物料包 - 结束” 8个步骤。 
 
-1.  在“应用实例绑包”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}.baseline_package>wecmdb:deploy_package~(deploy_package)wecmdb:app_instance”，插件 选择“wecmdb/attr-value(update-app)/update”，按照下图所示配置上下文参数，点击【保存】。 
+1. 在“应用实例绑包”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}.baseline_package>wecmdb:deploy_package~(deploy_package)wecmdb:app_instance”，插件 选择“wecmdb/attr-value(update-app)/update”，按照下图所示配置上下文参数，点击【保存】。 
 
 ![add_plugin](./images/jenkins/instance_bind_package_01.png)
 
-2. 在“暂停告警”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}.baseline_package>wecmdb:deploy_package~(deploy_package)wecmdb:app_instance”， 插件选择“monitor/nginx(nginx)/stop-alarm” ，点击【保存】。
+2. 在“暂停告警”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}~(deploy_package)wecmdb:app_instance”， 插件选择“monitor/nginx(nginx)/stop-alarm” ，**启用动态绑定**，点击【保存】。
 
     > 此处我们假设应用是一个基于Nginx部署的Web (并且配置了nginx监控)。
+    > 
+    > 注意从第二个节点开始，定位规则没有再使用wecmdb:deploy_package{state eq 'created_0'}.baseline_package，并且都启用了动态绑定，因为应用实例与包的绑定关系已经从 app_instance -> baseline_package 变为 app_instance -> new_package
 
-3. 在“更新实例”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}.baseline_package>wecmdb:deploy_package~(deploy_package)wecmdb:app_instance”， 插件选择“saltstack/apply-deployment(app_deploy)/update” ，点击【保存】。 
+3. 在“更新实例”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}~(deploy_package)wecmdb:app_instance”， 插件选择“saltstack/apply-deployment(app_deploy)/update” ，**启用动态绑定**，点击【保存】。 
 
-4.  在“启用告警”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}.baseline_package>wecmdb:deploy_package~(deploy_package)wecmdb:app_instance”， 插件选择“monitor/nginx(nginx)/start-alarm” ，点击【保存】。
+4.  在“启用告警”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}~(deploy_package)wecmdb:app_instance”， 插件选择“monitor/nginx(nginx)/start-alarm” ，**启用动态绑定**，点击【保存】。
 
-5. 在“确认实例”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}.baseline_package>wecmdb:deploy_package~(deploy_package)wecmdb:app_instance”， 插件选择“wecmdb/ci-data(confirm)/operation” ，并配置上下文和静态参数，点击【保存】。
+5. 在“确认实例”节点编辑插件，选择自动节点，定位规则为“wecmdb:deploy_package{state eq 'created_0'}~(deploy_package)wecmdb:app_instance”， 插件选择“wecmdb/ci-data(confirm)/operation” ，并配置上下文和静态参数，**启用动态绑定**，点击【保存】。
 
     **上下文参数**：
 
