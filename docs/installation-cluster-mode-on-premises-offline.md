@@ -604,7 +604,7 @@ sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
 
 ### LB服务(仅演示用途)
 
-简单配置只需要使用nginx配置upstream即可
+简单配置只需要使用nginx配置upstream即可，配置完负载均衡，需要把系统参数的GATEWAY_URL改成gateway的负载均衡地址
 
 ```
 # gateway upstream
