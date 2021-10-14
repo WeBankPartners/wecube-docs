@@ -33,6 +33,7 @@ nav:
     - '插件注册': 'manual-plugin.md'
     - '任务编排设计': 'manual-orchestration-design.md'
     - '任务编排执行': 'manual-orchestration-execution.md'
+    - '任务编排报表': 'manual-orchestration-report.md'
     - '批量执行': 'manual-batch-execution.md'
     - 'CMDB插件功能':
       - 'CMDB模型管理': 'manual-cmdb-model.md'

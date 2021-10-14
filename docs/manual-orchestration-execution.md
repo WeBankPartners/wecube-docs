@@ -58,3 +58,22 @@
 用户可以通过鼠标悬停或直接点击流程缩略图中的各任务节点来在弹出的对话框中查看更详细的执行信息。
  
 ![图10. 任务节点详情](images/orchestration-execution/figure_10-task_node_details.png)
+
+
+## 编排定时执行
+用户在进入任务编排执行页面时，可以点击右上方的 “定时执行” 按钮，
+
+![图11. 定时执行](images/orchestration-execution/figure_11-cron_run.png)
+
+此时用户可以看到当前设置的定时任务信息，并且可以对定时任务进行如下操作：
+
+- 启动：启动定时执行
+- 暂停：暂停定时执行
+- 删除：删除定时任务
+- 列表：查看当前定时任务的历史执行结果
+
+![图12. 定时执行历史](images/orchestration-execution/figure_12-cron_history.png)
+
+点击新增按钮可以增加定时任务，注意：只有被执行且执行成功的编排才可以添加为定时任务
+
+![图13. 定时执行添加](images/orchestration-execution/figure_13-cron_add.png)
