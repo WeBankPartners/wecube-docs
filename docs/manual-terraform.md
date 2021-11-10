@@ -167,7 +167,18 @@ terraform init && ls -al
 
 ![provider_add](./images/terraform/provider_add.png)
 
-
+有两种方式可以添加 Provider
+![provider_init](./images/terraform/provider_init.png)
+1. 连网场景，通过点击 "下载" 按钮，直接下载官方提供的 Provider 文件
+2. 离线场景，通过点击 "上传" 按钮，上传本地制作的 Provider 文件
+```
+本地制作 Provider 文件流程如下：
+（1）根据上面"获取Provider"步骤，找到其provider可执行文件 terraform-provider-tencentcloud_v1.57.0 和 .terraform.lock.hcl文件，并放入临时目录 tmpdir
+（2）cd tmpdir/
+（3）mkdir -p .terraform/providers/registry.terraform.io/tencentcloudstack/tencentcloud/1.57.0/linux_amd64/
+（4）mv terraform-provider-tencentcloud_v1.57.0 .terraform/providers/registry.terraform.io/tencentcloudstack/tencentcloud/1.57.0/linux_amd64/
+（5）zip -r tencentcloud_v1.57.0.zip .terraform .terraform.lock.hcl
+```
 
 ### 模板数据
 
