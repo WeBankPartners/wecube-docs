@@ -119,12 +119,25 @@ destroy接口无需配置，插件默认即可用。
 ![provider_key](./images/terraform/provider_key.png)
 
 
+#### 添加Provider到插件
 
-#### 获取Provider
+在web页面中添加云厂商信息
 
-并在一个可以联网的环境上使用terraform init下载provider到本地（需是linux_amd64架构的provider）
+![provider_add](./images/terraform/provider_add.png)
 
-比如tencentcloud的provider：
+有两种方式可以添加 Provider
+
+![provider_init](./images/terraform/provider_init.png)
+
+1. 联网场景，通过点击 "下载" 按钮，直接下载官方提供的 Provider 文件
+
+2. 离线场景，通过点击 "上传" 按钮，上传本地制作的 Provider 文件
+
+##### 离线Provider文件制作
+
+您需要准备一台可以联网的Linux主机(x86_64架构)，并确认已安装配置好terraform软件
+
+以下将以tencentcloud作为示例(您需要调整name, namespace, version信息)：
 
 ```bash
 cat > provider.tf.json << EOF
@@ -133,52 +146,20 @@ cat > provider.tf.json << EOF
         "required_providers":{
             "tencentcloud":{                                  # name
                 "source":"tencentcloudstack/tencentcloud",    # namespace / name
-                "version":"1.157.0"                           # version
+                "version":"1.57.0"                           # version
             }
         }
     }
 }
 EOF
-terraform init && ls -al
+terraform init
+zip -r terraform_provider.zip .terraform .terraform.lock.hcl
 ```
+取得terraform_provider.zip文件上传即可
 
-您可以在当前目录下找到.terraform 目录，需要找到其provider可执行文件 和 .terraform.lock.hcl文件，并按照以下格式重新进行组织
+> terraform插件默认自带了tencentcloud, alicloud, aws的3个provider文件，如果是使用wecube最佳实践默认已经注册到云厂商中，如果您需要添加(或更新)provider，才需要按照以上步骤进行provider包制作
 
-```text
-└── tencentcloud
-    └── 1.57.0
-        ├── linux_amd64
-        │   └── terraform-provider-tencentcloud_v1.57.0
-        └── linux_amd64_hcl
-            └── .terraform.lock.hcl
-```
 
-最后把tencentcloud文件夹复制到docker主机上的${wecube_data}/terraform/providers/目录下即可
-
-> terraform插件默认自带了tencentcloud和alicloud的2个provider文件，如果是使用wecube最佳实践默认已经注册到云厂商中，如果您希望手动管理，可以根据以下信息添加Provider到插件即可：
->
-> aliyun/alicloud    1.128.0
->
-> tencentcloudstack/tencentcloud       1.56.15
-
-#### 添加Provider到插件
-
-在web页面中添加云厂商信息
-
-![provider_add](./images/terraform/provider_add.png)
-
-有两种方式可以添加 Provider
-![provider_init](./images/terraform/provider_init.png)
-1. 连网场景，通过点击 "下载" 按钮，直接下载官方提供的 Provider 文件
-2. 离线场景，通过点击 "上传" 按钮，上传本地制作的 Provider 文件
-```
-本地制作 Provider 文件流程如下：
-（1）根据上面"获取Provider"步骤，找到其provider可执行文件 terraform-provider-tencentcloud_v1.57.0 和 .terraform.lock.hcl文件，并放入临时目录 tmpdir
-（2）cd tmpdir/
-（3）mkdir -p .terraform/providers/registry.terraform.io/tencentcloudstack/tencentcloud/1.57.0/linux_amd64/
-（4）mv terraform-provider-tencentcloud_v1.57.0 .terraform/providers/registry.terraform.io/tencentcloudstack/tencentcloud/1.57.0/linux_amd64/
-（5）zip -r tencentcloud_v1.57.0.zip .terraform .terraform.lock.hcl
-```
 
 ### 模板数据
 
