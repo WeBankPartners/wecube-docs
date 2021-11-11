@@ -63,6 +63,7 @@ nav:
     - '多云管理插件功能': 'manual-terraform.md'
     - '容器管理插件功能': 'manual-kubernetes.md'
     - 'Jenkins集成': 'manual-jenkins.md'
+    - 'Taskman插件功能': 'manual-taskman.md'
   - '参考文档':
     - '应用发布规范': 'application-deployment-specification.md'
   - '常见问题': 'faq.md'
