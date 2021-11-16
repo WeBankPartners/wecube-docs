@@ -2,7 +2,7 @@
 
 ## 功能菜单
 
-WeCube界面导航包含任务、设计、执行、监测、调整、智慧、协同、系统共八个主菜单。
+WeCube界面导航包含任务、设计、执行、监测、智慧、调整、协同、系统共八个主菜单。
 
 访问 “协同 > 任务编排” 菜单
 ![orchestration_menu](images/orchestration-configuration/orchestration_menu.png)
@@ -18,7 +18,7 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
 
 ## 编排元素
 
-在编排编辑页面中，除了显示当前选择编排节点和流程信息外， 还显示了编排可以用使用的节点元素，见下图红框部分
+在编排编辑页面中，除了显示当前选择编排节点和流程信息外， 还显示了编排可以使用的节点元素，见下图红框部分
 
 ![orchestration_config_item](images/orchestration-configuration/orchestration_config_item.png)
 
@@ -28,11 +28,7 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
 	- 启动创建/删除空间工具
 	- 启动全局连接工具
 	- 创建StratEvent
-	- Create intermediate/Boundary Event
 	- 创建EndEvent
-	- Create Gateway
-	- 创建Task
-	- 创建可折叠子流程
 
 各元素详细说明是使用方式详见文档[camunda产品模型官网](https://camunda.com/products/modeler/)
 
@@ -42,7 +38,7 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
 
 1. 新建编排
 
-    点击 “编排名称” 下拉框右侧的加号按钮， 开始新建编排，弹出新建编排的权限配置页面，如下图所示：
+    点击右上方的"创建"按钮， 开始新建编排，弹出新建编排的权限配置页面，如下图所示：
     ![orchestration_new_auth_1](images/orchestration-configuration/orchestration_new_auth_1.png)
 
     页面上半部分的 “属主角色” 决定哪些角色的用户可以编辑、查看和使用该编排。角色清单是当前用户所拥有的角色。
@@ -57,13 +53,16 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
     权限配置页面关闭后， 回到编排编辑页面
     ![orchestration_new_step_1](images/orchestration-configuration/orchestration_new_step_1.png)
 
-1. 选择编排实体类型
+      1. 标签：对编排的标记，利于查询编排
+      2. 冲突检测：检测编排所关联的节点数据是否存在交集
 
-    在 “编排实体类型” 下拉框中选择编排关联的实体类型， 实体类型来源于各插件提供的数据模型。
+1. 选择编排对象类型
+
+    在 “编排对象类型” 下拉框中选择编排关联的对象类型， 对象类型来源于各插件提供的数据模型。
 
     ![orchestration_new_step_2](images/orchestration-configuration/orchestration_new_step_2.png)
 
-    本示例所演示的“删除MYSQL” 属于wecmdb的 “resource_instance” 资源实例类型。
+    本示例所演示的“删除MYSQL” 属于wecmdb的 “rdb_resource 资源实例类型。
 
 1. 编排名称和版本
 
@@ -73,17 +72,24 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
 
 1. 配置编排流程节点
 
-    - 在编排元素面板中，点击选中 “创建StratEvent”， 拖到画布空白处，如下图， 在开始节点右侧的小图标中选择 “追加Task”
+    - 在编排元素面板中，点击选中 “创建StratEvent”， 拖到画布空白处，如下图， 在开始节点右侧的小图标中选择 “可折叠子流程”
 
     ![orchestration_new_step_4](images/orchestration-configuration/orchestration_new_step_4.png)
 
-    - 新增一个任务节点， 在右侧 “名称”输入框中输入节点名称，点击工具按钮，修改节点类型，当前Task类型只支持“可折叠子流程”。
+    - 新增一个任务节点， 在右侧 “名称”输入框中输入节点名称，点击工具按钮，当前Task类型只支持“可折叠子流程”。
 
     ![orchestration_new_step_4_1](images/orchestration-configuration/orchestration_new_step_4_1.png)
 
-    - 右键选择 “配置插件”
+    - 点击当前任务节点，在下面显示的菜单中进行插件配置
 
     ![orchestration_new_step_5](images/orchestration-configuration/orchestration_new_step_5.png)
+     
+    1. 插件类型：(1) 自动节点-该节点能够自动执行完成；(2) 人工节点-该节点需介入人工审批环节；(3) 数据写入节点-该节点会将数据写入 CMDB
+    2. 动态绑定：当选择 "Y" 时，编排执行到该节点时，若"绑定节点"为空，则重新计算该节点需要绑定的数据；若"绑定节点"不为空，则使用绑定节点绑定的数据
+    3. 高危检测：针对要执行的插件参数及模型实例，进行目标对象范围界定，若符合则使用其规则进行脚本内容的检测
+    4. 定位规则：筛选节点插件
+    5. 上下文参数：配置当前节点插件接口入参中的上下文参数
+    6. 静态参数：配置当前节点插件接口入参中的静态参数
 
     - 在弹出页面中的 “插件” 下拉框中选择已注册的插件功能
 
@@ -97,7 +103,7 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
 
     ![orchestration_new_step_8](images/orchestration-configuration/orchestration_new_step_8.png)
 
-    - 按同样的方式增加后续节点知道所有流程节点配置完成。注意插件节点中， 如果要使用前置节点的输出作为入参， 可以在插件配置中进行参数配置， 如下图
+    - 按同样的方式增加后续节点直到所有流程节点配置完成。注意插件节点中， 如果要使用前置节点的输出作为入参， 可以在插件配置中进行参数配置， 如下图
 
     ![orchestration_new_step_9](images/orchestration-configuration/orchestration_new_step_9.png)
 
@@ -105,11 +111,11 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
 
     ![orchestration_new_step_10](images/orchestration-configuration/orchestration_new_step_10.png)
 
-    - 点击 “保存编排”
+    - 点击 “保存编排”，然后点击"发布"
 
     ![orchestration_new_step_11](images/orchestration-configuration/orchestration_new_step_11.png)
 
-至此，已经新建了一个完整的编排。能在 “编排名称” 下拉列表中看到刚刚创建的编排， 排在第一位。
+至此，已经新建了一个完整的编排。能在 “编排名称” 下拉列表中看到刚刚创建的编排。
 
 ![orchestration_new_step_12](images/orchestration-configuration/orchestration_new_step_12.png)
 
@@ -144,7 +150,6 @@ WeCube界面导航包含任务、设计、执行、监测、调整、智慧、�
 
     ![orchestration_upd_4](images/orchestration-configuration/orchestration_upd_4.png)
 
-    注意：当前版本修改编排后需要同时修改编排名称， 否则会保存名称冲突无法保存。
 
 ## 编排导出
 
