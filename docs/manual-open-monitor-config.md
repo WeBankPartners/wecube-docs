@@ -101,7 +101,7 @@
 
 
 
-<img src="images/open-monitor/config_04.png" alt="阀值配置页面02" style="zoom:50%;" />
+![阀值配置页面02](images/open-monitor/config_04.png)
 
 1. 选择指标
 
@@ -136,13 +136,14 @@
 1. 编辑关键字
 1. 删除某个关键字
 
-<img src="images/open-monitor/config_06.png" alt="日志告警配置页面02" style="zoom:50%;" />
+![日志告警配置页面02](images/open-monitor/config_06.png)
 
 1. 选择该日志所属的业务监控类型，比如说进程、java等
 1. 配置日志路径，新增时可一次填多个，批量新增
 1. 上面所选的监控类型会带出属于该类型的监控对象出来，配置监控对象所对应的主机监控对象，比如说一个应用A部署在主机H上，打了日志/tmp/test.log，那么在此处的配置就是填上日志路径，然后选择进程监控类型，把应用A的进程监控对象与主机H的主机监控对象绑定上，这个绑定关系并不需要手动维护，当上面的类型选择了进程后此处会自动带出绑定关系，通过应用A的进程监控的IP信息与主机监控的IP信息对应来自动生成
 
-<img src="images/open-monitor/config_07.png" alt="日志告警配置页面02" style="zoom:50%;" />
+
+![日志告警配置页面02](images/open-monitor/config_07.png)
 
 1. 填写要识别的关键字字符串，大小写敏感
 1. 可选择是否使用正则去匹配，如果选择yes，那么上面的关键字应该填写正则表达式
@@ -195,7 +196,7 @@
 
 业务指标日志只能配置在层级对象上，它的作用域是该层级对象及其所有子对象所关联的对象集合，每个日志可选择这些对象集合中的某些监控对象来做绑定，只有绑定了的才会生效该日志的配置，比如进程P1的日志/tmp/test.log配置到层级对象A中，A的子层级对象B中关联了主机H1,H2，进程P1,P2，那么在此处配置的路径上可通过选择类型是process进程来自动带出P1->H1,P2->H2，它们之间的自动关联是通过这些监控对象的ip是否是同一个来取的，因为业务日志监控的采集器就是主机监控agent，所以需要最终关联到主机监控上，此时可以通过只选择P1->H1来让/tmp/test.log的配置只在H1上生效。当新的process类型的监控对象再加进层级对象A或其子对象中时，系统会自动地尝试去匹配它有没有对应的主机监控对象，如果有则会自动加进层级对象A配置的业务日志监控中，这样的好处在于这个日志配置与主机分离，可参考下图的设计：
 
-<img src="images/open-monitor/config_14.png" alt="business_config_01" style="zoom:50%;" />
+![business_config_01](images/open-monitor/config_14.png)
 
 #### 3、业务指标
 
@@ -224,7 +225,8 @@
 
    图一：业务日志配置新增
 
-   <img src="images/open-monitor/config_09.png" alt="business_config_01" style="zoom:50%;" />
+
+![business_config_01](images/open-monitor/config_09.png)
 
 1. 选择该日志所属的业务监控类型，比如说进程、java等
 
@@ -238,7 +240,7 @@
 
    图二：json正则配置
 
-<img src="images/open-monitor/config_10.png" alt="business_config_01" style="zoom:50%;" />
+![business_config_01](images/open-monitor/config_10.png)
 
 1. 指标标签，非必填，填写json中的某个key，如果填写了后指标会根据json中这个key的值动态生成指标，比如说请求日志中的http method，如果指标是count统计请求数量，那么配了method后count会根据method是get或post给区分成两个指标数据。
 2. 配置正则表达式，用小括号()来匹配子字符串，该子字符串得是json格式，程序会尝试去格式化该子字符串成json
@@ -254,7 +256,7 @@
 
 
 
-<img src="images/open-monitor/config_11.png" alt="business_config_01" style="zoom:50%;" />
+![business_config_01](images/open-monitor/config_11.png)
 
 1. 指标名
 2. 指标显示别名
@@ -272,7 +274,7 @@
 
 #### 2、界面配置
 
-<img src="images/open-monitor/config_12.png" alt="business_config_01" style="zoom:50%;" />
+![business_config_01](images/open-monitor/config_12.png)
 
 1. 指标显示别名
 2. 指标名
@@ -284,6 +286,6 @@
 
 在配置好上面的业务指标监控后，可在对象视图上查询所绑定的目标监控对象，可以看到会多出一个tab叫service，这个service是个动态的tab，不能在指标配置中进行设置，它只会在配置了业务指标的目标监控对象上出现，它里面的图表是所有配置在该目标监控对象上的指标的图表集合，如下图
 
-<img src="images/open-monitor/config_13.png" alt="business_config_01" style="zoom:50%;" />
+![business_config_01](images/open-monitor/config_13.png)
 
 如果一个层级对象A上配置了两个进程P1,P2，两个主机H1,H2，进程P1在H1上，P2在H2上，并且层级对象A上配置了日志业务监控指标/tmp/test.log的cost_time指标，那么系统会根据指标的汇总类型生成一个监控指标cost_time，这个指标专属于层级对象A，在配置视力和告警的时候只有选了层级对象A才会带出cost_time的指标来，并且该指标的表达式是把两台主机上H1,H2上/tmp/test.log的数据汇总起来的，比如说cost_time的汇总类型是sum，那么cost_time的值会是这两个主机上日志采集的最后总和，这样在配置视图和告警的时候就不会出来各自分开的数据，如果用户就是想要查看它们各自的数据，请在对象视图中用P1,P2查看各自的cost_time数据，或者在指标设计中设计一个额外的指标cost_time_detail之类的，在表达式中带上 t_endpoint="$guid" 标签，这样这个指标就会区分不同的监控对象。
