@@ -283,9 +283,12 @@ services:
       - USER_ACCESS_TOKEN=20
       - USER_REFRESH_TOKEN=30
 ```
-程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置：
+#### 程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置:  
+
 - volumes里增加 {{DOCKER_API_CERTS_PATH}}:/certs 其中DOCKER_API_CERTS_PATH为本地存放公私钥的目录，里面存放私钥文件wecube_rsa_private(文件名可任意，与下面AUTH_CUSTOM_PARAM里的值一样即可)
+
 - environment里AUTH_CUSTOM_PARAM的值改为 --platform.auth.server.config.property-rsa-key=/certs/wecube_rsa_private
+
 - environment里MYSQL_USER_PASSWORD的值写为公钥加密后的加密值，这样程序就会拿私钥去解该密码
 
 4-wecube.yml
@@ -372,9 +375,12 @@ services:
       - TZ=Asia/Shanghai
     command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.tpl > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
 ```
-程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置：
+#### 程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置:    
+
 - volumes里增加 {{DOCKER_API_CERTS_PATH}}:/certs 其中DOCKER_API_CERTS_PATH为本地存放公私钥的目录，里面存放私钥文件wecube_rsa_private(文件名可任意，与下面AUTH_CUSTOM_PARAM里的值一样即可)
+
 - environment里AUTH_CUSTOM_PARAM的值改为 --wecube.core.config.property-rsa-key=/certs/wecube_rsa_private
+
 - environment里MYSQL_USER_PASSWORD的值写为公钥加密后的加密值，这样程序就会拿私钥去解该密码
 
 
