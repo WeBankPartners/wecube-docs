@@ -11,11 +11,13 @@
 
 | 分组名称 | 用途 | 数量 | 规格 |
 | - | - | - | - |
-| platform_server | WeCube平台应用服务器 | 2 | CPU：2核<br /> 内存：8GB<br /> 存储：50GB<br />系统：CentOS 7.2+ |
+| platform_server | WeCube平台应用服务器 | 2 | CPU：4核<br /> 内存：16GB<br /> 存储：50GB<br />系统：CentOS 7.2+ |
 | platform_db_server | WeCube平台数据库服务器| 1 | CPU：4核<br /> 内存：8GB<br /> 存储：100GB<br />系统：CentOS 7.2+ |
 | platform_s3_server | WeCube对象存储服务器| 1 | CPU：2核<br /> 内存：4GB<br /> 存储：100GB<br />系统：CentOS 7.2+ |
-| plugin_hosting_server | WeCube插件应用服务器 | 2 | CPU：4核<br /> 内存：16GB<br /> 存储：50GB<br />系统：CentOS 7.2+ |
+| plugin_hosting_server | WeCube插件应用服务器(除监控) | 2 | CPU：4核<br /> 内存：16GB<br /> 存储：50GB<br />系统：CentOS 7.2+ |
+| plugin_monitor_host_server | WeCube监控插件应用服务器(如需要) | 2 | CPU：4核<br /> 内存：16GB<br /> 存储：500GB<br />系统：CentOS 7.2+ |
 | plugin_db_server | WeCube插件数据库服务器| 1 | CPU：4核<br /> 内存：8GB<br /> 存储：100GB<br />系统：CentOS 7.2+ |
+| plugin_monitor_db_server | WeCube监控插件归档数据库服务器| 1 | CPU：4核<br /> 内存：8GB<br /> 存储：500GB<br />系统：CentOS 7.2+ |
 | lb_server | WeCube负载均衡服务器| 2 | CPU：1核<br /> 内存：1GB<br /> 存储：20GB<br />系统：CentOS 7.2+ |
 
 

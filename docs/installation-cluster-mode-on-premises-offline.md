@@ -10,16 +10,18 @@
 
 在原有的WeCube单机部署中，我们默认内置了MySQL服务，S3服务，而在集群模式下，我们建议您使用您所在的组织/公司提供高可用服务(负载均衡 * 2 + MySQL * 3 + S3服务 * 1)
 
-| 资源      | 数量 | 最低配置                                  | 用途                                                         |
-| --------- | ---- | ----------------------------------------- | ------------------------------------------------------------ |
-| 主机      | 2    | 4核 8G 50G硬盘                            | WeCube平台软件运行                                           |
-| 主机      | 2    | 4核 8G 50G硬盘                            | WeCube插件运行                                               |
-| MySQL服务 | 1    | 4核 8G 50G硬盘                            | MySQL集群 - Auth Server数据库                                |
-| MySQL服务 | 1    | 4核 8G 50G硬盘                            | MySQL集群 - WeCube数据库                                     |
-| MySQL服务 | 1    | 4核 8G 50G硬盘(请根据实际业务量进行调整)  | MySQL集群 - 插件数据库                                       |
-| S3        | 1    | 4核 4G 500G硬盘(请根据实际业务量进行调整) | S3集群                                                       |
-| LB        | 1    |                                           | WeCube-Gateway负载均衡(负载{{host_wecube1_ip}}:19110,{{host_wecube2_ip}}:19110)，健康检查地址：/platform/v1/health-check |
-| LB        | 1    |                                           | WeCube-Portal负载均衡（负载{{host_wecube1_ip}}:19090,{{host_wecube2_ip}}:19090） |
+| 资源    | 数量  | 建议配置                       | 用途                                                                                                         |
+|-------|-----|----------------------------|------------------------------------------------------------------------------------------------------------|
+| 主机    | 2   | 4核 16G 100G硬盘              | WeCube平台软件运行                                                                                               |
+| 主机    | 2   | 4核 16G 100G硬盘              | WeCube插件运行(除监控)                                                                                            |
+| 主机    | 2   | 8核 32G 500G硬盘              | WeCube监控插件运行                                                                                               |
+| MySQL服务 | 1   | 2核 4G 50G硬盘                | MySQL集群 - Auth Server数据库                                                                                   |
+| MySQL服务 | 1   | 4核 8G 50G硬盘                | MySQL集群 - WeCube数据库                                                                                        |
+| MySQL服务 | 1   | 4核 8G 50G硬盘(请根据实际业务量进行调整)  | MySQL集群 - 插件数据库                                                                                            |
+| MySQL服务 | 1   | 4核 8G 500G硬盘(请根据实际业务量进行调整) | MySQL集群 - 监控归档数据库                                                                                          |
+| S3    | 2   | 2核 4G 500G硬盘(请根据实际业务量进行调整) | S3集群                                                                                                       |
+| LB    | 1   |                            | WeCube-Gateway负载均衡(负载{{host_wecube1_ip}}:19110,{{host_wecube2_ip}}:19110)，健康检查地址：/platform/v1/health-check |
+| LB    | 1   |                            | WeCube-Portal负载均衡（负载{{host_wecube1_ip}}:19090,{{host_wecube2_ip}}:19090）                                   |
 
 > 若您的组织/公司内部未提供以上服务，或参照互联网文章进行安装部署，本文不再赘述，文中提供一个单节点作为演示说明用途，请勿应用于生产环境中。
 
@@ -281,6 +283,10 @@ services:
       - USER_ACCESS_TOKEN=20
       - USER_REFRESH_TOKEN=30
 ```
+程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置：
+- volumes里增加 {{DOCKER_API_CERTS_PATH}}:/certs 其中DOCKER_API_CERTS_PATH为本地存放公私钥的目录，里面存放私钥文件wecube_rsa_private(文件名可任意，与下面AUTH_CUSTOM_PARAM里的值一样即可)
+- environment里AUTH_CUSTOM_PARAM的值改为 --platform.auth.server.config.property-rsa-key=/certs/wecube_rsa_private
+- environment里MYSQL_USER_PASSWORD的值写为公钥加密后的加密值，这样程序就会拿私钥去解该密码
 
 4-wecube.yml
 
@@ -366,7 +372,10 @@ services:
       - TZ=Asia/Shanghai
     command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.tpl > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
 ```
-
+程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置：
+- volumes里增加 {{DOCKER_API_CERTS_PATH}}:/certs 其中DOCKER_API_CERTS_PATH为本地存放公私钥的目录，里面存放私钥文件wecube_rsa_private(文件名可任意，与下面AUTH_CUSTOM_PARAM里的值一样即可)
+- environment里AUTH_CUSTOM_PARAM的值改为 --wecube.core.config.property-rsa-key=/certs/wecube_rsa_private
+- environment里MYSQL_USER_PASSWORD的值写为公钥加密后的加密值，这样程序就会拿私钥去解该密码
 
 
 #### 修正yaml内容的值
