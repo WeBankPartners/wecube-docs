@@ -18,7 +18,7 @@
 | MySQL服务 | 1   | 2核 4G 50G硬盘                | MySQL集群 - Auth Server数据库                                                                                   |
 | MySQL服务 | 1   | 4核 8G 100G硬盘                | MySQL集群 - WeCube数据库                                                                                        |
 | MySQL服务 | 1   | 4核 8G 100G硬盘(请根据实际业务量进行调整)  | MySQL集群 - 插件数据库                                                                                            |
-| MySQL服务 | 1   | 4核 8G 500G硬盘(请根据实际业务量进行调整) | MySQL集群 - 监控归档数据库                                                                                          |
+| MySQL服务 | 1   | 4核 8G 500G硬盘(请根据实际业务量进行调整) | MySQL集群 - Monitor插件归档数据库                                                                                  |
 | S3    | 2   | 2核 4G 200G硬盘(请根据实际业务量进行调整) | S3集群                                                                                                       |
 | LB    | 1   |                            | WeCube-Gateway负载均衡(负载{{host_wecube1_ip}}:19110,{{host_wecube2_ip}}:19110)，健康检查地址：/platform/v1/health-check |
 | LB    | 1   |                            | WeCube-Portal负载均衡（负载{{host_wecube1_ip}}:19090,{{host_wecube2_ip}}:19090）                                   |
