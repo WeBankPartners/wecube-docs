@@ -1,9 +1,9 @@
 Babel==2.8.0
 beautifulsoup4==4.8.2
-cairocffi==1.1.0
+cairocffi
 CairoSVG==2.4.2
 certifi==2019.11.28
-cffi==1.14.0
+cffi
 Click==7.0
 cssselect2==0.3.0
 defusedxml==0.6.0
@@ -14,7 +14,7 @@ GitPython==3.1.0
 html5lib==1.0.1
 htmlmin==0.1.12
 Jinja2==2.11.1
-jsmin==2.2.2
+jsmin
 libsass==0.19.4
 livereload==2.6.1
 lunr==0.5.6
@@ -27,7 +27,7 @@ mkdocs-material-extensions==1.0b2
 mkdocs-minify-plugin==0.2.3
 mkdocs-pdf-export-plugin==0.5.5
 nltk==3.4.5
-Pillow==7.1.1
+Pillow
 pycparser==2.20
 Pygments==2.5.2
 pymdown-extensions==7.0
