@@ -10,39 +10,49 @@
 
 进入任务编排执行页面后，用户可以通过指定一个任务编排并选择目标对象范围来触发一次编排的执行，如下图所示：
 
-![图1. 任务编排列表](images/orchestration-execution/figure_1-orchestration_list.png)
- 
+![image-20240607200105229](./images/open-monitor/image-20240607200105229.png)
+
 其中，可供选择的任务编排列表中将显示当前登录用户对应角色可以执行的所有任务编排，包括任务编排的名称、版本及更新时间。当用户选择了一个任务编排后，页面左侧区域中将会显示已选择任务编排的流程缩略图，供用户进行确认。
 
-![图2. 任务编排流程缩略图](images/orchestration-execution/figure_2-orchestration_thumbnail.png)
- 
+
+
 接着，用户可以在目标对象列表中选择流程执行时将要操作的数据对象，可供选择的数据对象列表由 任务编排设计时确定的根数据类型 以及 登录用户对应角色具有的数据权限 这两个因素共同决定。
 
-![图3. 目标对象列表](images/orchestration-execution/figure_3-target_object_list.png)
- 
+![image-20240607200447348](./images/open-monitor/image-20240607200447348.png)
+
 用户选择确定了目标对象后，页面右侧区域中将显示以目标对象为根的关联数据图，以便用户了解和确认任务编排执行的影响范围。
 
 ![图4. 关联数据图](images/orchestration-execution/figure_4-associated_object_diagram.png)
- 
+
 之后，用户通过点击左侧区域的编排流程缩略图中的每个任务节点，在弹出的对话框中为它们进一步配置具体的操作数据对象。
 
 ![图5. 指定任务节点执行对象](images/orchestration-execution/figure_5-specify_task_node_target.png)
- 
+
 配置完毕后，点击页面右上方的 执行 按钮，即可触发编排任务在已选择数据对象上的执行过程。此时，WeCube将自动跳转至此次任务编排执行的历史页面，以供用户追踪编排的执行状态与结果。任务编排执行历史页面的具体说明请参见下一节。
 
-## 查看执行历史
+## 执行记录
 
-用户在进入任务编排执行页面时，可以点击右上方的 “查询历史编排” 按钮，
+用户在进入任务编排执行页面时，可以点击右上方的 “查询历史编排” 按钮，支持暂停、终止
 
-![图7. 查看执行历史](images/orchestration-execution/figure_7-view_history.png)
- 
-之后在左侧的 “任务编排” 列表中选择之前已经触发的一次任务编排执行并点击 “查询” 按钮来查看该任务编排执行的具体信息。
+![image-20240607200138833](./images/open-monitor/image-20240607200138833.png)
 
-![图8. 任务编排执行列表](images/orchestration-execution/figure_8-execution_list.png)
+## 历史详情
 
-此时，用户看到的页面与触发一次任务任务编排执行后跳转的页面完全一致。在此页面上，用户可以看到左侧区域中的流程缩略图以及右侧区域中的关联数据图。
+执行记录点击详情进入单个编排的详情页，用户可以看到左侧区域中的流程缩略图以及右侧区域中的关联数据图。
 
-![图9. 执行历史总览](images/orchestration-execution/figure_9-execution_history_overview.png)
+![image-20240607200203892](./images/open-monitor/image-20240607200203892.png)
+
+编排支持暂停、继续
+
+![image-20240607200255046](./images/open-monitor/image-20240607200255046.png)
+
+编排支持手动选择判断分支
+
+![image-20240607200733532](./images/open-monitor/image-20240607200733532.png)
+
+编排支持手动跳过时间节点(可关闭)
+
+![image-20240607200637975](./images/open-monitor/image-20240607200637975.png)
 
 流程缩略图中将使用不同的颜色标识个流程任务节点的执行状态，如下所示：
 
@@ -52,11 +62,11 @@
 - 灰色：尚未开始执行
 
 用户可以通过直接点击流程缩略图中的各任务节点来在弹出的对话框中查看更详细的执行信息。
- 
+
 ![图10. 任务节点详情](images/orchestration-execution/figure_10-task_node_details.png)
 
 
-## 编排定时执行
+## 定时执行
 用户在进入任务编排执行页面时，可以点击右上方的 “定时执行” 按钮，
 
 ![图11. 定时执行](images/orchestration-execution/figure_11-cron_run.png)
