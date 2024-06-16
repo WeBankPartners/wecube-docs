@@ -10,18 +10,18 @@
 
 在原有的WeCube单机部署中，我们默认内置了MySQL服务，S3服务，而在集群模式下，我们建议您使用您所在的组织/公司提供高可用服务(负载均衡 * 2 + MySQL * 3 + S3服务 * 1)
 
-| 资源    | 数量  | 建议配置                       | 用途                                                                                                         |
-|-------|-----|----------------------------|------------------------------------------------------------------------------------------------------------|
-| 主机    | 2   | 2核 8G 100G硬盘              | WeCube平台软件运行(100用户规模)                                                                                       |
-| 主机    | 2   | 4核 16G 100G硬盘              | WeCube插件运行(除Monitor插件其他插件)                                                                                            |
-| 主机    | 2   | 8核 32G 500G硬盘              | WeCube插件运行(Monitor插件独占,1000主机规模)                                                                                              |
-| MySQL服务 | 1   | 2核 4G 50G硬盘                | MySQL集群 - Auth Server数据库                                                                                   |
-| MySQL服务 | 1   | 4核 8G 100G硬盘                | MySQL集群 - WeCube数据库                                                                                        |
-| MySQL服务 | 1   | 4核 8G 100G硬盘(请根据实际业务量进行调整)  | MySQL集群 - 插件数据库                                                                                            |
-| MySQL服务 | 1   | 4核 8G 500G硬盘(请根据实际业务量进行调整) | MySQL集群 - Monitor插件归档数据库                                                                                  |
-| S3    | 2   | 2核 4G 200G硬盘(请根据实际业务量进行调整) | S3集群                                                                                                       |
-| LB    | 1   |                            | WeCube-Gateway负载均衡(负载{{host_wecube1_ip}}:19110,{{host_wecube2_ip}}:19110)，健康检查地址：/platform/v1/health-check |
-| LB    | 1   |                            | WeCube-Portal负载均衡（负载{{host_wecube1_ip}}:19090,{{host_wecube2_ip}}:19090）                                   |
+| 资源    | 数量  | 建议配置                       | 用途                                                                                                       |
+|-------|-----|----------------------------|----------------------------------------------------------------------------------------------------------|
+| 主机    | 2   | 2核 8G 100G硬盘              | WeCube平台软件运行(100用户规模)                                                                                    |
+| 主机    | 2   | 4核 16G 100G硬盘              | WeCube插件运行(除Monitor插件其他插件)                                                                               |
+| 主机    | 2   | 8核 32G 500G硬盘              | WeCube插件运行(Monitor插件独占,1000主机规模)                                                                         |
+| MySQL服务 | 1   | 2核 4G 50G硬盘                | MySQL集群 - Auth Server数据库                                                                                 |
+| MySQL服务 | 1   | 4核 8G 100G硬盘                | MySQL集群 - WeCube数据库                                                                                      |
+| MySQL服务 | 1   | 4核 8G 100G硬盘(请根据实际业务量进行调整)  | MySQL集群 - 插件数据库                                                                                          |
+| MySQL服务 | 1   | 4核 8G 500G硬盘(请根据实际业务量进行调整) | MySQL集群 - Monitor插件归档数据库                                                                                 |
+| S3    | 2   | 2核 4G 200G硬盘(请根据实际业务量进行调整) | S3集群                                                                                                     |
+| LB    | 1   |                            | WeCube-Gateway负载均衡(负载{{host_wecube1_ip}}:8005,{{host_wecube2_ip}}:8005)，健康检查地址：/platform/v1/health-check |
+| LB    | 1   |                            | WeCube-Portal负载均衡（负载{{host_wecube1_ip}}:8080,{{host_wecube2_ip}}:8080）                                   |
 
 > 若您的组织/公司内部未提供以上服务，或参照互联网文章进行安装部署，本文不再赘述，文中提供一个单节点作为演示说明用途，请勿应用于生产环境中。
 
@@ -101,7 +101,7 @@ curl http://127.0.0.1:2375/version
 
 ### 离线镜像准备
 
-首先，需要确认要安装的WeCube版本，版本号通常定义为vX.Y.Z，如v2.9.0，具体版本号可以从官方Release中找到
+首先，需要确认要安装的WeCube版本，版本号通常定义为vX.Y.Z，如v4.1.0，具体版本号可以从官方Release中找到
 
 [GitHub Release](https://github.com/WeBankPartners/wecube-platform/releases)
 
@@ -110,10 +110,10 @@ curl http://127.0.0.1:2375/version
 并且可以从Release中找到插件包的下载地址，可以下载备用
 
 ```bash
-WECUBE_VERSION=v2.9.1
+WECUBE_VERSION=v4.1.0
 # pull images
 docker pull ccr.ccs.tencentyun.com/webankpartners/minio
-docker pull ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
+docker pull ccr.ccs.tencentyun.com/webankpartners/mysql:$WECUBE_VERSION
 docker pull ccr.ccs.tencentyun.com/webankpartners/platform-core:$WECUBE_VERSION
 docker pull ccr.ccs.tencentyun.com/webankpartners/wecube-portal:$WECUBE_VERSION
 docker pull ccr.ccs.tencentyun.com/webankpartners/platform-gateway:$WECUBE_VERSION
@@ -121,7 +121,7 @@ docker pull ccr.ccs.tencentyun.com/webankpartners/platform-auth-server:$WECUBE_V
 
 # save images
 docker save -o webankpartners-minio.tar ccr.ccs.tencentyun.com/webankpartners/minio
-docker save -o webankpartners-mysql.tar ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
+docker save -o webankpartners-mysql.tar ccr.ccs.tencentyun.com/webankpartners/mysql:$WECUBE_VERSION
 docker save -o webankpartners-platform-core.tar ccr.ccs.tencentyun.com/webankpartners/platform-core:$WECUBE_VERSION
 docker save -o webankpartners-wecube-portal.tar ccr.ccs.tencentyun.com/webankpartners/wecube-portal:$WECUBE_VERSION
 docker save -o webankpartners-platform-gateway.tar ccr.ccs.tencentyun.com/webankpartners/platform-gateway:$WECUBE_VERSION
@@ -141,32 +141,52 @@ docker save -o webankpartners-platform-auth-server.tar ccr.ccs.tencentyun.com/we
 **请按需修正一下环境变量值**
 
 ```bash
-WECUBE_VERSION=v2.9.1
+# wecube版本
+WECUBE_VERSION='v4.1.0'
+# 部署的主机ip,如果是多台机部署每台机都要用自身ip部署一次
+HOSTIP='10.0.0.1'
+# 日志级别
+LOG_LEVEL='info'
+# (非必须)wecube内置的私钥，用于wecube yaml里数据库密码等敏感信息的加解密，rsa1024公钥加密私钥解
+WECUBE_PRIVATE_KEY='rsa_private_key.pem'
+# wecube用户token加解密种子
+JWT_SIGNING_KEY='Platform+Auth+Server+Secret'
 # wecube mysql服务信息
 mysql_wecube_host='10.0.0.10'
-mysql_wecube_port='3306'
+mysql_wecube_port='3307'
 mysql_wecube_username='root'
+# 该password可用上面的WECUBE_PRIVATE_KEY对应的公钥加密，程序内会用WECUBE_PRIVATE_KEY尝试解密
 mysql_wecube_password='WeCube@1234'
-# auth server mysql服务信息
-mysql_auth_host='10.0.0.11'
-mysql_auth_port='3306'
-mysql_auth_username='root'
-mysql_auth_password='WeCube@1234'
 # s3服务信息
 s3_host='10.0.1.10'
-s3_port='3306'
+s3_port='9000'
 s3_access='access_key'
 s3_secret='secret_key'
-# wecube主机节点一IP信息
-host_wecube1_ip='10.0.2.10'
-# wecube主机节点二IP信息
-host_wecube2_ip='10.0.2.11'
-# wecube主机节点一 & 二 ssh 认证信息
+# wecube主机ssh认证信息
 host_wecube_username='root'
 host_wecube_password='WeCube@1234'
+# 邮件通知(auth-server角色到期邮件提醒)
+MAIL_SENDER_NAME=''
+MAIL_SENDER=''
+MAIL_SERVER=''
+MAIL_PASSWORD=''
+MAIL_SSL='Y'
 ```
 
-
+WECUBE_PRIVATE_KEY 的生成与 mysql_wecube_password 加密:      
+```bash
+# 生成rsa私钥
+openssl genrsa -out rsa_private_key.pem 1024
+# 生成公钥
+openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+# 把私钥转成pkcs8格式
+openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt -out pkcs8.pem
+# 加密，注意copy加密后的base64内容时不要有换行符，有些终端比较窄可能会换行
+echo 'WeCube@1234' > test.txt
+openssl rsautl -encrypt -pubin -inkey rsa_public_key.pem -in test.txt -out test.enc
+base64 test.enc
+# 把输出的密文赋值给mysql_wecube_password 
+```
 
 ### MySQL服务(仅演示用途)：
 
@@ -175,10 +195,10 @@ host_wecube_password='WeCube@1234'
 1-wecube-db.yml
 
 ```yaml
-version: "2"
+version: "3"
 services:
   mysql-wecube:
-    image: ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
+    image: ccr.ccs.tencentyun.com/webankpartners/mysql:{{WECUBE_VERSION}}
     restart: always
     command:
       [
@@ -198,27 +218,6 @@ services:
     ports:
       - 3307:3306
 
-  mysql-auth-server:
-    image: ccr.ccs.tencentyun.com/webankpartners/mysql:5.6
-    restart: always
-    command:
-      [
-        "--character-set-server=utf8mb4",
-        "--collation-server=utf8mb4_unicode_ci",
-        "--default-time-zone=+8:00",
-        "--max_allowed_packet=4M",
-        "--lower_case_table_names=1",
-      ]
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - /data/installer/wecube/database/auth-server:/docker-entrypoint-initdb.d
-      - /data/mysql-auth-server/data:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=WeCube@1234
-      - MYSQL_DATABASE=auth_server
-    ports:
-      - 3308:3306
-
 ```
 
 启动db服务
@@ -227,8 +226,10 @@ docker-compose -f 1-wecube-db.yml up -d
 
 ### S3服务(仅演示用途)：
 
+2-wecube-minio.yml     
+
 ```yaml
-version: '2'
+version: '3'
 services:
   wecube-minio:
     image: ccr.ccs.tencentyun.com/webankpartners/minio
@@ -251,6 +252,16 @@ services:
 启动minio服务
 
 docker-compose -f 2-wecube-minio.yml up -d 
+```bash
+# 需要新建minio数据目录
+mkdir -p /data/wecube-minio/data/wecube-plugin-package-bucket
+mkdir -p /data/wecube-minio/data/salt-tmp                    
+mkdir -p /data/wecube-minio/data/taskman-file
+mkdir -p /data/wecube-minio/data/terminal    
+mkdir -p /data/wecube-minio/data/wecube-agent
+mkdir -p /data/wecube-minio/data/wecube-artifacts
+```
+
 
 ### 主机：WeCube节点一
 
@@ -261,127 +272,129 @@ docker-compose -f 2-wecube-minio.yml up -d
 3-wecube-auth-server.yml
 
 ```yaml
-version: '2'
+version: '3'
 services:
-  auth-server:
-    image: ccr.ccs.tencentyun.com/webankpartners/platform-auth-server:{{wecube_version}}
+  platform-auth-server:
+    image: ccr.ccs.tencentyun.com/webankpartners/platform-auth-server:{{WECUBE_VERSION}}
+    container_name: platform-auth-server-{{WECUBE_VERSION}}
     restart: always
     volumes:
-      - /data/log/auth_server:/data/auth_server/log
       - /etc/localtime:/etc/localtime
+      - /data/app/platform/platform-auth-server/logs:/app/platform-auth-server/logs
+      - /data/app/platform/platform-auth-server/certs:/app/platform-auth-server/config/certs
     ports:
-      - 19120:8080
+      - "{{HOSTIP}}:8002:8080"
     environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_SERVER_ADDR={{mysql_auth_host}}
-      - MYSQL_SERVER_PORT={{mysql_auth_port}}
-      - MYSQL_SERVER_DATABASE_NAME=auth_server
-      - MYSQL_USER_NAME={{mysql_auth_username}}
-      - MYSQL_USER_PASSWORD={{mysql_auth_password}}
-      - AUTH_CUSTOM_PARAM=
-      - AUTH_SERVER_LOG_PATH=/data/auth_server/log
-      - USER_ACCESS_TOKEN=20
-      - USER_REFRESH_TOKEN=30
-```
-程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置:    
-
-- volumes里增加 {{DOCKER_API_CERTS_PATH}}:/certs 其中DOCKER_API_CERTS_PATH为本地存放公私钥的目录，里面存放私钥文件wecube_rsa_private(文件名可任意，与下面AUTH_CUSTOM_PARAM里的值一样即可)
-
-- environment里AUTH_CUSTOM_PARAM的值改为 --platform.auth.server.config.property-rsa-key=/certs/wecube_rsa_private
-
-- environment里MYSQL_USER_PASSWORD的值写为公钥加密后的加密值，这样程序就会拿私钥去解该密码
-
-4-wecube.yml
-
-```yaml
-version: '2'
-services:
-  platform-core:
-    image: ccr.ccs.tencentyun.com/webankpartners/platform-core:{{wecube_version}}
-    restart: always
-    volumes:
-      - /data/log/wecube:/data/wecube/log
-      - /etc/localtime:/etc/localtime
-    ports:
-      - 19100:8080
-      - 19101:8081
-    environment:
-      - TZ=Asia/Shanghai
+      - LOG_LEVEL={{LOG_LEVEL}}
+      - PASSWORD_PRIVATE_KEY_PATH=/app/platform-auth-server/config/certs/{{WECUBE_PRIVATE_KEY}}
       - MYSQL_SERVER_ADDR={{mysql_wecube_host}}
       - MYSQL_SERVER_PORT={{mysql_wecube_port}}
-      - MYSQL_SERVER_DATABASE_NAME=wecube
       - MYSQL_USER_NAME={{mysql_wecube_username}}
       - MYSQL_USER_PASSWORD={{mysql_wecube_password}}
-      - WECUBE_PLUGIN_HOSTS=
-      - WECUBE_PLUGIN_HOST_PORT=
-      - WECUBE_PLUGIN_HOST_USER=
-      - WECUBE_PLUGIN_HOST_PWD=
-      - S3_ENDPOINT=http://{{s3_host}}:{{s3_port}}
-      - S3_ACCESS_KEY={{s3_access}}
-      - S3_SECRET_KEY={{s3_secret}}
-      - STATIC_RESOURCE_SERVER_IP={{host_wecube1_ip}},{{host_wecube2_ip}}
-      - STATIC_RESOURCE_SERVER_USER={{host_wecube_username}}
-      - STATIC_RESOURCE_SERVER_PASSWORD={{host_wecube_password}}
-      - STATIC_RESOURCE_SERVER_PORT=22
-      - STATIC_RESOURCE_SERVER_PATH=/data/wecube-portal/data/ui-resources
-      - GATEWAY_URL={{host_wecube1_ip}}:19110
-      - GATEWAY_HOST={{host_wecube1_ip}}
-      - GATEWAY_PORT=19110
-      - GATEWAY_HOST_PORTS={{host_wecube1_ip}}:19110,{{host_wecube2_ip}}:19110
-      - JWT_SSO_AUTH_URI=http://{{host_wecube1_ip}}:19120/auth/v1/api/login
-      - JWT_SSO_TOKEN_URI=http://{{host_wecube1_ip}}:19120/auth/v1/api/token
-      - WECUBE_PLUGIN_DEPLOY_PATH=/opt
-      - WECUBE_SERVER_JMX_PORT=19101
-      - WECUBE_BUCKET=wecube-plugin-package-bucket
-      - WECUBE_CORE_HOST={{host_wecube1_ip}}
-      - WECUBE_CUSTOM_PARAM=
-      - APP_LOG_PATH=/data/wecube/log
-
-  platform-gateway:
-    image: ccr.ccs.tencentyun.com/webankpartners/platform-gateway:{{wecube_version}}
-    restart: always
-    depends_on:
-      - platform-core
-    volumes:
-      - /data/log/wecube-gateway:/data/wecube-gateway/log
-      - /etc/localtime:/etc/localtime
-    ports:
-      - 19110:8080
-    environment:
-      - TZ=Asia/Shanghai
-      - GATEWAY_ROUTE_CONFIG_SERVER=http://{{host_wecube1_ip}}:19100
-      - GATEWAY_ROUTE_CONFIG_URI=/platform/v1/route-items
-      - GATEWAY_ROUTE_ACCESS_KEY=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJXRUNVQkUtQ09SRSIsImlhdCI6MTU3MDY5MDMwMCwidHlwZSI6ImFjY2Vzc1Rva2VuIiwiY2xpZW50VHlwZSI6IlNVQl9TWVNURU0iLCJleHAiOjE2MDIzMTI3MDAsImF1dGhvcml0eSI6IltTVUJfU1lTVEVNXSJ9.Mq8g_ZoPIQ_mB59zEq0KVtwGn_uPqL8qn6sP7WzEiJxoXQQIcVe7mYsG-E2jxCShEQL7PsMNLM47MYuY7R5nBg
-      - WECUBE_CORE_HOST={{host_wecube1_ip}}
-      - AUTH_SERVER_HOST={{host_wecube1_ip}}
-      - WECUBE_GATEWAY_LOG_PATH=/var/log/wecube-gateway
-
-  wecube-portal:
-    image: ccr.ccs.tencentyun.com/webankpartners/wecube-portal:{{wecube_version}}
-    restart: always
-    depends_on:
-      - platform-gateway
-      - platform-core
-    volumes:
-      - /data/log/wecube-portal:/var/log/nginx
-      - /data/wecube-portal/data/ui-resources:/root/app/ui-resources
-      - /etc/localtime:/etc/localtime
-    ports:
-      - 19090:8080
-    environment:
-      - GATEWAY_HOST={{host_wecube1_ip}}
-      - GATEWAY_PORT=19110
-      - PUBLIC_DOMAIN={{host_wecube1_ip}}:19090
-      - TZ=Asia/Shanghai
-    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.tpl > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
+      - MYSQL_SERVER_DATABASE_NAME=auth_server
+      - SIGNING_KEY={{JWT_SIGNING_KEY}}
+      - USER_ACCESS_TOKEN=20
+      - USER_REFRESH_TOKEN=30
+      - WECUBE_CORE_ADDRESS={{HOSTIP}}:8000
+      - SENDER_NAME={{MAIL_SENDER_NAME}}
+      - SENDER_MAIL={{MAIL_SENDER}}
+      - AUTH_SERVER={{MAIL_SERVER}}
+      - AUTH_PASSWORD={{MAIL_PASSWORD}}
+      - SSL={{MAIL_SSL}}
+      - NOTIFY_PERCENT=80
 ```
-程序支持MYSQL_USER_PASSWORD使用rsa1024加解密，可以对上面的yaml添加如下配置:      
 
-- volumes里增加 {{DOCKER_API_CERTS_PATH}}:/certs 其中DOCKER_API_CERTS_PATH为本地存放公私钥的目录，里面存放私钥文件wecube_rsa_private(文件名可任意，与下面AUTH_CUSTOM_PARAM里的值一样即可)
+4-wecube-platform-core.yml
 
-- environment里AUTH_CUSTOM_PARAM的值改为 --wecube.core.config.property-rsa-key=/certs/wecube_rsa_private
+```yaml
+version: '3'
+services:
+  platform-core:
+    image: ccr.ccs.tencentyun.com/webankpartners/platform-core:{{WECUBE_VERSION}}
+    container_name: platform-core-{{WECUBE_VERSION}}
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/app/platform/platform-core/logs:/app/platform-core/logs
+      - /data/app/platform/platform-core/certs:/app/platform-core/config/certs
+    ports:
+      - "{{HOSTIP}}:8000:8000"
+    environment:
+      - version={{WECUBE_VERSION}}
+      - log_level={{LOG_LEVEL}}
+      - password_private_key_path=/app/platform-core/config/certs/{{WECUBE_PRIVATE_KEY}}
+      - https_enable=false
+      - http_port=8000
+      - db_server={{mysql_wecube_host}}
+      - db_port={{mysql_wecube_port}}
+      - db_user={{mysql_wecube_username}}
+      - db_pass={{mysql_wecube_password}}
+      - db_database=wecube
+      - auth_server_url=http://{{HOSTIP}}:8002
+      - jwt_signing_key={{JWT_SIGNING_KEY}}
+      - s3_address={{s3_host}}:{{s3_port}}
+      - s3_access_key={{s3_access}}
+      - s3_secret_key={{s3_secret}}
+      - static_resource_server_ips={{HOSTIP}}
+      - static_resource_server_user={{host_wecube_username}}
+      - static_resource_server_password={{host_wecube_password}}
+      - static_resource_server_port=22
+      - static_resource_server_path=/data/app/platform/wecube-portal/data/ui-resources
+      - plugin_base_mount_path=/data
+      - plugin_deploy_path=/data/app/plugin-image
+      - plugin_password_pub_key_path=
+      - resource_server_password_seed=defaultSeed
+      - gateway_url={{HOSTIP}}:8005
+      - gateway_host_ports={{HOSTIP}}:8005
+      - sub_system_private_key=
+      - cron_keep_batch_exec_days=20
+      - host_ip={{HOSTIP}}
+```
 
-- environment里MYSQL_USER_PASSWORD的值写为公钥加密后的加密值，这样程序就会拿私钥去解该密码
+5-wecube-platform-gateway.yml
+
+```yaml
+version: '3'
+services:
+  platform-gateway:
+    image: ccr.ccs.tencentyun.com/webankpartners/platform-gateway:{{WECUBE_VERSION}}
+    container_name: platform-gateway-{{WECUBE_VERSION}}
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/app/platform/platform-gateway/logs:/app/platform-gateway/logs
+    ports:
+      - "{{HOSTIP}}:8005:8080"
+    environment:
+      - LOG_LEVEL={{LOG_LEVEL}}
+      - GATEWAY_ROUTE_CONFIG_SERVER=http://{{HOSTIP}}:8000
+      - GATEWAY_ROUTE_CONFIG_URI=/platform/v1/route-items
+      - WECUBE_CORE_ADDRESS={{HOSTIP}}:8000
+      - AUTH_SERVER_ADDRESS={{HOSTIP}}:8002
+```
+
+6-wecube-portal.yml
+
+```yaml
+version: '3'
+services:
+  wecube-portal:
+    image: ccr.ccs.tencentyun.com/webankpartners/wecube-portal:{{WECUBE_VERSION}}
+    container_name: wecube-portal-{{WECUBE_VERSION}}
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/app/platform/wecube-portal/log:/var/log/nginx/
+      - /data/app/platform/wecube-portal/data/ui-resources:/root/app/ui-resources
+    ports:
+      - "{{HOSTIP}}:8080:8080"
+    environment:
+      - GATEWAY_HOST={{HOSTIP}}
+      - GATEWAY_PORT=8005
+      - PUBLIC_DOMAIN={{HOSTIP}}:8080
+      - TZ=Asia/Shanghai
+    command: /bin/bash -c "/etc/nginx/start_platform_portal.sh"
+```
 
 
 #### 修正yaml内容的值
@@ -389,30 +402,48 @@ services:
 ```bash
 # 请修改以下变量为正确值
 # 粘贴以上整理的环境变量
+sed -i "s/{{WECUBE_VERSION}}/$WECUBE_VERSION/g" 1-wecube-db.yml
 
-
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 3-wecube-auth-server.yml
+sed -i "s/{{WECUBE_VERSION}}/$WECUBE_VERSION/g" 3-wecube-auth-server.yml
+sed -i "s/{{HOSTIP}}/$HOSTIP/g" 3-wecube-auth-server.yml
+sed -i "s/{{LOG_LEVEL}}/$LOG_LEVEL/g" 3-wecube-auth-server.yml
+sed -i "s/{{WECUBE_PRIVATE_KEY}}/$WECUBE_PRIVATE_KEY/g" 3-wecube-auth-server.yml
+sed -i "s/{{JWT_SIGNING_KEY}}/$JWT_SIGNING_KEY/g" 3-wecube-auth-server.yml
 sed -i "s/{{mysql_auth_host}}/$mysql_auth_host/g" 3-wecube-auth-server.yml
 sed -i "s/{{mysql_auth_port}}/$mysql_auth_port/g" 3-wecube-auth-server.yml
 sed -i "s/{{mysql_auth_username}}/$mysql_auth_username/g" 3-wecube-auth-server.yml
 sed -i "s/{{mysql_auth_password}}/$mysql_auth_password/g" 3-wecube-auth-server.yml
+sed -i "s/{{MAIL_SENDER_NAME}}/$MAIL_SENDER_NAME/g" 3-wecube-auth-server.yml
+sed -i "s/{{MAIL_SENDER}}/$MAIL_SENDER/g" 3-wecube-auth-server.yml
+sed -i "s/{{MAIL_SERVER}}/$MAIL_SERVER/g" 3-wecube-auth-server.yml
+sed -i "s/{{MAIL_PASSWORD}}/$MAIL_PASSWORD/g" 3-wecube-auth-server.yml
+sed -i "s/{{MAIL_SSL}}/$MAIL_SSL/g" 3-wecube-auth-server.yml
 
 
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_host}}/$mysql_wecube_host/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_port}}/$mysql_wecube_port/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_username}}/$mysql_wecube_username/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_password}}/$mysql_wecube_password/g" 4-wecube.yml
-sed -i "s/{{s3_host}}/$s3_host/g" 4-wecube.yml
-sed -i "s/{{s3_port}}/$s3_port/g" 4-wecube.yml
-sed -i "s/{{s3_access}}/$s3_access/g" 4-wecube.yml
-sed -i "s/{{s3_secret}}/$s3_secret/g" 4-wecube.yml
-sed -i "s/{{host_wecube1_ip}}/$host_wecube1_ip/g" 4-wecube.yml
-sed -i "s/{{host_wecube2_ip}}/$host_wecube2_ip/g" 4-wecube.yml
-sed -i "s/{{host_wecube_username}}/$host_wecube_username/g" 4-wecube.yml
-sed -i "s/{{host_wecube_password}}/$host_wecube_password/g" 4-wecube.yml
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
+sed -i "s/{{WECUBE_VERSION}}/$WECUBE_VERSION/g" 4-wecube-platform-core.yml
+sed -i "s/{{HOSTIP}}/$HOSTIP/g" 4-wecube-platform-core.yml
+sed -i "s/{{LOG_LEVEL}}/$LOG_LEVEL/g" 4-wecube-platform-core.yml
+sed -i "s/{{WECUBE_PRIVATE_KEY}}/$WECUBE_PRIVATE_KEY/g" 4-wecube-platform-core.yml
+sed -i "s/{{JWT_SIGNING_KEY}}/$JWT_SIGNING_KEY/g" 4-wecube-platform-core.yml
+sed -i "s/{{mysql_wecube_host}}/$mysql_wecube_host/g" 4-wecube-platform-core.yml
+sed -i "s/{{mysql_wecube_port}}/$mysql_wecube_port/g" 4-wecube-platform-core.yml
+sed -i "s/{{mysql_wecube_username}}/$mysql_wecube_username/g" 4-wecube-platform-core.yml
+sed -i "s/{{mysql_wecube_password}}/$mysql_wecube_password/g" 4-wecube-platform-core.yml
+sed -i "s/{{s3_host}}/$s3_host/g" 4-wecube-platform-core.yml
+sed -i "s/{{s3_port}}/$s3_port/g" 4-wecube-platform-core.yml
+sed -i "s/{{s3_access}}/$s3_access/g" 4-wecube-platform-core.yml
+sed -i "s/{{s3_secret}}/$s3_secret/g" 4-wecube-platform-core.yml
+sed -i "s/{{host_wecube_username}}/$host_wecube_username/g" 4-wecube-platform-core.yml
+sed -i "s/{{host_wecube_password}}/$host_wecube_password/g" 4-wecube-platform-core.yml
+
+
+sed -i "s/{{WECUBE_VERSION}}/$WECUBE_VERSION/g" 5-wecube-platform-gateway.yml
+sed -i "s/{{HOSTIP}}/$HOSTIP/g" 5-wecube-platform-gateway.yml
+sed -i "s/{{LOG_LEVEL}}/$LOG_LEVEL/g" 5-wecube-platform-gateway.yml
+
+
+sed -i "s/{{WECUBE_VERSION}}/$WECUBE_VERSION/g" 6-wecube-portal.yml
+sed -i "s/{{HOSTIP}}/$HOSTIP/g" 6-wecube-portal.yml
 ```
 
 
@@ -423,15 +454,23 @@ sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
 
   docker-compose -f 3-wecube-auth-server.yml up -d
 
-- 启动core/gateway/portal服务
+- 启动core服务
 
-  docker-compose -f 4-wecube.yml up -d
+  docker-compose -f 4-wecube-platform-core.yml up -d
+
+- 启动gateway服务
+
+  docker-compose -f 5-wecube-platform-gateway.yml up -d
+
+- 启动portal服务
+
+  docker-compose -f 6-wecube-portal.yml up -d
 
   
 
   至此，已经可以打开系统页面进行正常访问，但还无法正常使用插件功能
 
-  **WeCube主页：http://{主机节点一IP}:19090   默认账户密码：admin/admin**
+  **WeCube主页：http://{主机节点一IP}:8080   默认账户密码：admin/admin**
 
 #### 更改系统变量值
 
@@ -440,173 +479,19 @@ sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
 Web页面：系统-系统参数
 
 | key                               | value                              |
-| --------------------------------- | ---------------------------------- |
-| system\_\_global\_\_GATEWAY_URL   | http://\{\{lb_gateway_ip}}:19090   |
+| --------------------------------- |------------------------------------|
+| system\_\_global\_\_GATEWAY_URL   | http://\{\{lb_gateway_ip}}:8080    |
 | system\_\_global\_\_S3_SERVER_URL | http://\{\{s3_host}}:\{\{s3_port}} |
 | system\_\_global\_\_S3_ACCESS_KEY | \{\{s3_access}}                    |
 | system\_\_global\_\_S3_SECRET_KEY | \{\{s3_secret}}                    |
 
 ### 主机：WeCube节点二
 
+按WeCube节点一的方式在节点二中部署，其中HOSTIP变量替换成节点二本机ip
+
 #### 准备yaml内容
 
 在本地准备以下2个yaml文件
-
-3-wecube-auth-server.yml
-
-```yaml
-version: '2'
-services:
-  auth-server:
-    image: ccr.ccs.tencentyun.com/webankpartners/platform-auth-server:{{wecube_version}}
-    restart: always
-    volumes:
-      - /data/log/auth_server:/data/auth_server/log
-      - /etc/localtime:/etc/localtime
-    ports:
-      - 19120:8080
-    environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_SERVER_ADDR={{mysql_auth_host}}
-      - MYSQL_SERVER_PORT={{mysql_auth_port}}
-      - MYSQL_SERVER_DATABASE_NAME=auth_server
-      - MYSQL_USER_NAME={{mysql_auth_username}}
-      - MYSQL_USER_PASSWORD={{mysql_auth_password}}
-      - AUTH_CUSTOM_PARAM=
-      - AUTH_SERVER_LOG_PATH=/data/auth_server/log
-      - USER_ACCESS_TOKEN=20
-      - USER_REFRESH_TOKEN=30
-```
-
-4-wecube.yml
-
-```yaml
-version: '2'
-services:
-  platform-core:
-    image: ccr.ccs.tencentyun.com/webankpartners/platform-core:{{wecube_version}}
-    restart: always
-    volumes:
-      - /data/log/wecube:/data/wecube/log
-      - /etc/localtime:/etc/localtime
-    ports:
-      - 19100:8080
-      - 19101:8081
-    environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_SERVER_ADDR={{mysql_wecube_host}}
-      - MYSQL_SERVER_PORT={{mysql_wecube_port}}
-      - MYSQL_SERVER_DATABASE_NAME=wecube
-      - MYSQL_USER_NAME={{mysql_wecube_username}}
-      - MYSQL_USER_PASSWORD={{mysql_wecube_password}}
-      - WECUBE_PLUGIN_HOSTS=
-      - WECUBE_PLUGIN_HOST_PORT=
-      - WECUBE_PLUGIN_HOST_USER=
-      - WECUBE_PLUGIN_HOST_PWD=
-      - S3_ENDPOINT=http://{{s3_host}}:{{s3_port}}
-      - S3_ACCESS_KEY={{s3_access}}
-      - S3_SECRET_KEY={{s3_secret}}
-      - STATIC_RESOURCE_SERVER_IP={{host_wecube1_ip}},{{host_wecube2_ip}}
-      - STATIC_RESOURCE_SERVER_USER={{host_wecube_username}}
-      - STATIC_RESOURCE_SERVER_PASSWORD={{host_wecube_password}}
-      - STATIC_RESOURCE_SERVER_PORT=22
-      - STATIC_RESOURCE_SERVER_PATH=/data/wecube-portal/data/ui-resources
-      - GATEWAY_URL={{host_wecube2_ip}}:19110
-      - GATEWAY_HOST={{host_wecube2_ip}}
-      - GATEWAY_PORT=19110
-      - GATEWAY_HOST_PORTS={{host_wecube1_ip}}:19110,{{host_wecube2_ip}}:19110
-      - JWT_SSO_AUTH_URI=http://{{host_wecube2_ip}}:19120/auth/v1/api/login
-      - JWT_SSO_TOKEN_URI=http://{{host_wecube2_ip}}:19120/auth/v1/api/token
-      - WECUBE_PLUGIN_DEPLOY_PATH=/opt
-      - WECUBE_SERVER_JMX_PORT=19101
-      - WECUBE_BUCKET=wecube-plugin-package-bucket
-      - WECUBE_CORE_HOST={{host_wecube2_ip}}
-      - WECUBE_CUSTOM_PARAM=
-      - APP_LOG_PATH=/data/wecube/log
-
-  platform-gateway:
-    image: ccr.ccs.tencentyun.com/webankpartners/platform-gateway:{{wecube_version}}
-    restart: always
-    depends_on:
-      - platform-core
-    volumes:
-      - /data/log/wecube-gateway:/data/wecube-gateway/log
-      - /etc/localtime:/etc/localtime
-    ports:
-      - 19110:8080
-    environment:
-      - TZ=Asia/Shanghai
-      - GATEWAY_ROUTE_CONFIG_SERVER=http://{{host_wecube2_ip}}:19100
-      - GATEWAY_ROUTE_CONFIG_URI=/platform/v1/route-items
-      - GATEWAY_ROUTE_ACCESS_KEY=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJXRUNVQkUtQ09SRSIsImlhdCI6MTU3MDY5MDMwMCwidHlwZSI6ImFjY2Vzc1Rva2VuIiwiY2xpZW50VHlwZSI6IlNVQl9TWVNURU0iLCJleHAiOjE2MDIzMTI3MDAsImF1dGhvcml0eSI6IltTVUJfU1lTVEVNXSJ9.Mq8g_ZoPIQ_mB59zEq0KVtwGn_uPqL8qn6sP7WzEiJxoXQQIcVe7mYsG-E2jxCShEQL7PsMNLM47MYuY7R5nBg
-      - WECUBE_CORE_HOST={{host_wecube2_ip}}
-      - AUTH_SERVER_HOST={{host_wecube2_ip}}
-      - WECUBE_GATEWAY_LOG_PATH=/var/log/wecube-gateway
-
-  wecube-portal:
-    image: ccr.ccs.tencentyun.com/webankpartners/wecube-portal:{{wecube_version}}
-    restart: always
-    depends_on:
-      - platform-gateway
-      - platform-core
-    volumes:
-      - /data/log/wecube-portal:/var/log/nginx
-      - /data/wecube-portal/data/ui-resources:/root/app/ui-resources
-      - /etc/localtime:/etc/localtime
-    ports:
-      - 19090:8080
-    environment:
-      - GATEWAY_HOST={{host_wecube2_ip}}
-      - GATEWAY_PORT=19110
-      - PUBLIC_DOMAIN={{host_wecube2_ip}}:19090
-      - TZ=Asia/Shanghai
-    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.tpl > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
-```
-
-
-
-#### 修正yaml内容的值
-
-```bash
-# 请修改以下变量为正确值
-# 粘贴以上整理的环境变量
-
-
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_host}}/$mysql_auth_host/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_port}}/$mysql_auth_port/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_username}}/$mysql_auth_username/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_password}}/$mysql_auth_password/g" 3-wecube-auth-server.yml
-
-
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_host}}/$mysql_wecube_host/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_port}}/$mysql_wecube_port/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_username}}/$mysql_wecube_username/g" 4-wecube.yml
-sed -i "s/{{mysql_wecube_password}}/$mysql_wecube_password/g" 4-wecube.yml
-sed -i "s/{{s3_host}}/$s3_host/g" 4-wecube.yml
-sed -i "s/{{s3_port}}/$s3_port/g" 4-wecube.yml
-sed -i "s/{{s3_access}}/$s3_access/g" 4-wecube.yml
-sed -i "s/{{s3_secret}}/$s3_secret/g" 4-wecube.yml
-sed -i "s/{{host_wecube1_ip}}/$host_wecube1_ip/g" 4-wecube.yml
-sed -i "s/{{host_wecube2_ip}}/$host_wecube2_ip/g" 4-wecube.yml
-sed -i "s/{{host_wecube_username}}/$host_wecube_username/g" 4-wecube.yml
-sed -i "s/{{host_wecube_password}}/$host_wecube_password/g" 4-wecube.yml
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
-sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
-```
-
-
-
-#### 启动docker容器
-
-- 启动auth-server服务
-
-  docker-compose -f 3-wecube-auth-server.yml up -d
-
-- 启动core/gateway/portal服务
-
-  docker-compose -f 4-wecube.yml up -d
 
 
 ### 主机：Plugin节点一
@@ -624,13 +509,13 @@ sed -i "s/{{wecube_version}}/$WECUBE_VERSION/g" 4-wecube.yml
 ```
 # gateway upstream
 upstream gateway {
-  server {{host_wecube1_ip}}:19110;
-  server {{host_wecube2_ip}}:19110;
+  server {{host_wecube1_ip}}:8005;
+  server {{host_wecube2_ip}}:8005;
 }
 
 server {
   server_name _;
-  listen 19110;
+  listen 8005;
   location / {
     proxy_pass http://gateway;
     proxy_set_header Host $host;
@@ -644,8 +529,8 @@ server {
 ```
 # portal upstream
 upstream portal {
-  server {{host_wecube1_ip}}:19090;
-  server {{host_wecube2_ip}}:19090;
+  server {{host_wecube1_ip}}:8080;
+  server {{host_wecube2_ip}}:8080;
 }
 
 server {
@@ -669,10 +554,11 @@ server {
 
 Web页面：系统-资源管理
 
-1. 添加mysql：{{mysql_plugin_host}}:{{mysql_plugin_port}}  {{mysql_auth_username}}/{{mysql_auth_password}}
+1. 添加mysql(默认全部插件会用此数据库实例)：{{mysql_plugin_host}}:{{mysql_plugin_port}}  {{mysql_auth_username}}/{{mysql_auth_password}}
 2. 添加s3：{{s3_host}}:{{s3_port}} {{s3_access}}/{{s3_secret}}
 3. 添加host：{{host_plugin1_ip}}:22 root/你的主机密码
 4. 添加host：{{host_plugin2_ip}}:22 root/你的主机密码
+5. 如果插件想单独用一个数据库实例请添加个mysql，然后把名称设置为插件名，比如wecmdb、monitor等，注意请在实例中预先建好数据库并授权给所录用户，除了wecmdb插件的数据库名wecmdb_pro，其它插件的数据库名与插件名相同。
 
 ### 安装插件包
 
