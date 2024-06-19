@@ -101,7 +101,7 @@ openssl pkcs8 -topk8 -inform PEM -in rsa_key.pem -outform PEM -nocrypt -out rsa_
 <span class=c1># 加密，注意copy加密后的base64内容时不要有换行符，有些终端比较窄可能会换行</span>
 <span class=nb>echo</span> <span class=s1>&#39;WeCube@1234&#39;</span> &gt; test.txt
 openssl rsautl -encrypt -pubin -inkey rsa_public_key.pem -in test.txt -out test.enc
-<span class=nb>echo</span> <span class=s2>&quot;rsa@`base64 test.enc`&quot;</span>
+<span class=nb>echo</span> <span class=s2>&quot;RSA@`base64 test.enc`&quot;</span>
 <span class=c1># 把输出的密文赋值给mysql_wecube_password </span>
 </code></pre></div></p> <h3 id=mysql>MySQL服务(仅演示用途)：<a class=headerlink href=#mysql title="Permanent link">&para;</a></h3> <p>在本地准备以下db的yaml文件</p> <p>1-wecube-db.yml</p> <div class=highlight><pre><span></span><code><span class=nt>version</span><span class=p>:</span> <span class=s>&quot;3&quot;</span>
 <span class=nt>services</span><span class=p>:</span>
