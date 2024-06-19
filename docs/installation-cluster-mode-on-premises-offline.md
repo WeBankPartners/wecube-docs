@@ -184,7 +184,7 @@ openssl pkcs8 -topk8 -inform PEM -in rsa_key.pem -outform PEM -nocrypt -out rsa_
 # 加密，注意copy加密后的base64内容时不要有换行符，有些终端比较窄可能会换行
 echo 'WeCube@1234' > test.txt
 openssl rsautl -encrypt -pubin -inkey rsa_public_key.pem -in test.txt -out test.enc
-echo "rsa@`base64 test.enc`"
+echo "RSA@`base64 test.enc`"
 # 把输出的密文赋值给mysql_wecube_password 
 ```
 
