@@ -176,15 +176,15 @@ MAIL_SSL='Y'
 WECUBE_PRIVATE_KEY 的生成与 mysql_wecube_password 加密:      
 ```bash
 # 生成rsa私钥
-openssl genrsa -out rsa_private_key.pem 1024
+openssl genrsa -out rsa_key.pem 1024
 # 生成公钥
-openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+openssl rsa -in rsa_key.pem -pubout -out rsa_public_key.pem
 # 把私钥转成pkcs8格式
-openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt -out pkcs8.pem
+openssl pkcs8 -topk8 -inform PEM -in rsa_key.pem -outform PEM -nocrypt -out rsa_private_key.pem
 # 加密，注意copy加密后的base64内容时不要有换行符，有些终端比较窄可能会换行
 echo 'WeCube@1234' > test.txt
 openssl rsautl -encrypt -pubin -inkey rsa_public_key.pem -in test.txt -out test.enc
-base64 test.enc
+echo "rsa@`base64 test.enc`"
 # 把输出的密文赋值给mysql_wecube_password 
 ```
 
