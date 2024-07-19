@@ -1,78 +1,127 @@
-# 注册和配置插件
+# 插件列表
 
-点击菜单“协同 > 插件注册”打开插件注册页面。
+点击菜单“协同 > 插件注册”打开插件注册页面。支持按照状态、名称、更新人筛选
+运行中默认筛选运行态的插件
 
-![plugin_menu](images/plugin/plugin_menu.png)
+![image-20240719140626402](./images/open-monitor/image-20240719140626402.png)所有:包含所有未删除的插件
 
-## 上传插件包
+![image-20240719142055474](./images/open-monitor/image-20240719142055474.png)已删除插件:仅查看已删除插件
+![image-20240719142115398](./images/open-monitor/image-20240719142115398.png)
 
-1. 点击插件注册页面左上角的“上传插件包”按钮，在弹出框选择插件包上传。
 
-    注：同名同版本的插件包不允许重复上传。
 
-    ![plugin_upload_new](images/plugin/plugin_upload_new.png)
+## 插件包上传
 
-1. 上传成功的插件包在插件包列表中显示。
+点击插件注册页面左上角的“上传插件包”按钮，在弹出框选择插件包上传。
 
-    ![plugin_list](images/plugin/plugin_list.png)
+注：同名同版本的插件包不允许重复上传。
 
-## 插件配置查看
+![image-20240719140642395](./images/open-monitor/image-20240719140642395.png)
 
-点击插件列表左侧的箭头展开插件功能按钮，点击“插件配置”按钮进行配置查看，页面的右侧展示插件的配置信息。
+上传成功的插件包在插件包列表进入安装页面
 
-![plugin_config_new](images/plugin/plugin_config_new.png)
+![image-20240719140720279](./images/open-monitor/image-20240719140720279.png)
+
+## 插件包安装
+
+### 第一步 上传插件包
+
+同上
+
+### 第二步 确认插件配置
+
+确认插件配置![image-20240719140809911](./images/open-monitor/image-20240719140809911.png)
+
+### 第三步 设置服务列表
+
+配置服务列表,自动继承上一个版本,批量勾选需要注册的API
+如果有特殊需求,可以退出注册弹窗支持继承其他老版本配置/导入新配置,
+![image-20240719140847000](./images/open-monitor/image-20240719140847000.png)
+
+### 第四步 运行前端资源
+
+点击注册,下发并启动对应页面的web资源
+![image-20240719141017799](./images/open-monitor/image-20240719141017799.png)
+
+### 第五步 运行后台资源
+
+运行插件实例,选择IP预览可创建端口,点击创建,
+
+### ![image-20240719141117836](./images/open-monitor/image-20240719141117836.png)
+
+请在页面等待实例创建成功,可以看到运行实例
+![image-20240719141505411](./images/open-monitor/image-20240719141505411.png)
+
+### 第六步 运行后台资源
+
+完成前面步骤,确认点击安装完成,返回主页,可以看到成功运行的插件,此时前后台资源均已生效,可以去对应目录使用功能
+前端状态(1个插件,支持1个版本同时运行):前端运行中、前端未生效(被其他版本覆盖)
+后台状态(1个插件,支持多个版本同时运行,实际只会使用一个实例):后台运行中(创建实例后)、后台未生效(销毁所有实例后),点击“管理”可以创建、销毁
+
+![image-20240719141558772](./images/open-monitor/image-20240719141558772.png)
+
+## 插件配置
+
+插件卡片,点击“插件配置”按钮进行配置查看，进入页面展示插件的配置信息。
+
+![image-20240719142159116](./images/open-monitor/image-20240719142159116.png)
+![image-20240719142245662](./images/open-monitor/image-20240719142245662.png)
 
 ### 依赖分析
 
 1. “依赖分析”展示本插件包与其他插件包之间的依赖关系图。
 
-    ![plugin_config_relation](images/plugin/plugin_config_relation.png)
+    ![image-20240719142250759](./images/open-monitor/image-20240719142250759.png)
 
 ### 菜单注入
 
 1. "菜单注入"展示本插件在WeCube主菜单下注入的子菜单列表。
 
-    ![plugin_regist_menu](images/plugin/plugin_regist_menu.png)
+    ![image-20240719142301961](./images/open-monitor/image-20240719142301961.png)
 
 ### 数据模型
 
 1. "数据模型"展示本插件在WeCube系统中已应用的数据模型。
 
-    ![plugin_model](images/plugin/plugin_model.png)
+    ![image-20240719142340986](./images/open-monitor/image-20240719142340986.png)同步数据模型
+    
+    1. 在插件配置的“数据模型”页面，点击“同步数据模型”按钮可以将插件包最新的数据模型以数据模型关系图展示，每次同步后版本号递增。
+    
+       注：以CMDB插件为例，“同步数据模型”功能需在CMDB插件已确认并运行后才可以操作。
+    
+       ![image-20240719142850240](./images/open-monitor/image-20240719142850240.png)
 
 ### 系统参数
 
 1. “系统参数”展示本插件在WeCube系统注册的系统参数列表。
 
-    ![plugin_system_params](images/plugin/plugin_system_params.png)
+    ![image-20240719142353699](./images/open-monitor/image-20240719142353699.png)
 
 ### 权限设定
 
 1. "权限设定"展示本插件配置的角色操作菜单的权限。
 
-    ![plugin_permission](images/plugin/plugin_permission.png)
+    ![image-20240719142413515](./images/open-monitor/image-20240719142413515.png)
 
-### 运行资源
+### 运行资源-声明
 
-1. “运行资源”展示"本插件运行容器、数据库和对象存储的配置信息。
+1. “运行资源-声明”展示"本插件声明的运行容器、数据库和对象存储的配置信息。
 
-    ![plugin_resources](images/plugin/plugin_resources.png)
+    ![image-20240719142426470](./images/open-monitor/image-20240719142426470.png)
+    
+    
+    
+    
+    
+    ### 运行资源-实际
+    
+    “运行资-实际源”展示"本插件实际的运行容器、数据库和对象存储的配置信息。
+    
+    ![image-20240719142512208](./images/open-monitor/image-20240719142512208.png)
 
-## 插件配置确认
 
-1. 在插件配置的“确认”页面点击“确认注册插件包”按钮进行插件配置的注册确认。
 
-    注：如果插件提供UI界面，确认插件后需刷新页面加载插件注册的菜单。
-
-    ![plugin_confirm](images/plugin/plugin_confirm.png)
-
-## 运行管理
-
-点击插件包的“运行管理”按钮打开运行管理页面。
-
-![plugin_run_manage](images/plugin/plugin_run_manage.png)
-
-### 运行容器
+#### 运行容器
 
 注：插件运行所需的资源需要在“系统 > 资源管理”页面提前录入，如容器主机、数据库主机、S3服务器等。
 
@@ -84,13 +133,13 @@
 
 1. 点击“创建”按钮在服务器上运行插件。
 
-    ![plugin_run](images/plugin/plugin_run.png)
+    ![image-20240719142654733](./images/open-monitor/image-20240719142654733.png)
 
 1. 插件运行成功后在页面显示”运行节点“的信息，点击“销毁”按钮可销毁插件运行。
 
-    ![plugin_destroy_new](images/plugin/plugin_destroy_new.png)
+    ![image-20240719142704929](./images/open-monitor/image-20240719142704929.png)
 
-### 数据库
+#### 数据库
 
 1. 在输入框输入数据库查询语句。
 
@@ -100,49 +149,37 @@
 
     > 内置SQL注入拦截，并且仅允许select查询语句的执行，请放心使用
     
-    ![plugin_db](images/plugin/plugin_db.png)
+    ![image-20240719142722753](./images/open-monitor/image-20240719142722753.png)
 
 ### 对象存储
 
 1. 查看对象存储信息。
 
-    ![plugin_object](images/plugin/plugin_object.png)
-
-## 数据模型的同步与应用
-
-### 同步数据模型
-
-1. 在插件配置的“数据模型”页面，点击“同步数据模型”按钮可以将插件包最新的数据模型以数据模型关系图展示，每次同步后版本号递增。
-
-    注：以CMDB插件为例，“同步数据模型”功能需在CMDB插件已确认并运行后才可以操作。
-
-    ![plugin_model_sync](images/plugin/plugin_model_sync.png)
-
-
+    ![image-20240719142735777](./images/open-monitor/image-20240719142735777.png)
 
 ## 服务注册
 
-点击插件包的“服务注册”按钮打开服务注册管理页面。页面展示本插件的服务接口列表。一个插件服务可配置多个注册服务列表以供各种场景灵活使用。
+点击插件卡片的“服务注册”按钮打开服务注册管理页面。页面展示本插件的服务接口列表。一个插件服务可配置多个注册服务列表以供各种场景灵活使用。
 
-![plugin_services_manage](images/plugin/plugin_services_manage.png)
+![image-20240719142915394](./images/open-monitor/image-20240719142915394.png)
 
 ### 新增注册列表
 
 1. 点击插件的服务右侧的加号按钮进行添加。
 
-    ![plugin_services](images/plugin/plugin_services.png)
+    **![image-20240719143004387](./images/open-monitor/image-20240719143004387.png)**
 
 1. 配置插件服务的授权角色，点击确定。
 
-    ![plugin_service_add](images/plugin/plugin_service_auth.png)
+    ![image-20240719143130798](./images/open-monitor/image-20240719143130798.png)
 
 1. 输入注册名称，选择目标对象类型。目标对象类型下拉列表包含WeCube系统已注册并运行插件对象，如任务管理插件的任务、CMDB插件的CI类型等。如果目标对象类型不指定则作用于WeCube系统的所有插件对象。
 
-    ![plugin_service_config](images/plugin/plugin_service_config.png)
+    ![image-20240719143140700](./images/open-monitor/image-20240719143140700.png)
 
 1. 配置插件接口的属性。属性类型分为4种类型context、entity、system variable和constant。
 
-    ![plugin_service_param_type](images/plugin/plugin_service_param_config.png)
+    ![image-20240719143546217](./images/open-monitor/image-20240719143546217.png)
 
     ![plugin_service_param_type](images/plugin/plugin_service_param_type.png)
 
@@ -158,11 +195,11 @@
 
 1. 点击“保存”按钮保存插件服务列表的配置信息。
 
-![plugin_service_save](images/plugin/plugin_service_save.png)
+![image-20240719143605410](./images/open-monitor/image-20240719143605410.png)
 
 6. 点击“注册”按钮注册插件服务列表。
 
-![plugin_service_regist](images/plugin/plugin_service_regist.png)
+![image-20240719143613847](./images/open-monitor/image-20240719143613847.png)
 
 
 
@@ -170,31 +207,43 @@
 
 1. 点击插件的服务，在页面右侧选择已注册的列表，点击“注销”按钮注销服务。
 
-![plugin_service_decom](images/plugin/plugin_service_decom.png)
+![image-20240719143625717](./images/open-monitor/image-20240719143625717.png)
 
 
 ### 批量注册/注销列表
 
-点击“批量注册”快速注册/注销插件服务列表。
+点击“批量注册”选中-快速注册/反选-注销插件服务列表。
 
-![plugin_service_regist_multi](images/plugin/plugin_service_regist_multi.png)
+![image-20240719143703854](./images/open-monitor/image-20240719143703854.png)
 
-![plugin_service_regist_multi_confirm](images/plugin/plugin_service_regist_multi_comfirm.png)
+### 继承老版本
+
+![image-20240719143805809](./images/open-monitor/image-20240719143805809.png)
+
+### 导入新配置
+
+![image-20240719143841746](./images/open-monitor/image-20240719143841746.png)
+
+![image-20240719143828396](./images/open-monitor/image-20240719143828396.png)
 
 
+
+
+### 导出配置
+
+![image-20240719143909899](./images/open-monitor/image-20240719143909899.png)
 
 ## 停用插件包
 
 1. 打开插件包的运行管理页面，点击“销毁”按钮停用插件运行节点。
 
-![plugin_destroy_new](images/plugin/plugin_destroy_new.png)
+![image-20240719143926027](./images/open-monitor/image-20240719143926027.png)
 
 1. 在插件注册页面的插件包右侧点击删除按钮，在确认弹出框点击“确定”按钮。
-
-    ![plugin_package_stop](images/plugin/plugin_package_stop.png)
+![image-20240719144007731](./images/open-monitor/image-20240719144007731.png)
 
 注：如果该插件包已注册了UI界面子菜单，需刷新页面更新WeCube系统已删除的子菜单。
 
-1. 勾选“显示停用插件包”，可查看所有的插件包列表，包括已停用的。
+1. 勾选“已删除插件”，可查看所有的插件包列表，注意删除仅为软删除,不可以上传重复的包
 
-![plugin_packages_all](images/plugin/plugin_packages_all.png)
+![image-20240719144048078](./images/open-monitor/image-20240719144048078.png)
