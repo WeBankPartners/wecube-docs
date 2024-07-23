@@ -210,11 +210,9 @@ services:
       ]
     volumes:
       - /etc/localtime:/etc/localtime
-      - /data/installer/wecube/database/platform-core:/docker-entrypoint-initdb.d
       - /data/mysql-wecube/data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=WeCube@1234
-      - MYSQL_DATABASE=wecube
     ports:
       - 3307:3306
 
