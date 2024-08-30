@@ -57,6 +57,7 @@ nav:
           - '自定义看板': 'manual-open-monitor-customized-view.md'
           - '对象看板': 'manual-open-monitor-object-view.md'
           - '告警列表': 'manual-open-monitor-alerting.md'
+          - '监控配置-自动化生成': 'manual-open-monitor-auto.md'
           - '监控配置-对象': 'manual-open-monitor-config-obj.md'
           - '监控配置-指标': 'manual-open-monitor-config-metrics.md'
           - '监控配置-告警': 'manual-open-monitor-config-alarm.md'
