@@ -361,10 +361,10 @@ sed -i "s/{{HOSTIP}}/$HOSTIP/g" 3-wecube-auth-server.yml
 sed -i "s/{{LOG_LEVEL}}/$LOG_LEVEL/g" 3-wecube-auth-server.yml
 sed -i "s/{{WECUBE_PRIVATE_KEY}}/$WECUBE_PRIVATE_KEY/g" 3-wecube-auth-server.yml
 sed -i "s/{{JWT_SIGNING_KEY}}/$JWT_SIGNING_KEY/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_host}}/$mysql_auth_host/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_port}}/$mysql_auth_port/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_username}}/$mysql_auth_username/g" 3-wecube-auth-server.yml
-sed -i "s/{{mysql_auth_password}}/$mysql_auth_password/g" 3-wecube-auth-server.yml
+sed -i "s/{{mysql_auth_host}}/$mysql_wecube_host/g" 3-wecube-auth-server.yml
+sed -i "s/{{mysql_auth_port}}/$mysql_wecube_port/g" 3-wecube-auth-server.yml
+sed -i "s/{{mysql_auth_username}}/$mysql_wecube_username/g" 3-wecube-auth-server.yml
+sed -i "s/{{mysql_auth_password}}/$mysql_wecube_password/g" 3-wecube-auth-server.yml
 sed -i "s/{{MAIL_SENDER_NAME}}/$MAIL_SENDER_NAME/g" 3-wecube-auth-server.yml
 sed -i "s/{{MAIL_SENDER}}/$MAIL_SENDER/g" 3-wecube-auth-server.yml
 sed -i "s/{{MAIL_SERVER}}/$MAIL_SERVER/g" 3-wecube-auth-server.yml
@@ -398,6 +398,26 @@ sed -i "s/{{WECUBE_VERSION}}/$WECUBE_VERSION/g" 6-wecube-portal.yml
 sed -i "s/{{HOSTIP}}/$HOSTIP/g" 6-wecube-portal.yml
 ```
 
+#### 部署目录创建与授权
+```bash
+# 创建部署路径和授权日志目录
+mkdir -p /data/app/platform/platform-auth-server/logs
+mkdir -p /data/app/platform/platform-core/logs
+mkdir -p /data/app/platform/platform-gateway/logs
+mkdir -p /data/app/platform/wecube-portal/log
+chmod 777 /data/app/platform/platform-auth-server/logs /data/app/platform/platform-core/logs /data/app/platform/platform-gateway/logs /data/app/platform/wecube-portal/log
+# 把docker-compose文件放进目录中
+cp 3-wecube-auth-server.yml /data/app/platform/platform-auth-server/
+cp 4-wecube-platform-core.yml /data/app/platform/platform-core/
+cp 5-wecube-platform-gateway.yml /data/app/platform/platform-gateway/
+cp 6-wecube-portal.yml /data/app/platform/wecube-portal/
+# 如果有秘钥文件的话放到该目录下
+mkdir -p /data/app/platform/platform-auth-server/certs
+mkdir -p /data/app/platform/platform-core/certs
+# 插件前端静态文件目录，需要授权给上面配置的 host_wecube_username 用户读写
+mkdir -p /data/app/platform/wecube-portal/data/ui-resources
+chmod 777 /data/app/platform/wecube-portal/data/ui-resources
+```
 
 
 ### 启动docker容器
